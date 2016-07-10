@@ -72,6 +72,11 @@ ul {
   background: #fff;
 }
 
+.admin-content hr {
+	padding: 0px 1.6rem 1.6rem 1rem;
+	margin: 0px;
+}
+
 .admin-content-list {
   border: 1px solid #e9ecf1;
   margin-top: 0;

@@ -1,97 +1,74 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html class="no-js">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>地区列表 - Powered By ${systemConfig.systemName}</title>
-<meta name="Author" content="JFinalShop Team" />
-<meta name="Copyright" content="JFinalShop" />
-<link rel="icon" href="favicon.ico" type="image/x-icon" />
-<% include("/common/include.html"){}%>
-<link href="${base}/template/admin/css/list.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
+<% include("/common/head.html",{title:'地区管理', metadataJS: true}){}%>
 <script type="text/javascript">
 $().ready( function() {
-
-	var $delete = $(".delete");
-	
-	// 地区删除
-	$delete.click( function() {
-		var $this = $(this);
-		var id = $this.metadata().id;
-		if (confirm("您确定要删除吗？") == true) {
-			$.ajax({
-				url: "${base}/area/delete",
-				data: {"id": id},
-				dataType: "json",
-				async: false,
-				success: function(data) {
-					if (data.status == "success") {
-						$this.parent().html("&nbsp;");
-					}
-					$.message(data.status, data.message);
-				}
-			});
-		}
-		return false;
-	});
-	
-})
+  var $delete = $(".delete");
+  // 地区删除
+  $delete.click( function() {
+    var $this = $(this);
+    var id = $this.metadata().id;
+    Modal.register(['confirm','alert']);
+    Modal.confirm("您确定要删除吗？",{
+      relatedTarget: this,
+      onConfirm: function(options) {
+        $.ajax({
+    	  url: "${base}/area/delete",
+          data: {"id": id},
+          dataType: "json",
+          async: false,
+    	  success: function(data) {
+    		if (data.status == "success") {
+    		  $this.parent().html("&nbsp;");
+    		}
+    		Modal.alert(data.message);
+    	  }
+    	});
+      }
+    });
+  });
+});
 </script>
 </head>
-<body class="list">
-	<div class="body">
-		<div class="listBar">
-			<h1><span class="icon">&nbsp;</span>地区管理&nbsp;<span class="pageInfo">总记录数: ${areaList.~size}</span></h1>
-		</div>
-		<form id="listForm" action="${base}/area/list" method="post">
-			<div class="operateBar">
-				<input type="button" class="addButton" onclick="location.href='${base}/area/add<%if(!isEmpty(parent.id)){%>?parentId=${parent.id!}<%}%>'" value="添加地区" />
-			</div>
-			<table class="listTable">
-				<tr>
-					<th colspan="5" class="green" style="text-align: center;">
-						<%if (isEmpty(parent.id)){%>顶级地区<%}else{%>上级地区 - [${parent.name!}]<%}%>
-					</th>
-				</tr>
-				<%for(list in areaList){%>
-					<%if (listLP.index == 1){%>
-						<tr>
-					<%}%>										
-							<td>
-								<a href="${base}/area/list?parentId=${list.id}" title="查看下级地区">${list.name}</a>
-								<a href="${base}/area/edit?id=${list.id}" title="编辑">[编辑]</a>
-								<a href="#" class="delete {id: '${list.id}'}" title="删除">[删除]</a>
-							</td>
-							
-					<%if ((listLP.index % 5) == 0 && listLP.last){%>
-						</tr>
-						<tr>
-					<%}%>
-					
-					<%if (((listLP.index % 5) == 0) && !listLP.last){%>
-						</tr>
-					<%}%>
-					
-					
-					
-				<%}%>
-				<%if (areaList.~size == 0){%>
-					<tr>
-						<td colspan="5" style="text-align: center; color: red;">
-							无下级地区! <a href="${base}/area/add<%if (!isEmpty(parent.id)){%>?parentId=${parent.id!}<%}%>" style="color: gray">点击添加</a>
-						</td>
-					</tr>
-				<%}%>
-			</table>
-			<%if (!isEmpty(parent.id)){%>
-				<div class="blank"></div>
-				<%if (!isEmpty(parent.parent_id)){%>
-					<input type="button" class="formButton" onclick="location.href='${base}/area/list?parentId=${parent.parent_id!}'" value="上级地区" />
-				<%}else{%>
-					<input type="button" class="formButton" onclick="location.href='${base}/area/list'" value="上级地区" />
-				<%}%>
-			<%}%>
-		</form>
-	</div>
+<body>
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf app-padding-title">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">地区管理</strong> / <small><%if (isEmpty(parent.id)){%>顶级地区<%}else{%>上级地区 - [${parent.name!}]<%}%></small></div>
+      </div>
+      
+      <hr data-am-widget="divider" class="am-divider am-divider-dotted am-margin-0" />
+    
+      <div class="am-g">
+        <%for(list in areaList){%>
+        <div class="am-btn-group am-btn-group-xs am-margin-xs">
+          <a class="am-btn am-btn-secondary" href="${base}/area/list?parentId=${list.id}"><span class="am-icon-map-marker"> ${list.name}</span></a>
+          <button type="button" class="am-btn am-btn-default am-text-secondary" onclick="location.href='${base}/area/edit?id=${list.id}';"><span class="am-icon-edit"></span></button>
+          <button type="button" class="am-btn am-btn-default am-text-danger delete {id: '${list.id}'}"><span class="am-icon-trash-o"></span></button>
+        </div>
+        <%}%>
+        <%if (areaList.~size == 0){%>
+        无下级地区! 
+        <%}%>
+      </div>
+    
+      <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
+    
+      <div class="am-margin">
+        <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="location.href='${base}/area/add<%if(!isEmpty(parent.id)){%>?parentId=${parent.id!}<%}%>';"><span class="am-icon-plus"> 添加地区</span></button>
+        <button type="button" class="am-btn am-btn-primary am-btn-xs" 
+            <%if (!isEmpty(parent.id)){%>
+            <%if (!isEmpty(parent.parent_id)){%>
+            onclick="location.href='${base}/area/list?parentId=${parent.parent_id!}'"
+            <%}else{%>
+            onclick="location.href='${base}/area/list'"
+            <%}%>
+            <%}else{%>
+            disabled="disabled"
+            <%}%>><span class="am-icon-level-up"> 上级地区</span></button>
+       </div>
+     </div>
+   </div>
 </body>
 </html>

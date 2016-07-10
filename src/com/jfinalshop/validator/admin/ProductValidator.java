@@ -1,6 +1,7 @@
 package com.jfinalshop.validator.admin;
 
 import com.jfinal.core.Controller;
+import com.jfinal.kit.StrKit;
 import com.jfinal.validate.Validator;
 
 public class ProductValidator extends Validator{
@@ -20,7 +21,9 @@ public class ProductValidator extends Validator{
 		validateRequiredString("product.productCategory_id", "errorMessages", "所属分类不允许为空!");
 		
 		validateInteger("product.point", 0, 10000, "errorMessages", "积分必须为零或正整数!");
-		validateInteger("product.store", 0, 10000, "errorMessages", "库存必须为零或正整数!");
+		if(!StrKit.isBlank(getController().getPara("product.store"))){//TODO:SUN.AO 如果存在才去校验
+			validateInteger("product.store", 0, 10000, "errorMessages", "库存必须为零或正整数!");
+		}
 	}
 
 	@Override

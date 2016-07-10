@@ -22,6 +22,10 @@ public class FooterController extends BaseAdminController<Footer>{
 	@Before(FooterValidator.class)
 	public void update(){
 		footer = getModel(Footer.class);
-		footer.update();
+		if(footer.update()){
+			ajaxJsonSuccessMessage("操作成功！");
+		}else{
+			ajaxJsonErrorMessage("操作失败！");
+		}
 	}
 }

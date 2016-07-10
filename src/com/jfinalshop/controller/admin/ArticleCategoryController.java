@@ -80,10 +80,12 @@ public class ArticleCategoryController extends BaseAdminController<ArticleCatego
 		List<ArticleCategory> childrenArticleCategoryList = articleCategory.getChildren();
 		if (childrenArticleCategoryList != null && childrenArticleCategoryList.size() > 0) {
 			ajaxJsonErrorMessage("此文章分类存在下级分类，删除失败!");
+			return;
 		}
-		List<Article> articleList = ArticleCategory.dao.getArticleList();
+		List<Article> articleList = articleCategory.getArticleList();
 		if (articleList != null && articleList.size() > 0) {
 			ajaxJsonErrorMessage("此文章分类下存在文章，删除失败!");
+			return;
 		}
 		ArticleCategory.dao.deleteById(id);
 		ajaxJsonSuccessMessage("删除成功！");		

@@ -93,7 +93,7 @@ public class ProductAttributeController extends BaseAdminController<ProductAttri
 		} 
 		productAttribute.set("attributeType", attributeType.ordinal());		
 		saved(productAttribute);
-		redirect("/productAttribute/edit");		
+		redirect("/productAttribute/list");		
 	}
 	
 	// 编辑

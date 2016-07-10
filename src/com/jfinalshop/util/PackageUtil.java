@@ -72,8 +72,8 @@ public class PackageUtil {
 			} else {
 				String childFilePath = childFile.getPath();
 				if (childFilePath.endsWith(".class")) {
-					childFilePath = childFilePath.substring(childFilePath.indexOf("\\classes") + 9, childFilePath.lastIndexOf("."));
-					childFilePath = childFilePath.replace("\\", ".");
+					childFilePath = childFilePath.substring(childFilePath.indexOf("classes/") + 8, childFilePath.lastIndexOf("."));
+					childFilePath = childFilePath.replace("/", ".");//TODO:/目录分隔符需要根据系统情况获取
 					myClassName.add(childFilePath);
 				}
 			}

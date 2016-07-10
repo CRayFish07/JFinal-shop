@@ -14,13 +14,14 @@ public class ResourceValidator extends Validator{
 
 		// 检查角色名是否存在
 		String name = c.getPara("resource.name","");
-		if (!Resource.dao.checkName(name)) {
+		String id = c.getPara("resource.id","");
+		if (!Resource.dao.checkName(name, id)) {////TODO:SUN.AO 添加id 修改时排除自身
 			addError("nameMessages","资源名称已存在!");
 		}
 		
 		// 检查角色值是否存在
 		String value = c.getPara("resource.value","");
-		if (!Resource.dao.checkValue(value)) {
+		if (!Resource.dao.checkValue(value, id)) {
 			addError("valueMessages","资源值已存在!");
 		}
 	}

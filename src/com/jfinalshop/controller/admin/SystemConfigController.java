@@ -219,7 +219,7 @@ public class SystemConfigController extends Controller {
 		// 如是这个对象的某一个属性不为空，把他copy到另一个有这个属性的bean中
 		CommonUtil.copyProperties(persistent, systemConfig);
 		SystemConfigUtil.update(persistent);
-		renderSuccessMessage("修改成功!", " /systemConfig/edit");
+		renderSuccessMessage("修改成功!", "/systemConfig/edit");
 		
 	}
 	
@@ -275,6 +275,7 @@ public class SystemConfigController extends Controller {
 	
 	public void renderSuccessMessage(String message,String url){
 		setAttr("message", message);
+		setAttr("base", getRequest().getContextPath());
 		setAttr("redirectionUrl", url);
 		render("/admin/success.html");
 	}

@@ -197,8 +197,8 @@ $().ready( function() {
 								<%if (product.weight > 0){%>
 									重 量：<span class="weight">${product.weight} ${i18n("WeightUnit." + product.weightUnit)}</span>
 								<%}%>
-								<%if (product.point != 0){%>
-									积 分：<span>${product.point}</span>
+								<%if (product.point != null){%>
+									积 分：<span>${product.point!}</span>
 								<%}%>
 							</div>
 						</div>

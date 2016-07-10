@@ -27,8 +27,8 @@ public class Resource extends Model<Resource>{
 	 * @param 
 	 * @return
 	 */
-	public boolean checkName(String name) {
-		return dao.findFirst("select name from resource where name = ? limit 1", name) == null;
+	public boolean checkName(String name, String id) {
+		return dao.findFirst("select name from resource where name = ? and id != ? limit 1", name, id) == null;
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class Resource extends Model<Resource>{
 	 * @param 
 	 * @return
 	 */
-	public boolean checkValue(String value) {
-		return dao.findFirst("select value from resource where value = ? limit 1", value) == null;
+	public boolean checkValue(String value, String id) {
+		return dao.findFirst("select value from resource where value = ? and id != ? limit 1", value, id) == null;
 	}
 }

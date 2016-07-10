@@ -14,7 +14,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.jfinal.aop.Before;
-import com.jfinal.aop.Clear;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
@@ -405,8 +404,8 @@ public class ProductController extends BaseAdminController<Product>{
 			}
 		}
 		
-		if (StringUtils.isEmpty(product.getBrand().getStr("id"))) {
-			product.set("brand_id",null);
+		if (product.getBrand() == null || StringUtils.isEmpty(product.getBrand().getStr("id"))) {
+			product.set("brand_id", null);
 		}
 		if (getSystemConfig().getPointType() == PointType.productSet) {
 			if (product.get("point") == null) {
@@ -433,9 +432,10 @@ public class ProductController extends BaseAdminController<Product>{
 		}
 		
 		// 产品图片地址
-		if (productImageList != null && productImageList.size() > 0) {
+		if (productImageList != null) {//TODO: SUN.AO && productImageList.size() > 0  当没有图片对象时表示删除了所有的图片
 			product.setProductImageList(productImageList);
 		}
+		
 		// 保存产品属性
 		if (productAttributeMap != null && productAttributeMap.size() > 0) {
 			product.setProductAttributeMap(productAttributeMap);

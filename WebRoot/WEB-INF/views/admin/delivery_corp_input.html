@@ -1,62 +1,59 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html class="no-js">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>添加/编辑物流公司 - Powered By ${systemConfig.systemName}</title>
-<meta name="Author" content="JFinalShop Team" />
-<meta name="Copyright" content="JFinalShop" />
-<link rel="icon" href="favicon.ico" type="image/x-icon" />
-<% include("/common/include.html"){}%>
-<link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
-<%
-var isAdd = false;
-var isEdit = false;
-if(isEmpty(deliveryCorp.id)){
+<% include("/common/head.html",{title: '添加/编辑物流公司', validatorJS: true}){}%>
+<%var isAdd = false;
+  var isEdit = false;
+  if(isEmpty(deliveryCorp.id)){
 	isAdd = true;
-}else{
+  }else{
 	isEdit = true;
-}%>
+  }%>
 </head>
-<body class="input">
-	<div class="body">
-		<div class="inputBar">
-			<h1><span class="icon">&nbsp;</span><%if(isAdd){%>添加物流公司<%}else{%>编辑物流公司<%}%></h1>
-		</div>
-		<form id="inputForm" class="validate" action="<%if (isAdd){%>${base}/deliveryCorp/save<%}else{%>${base}/deliveryCorp/update<%}%>" method="post">
-			<input type="hidden" name="deliveryCorp.id" value="${deliveryCorp.id!}" />
-			<table class="inputTable tabContent">
-				<tr>
-					<th>
-						物流公司名称:
-					</th>
-					<td>
-						<input type="text" name="deliveryCorp.name" <%if(isAdd){%>class="formText {required: true, remote: '${base}/deliveryCorp/checkName?${deliveryCorp.name!}', messages: {remote: '此公司名称已存在!'}}" <%}%> value="${deliveryCorp.name!}" />
-						<label class="requireField">*</label>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						物流公司网址:
-					</th>
-					<td>
-						<input type="text" name="deliveryCorp.url" class="formText {url: true}" value="${deliveryCorp.url!}" title="必须以http://开头" />
-					</td>
-				</tr>
-				<tr>
-					<th>
-						排序:
-					</th>
-					<td>
-						<input type="text" name="deliveryCorp.orderList" class="formText {digits: true, required: true}" value="${deliveryCorp.orderList!50}" title="只允许输入零或正整数" />
-						<label class="requireField">*</label>
-					</td>
-				</tr>
-			</table>
-			<div class="buttonArea">
-				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
-			</div>
-		</form>
-	</div>
+<body>
+<!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+    <div class="am-cf app-padding-title">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">网站设置</strong> / <small><%if(isAdd){%>添加物流公司<%}else{%>编辑物流公司<%}%></small>
+      </div>
+    </div>
+  
+    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
+    
+    <form id="inputForm" class="am-form" action="<%if (isAdd){%>${base}/deliveryCorp/save<%}else{%>${base}/deliveryCorp/update<%}%>" method="post">
+    <input type="hidden" name="deliveryCorp.id" value="${deliveryCorp.id!}" />
+    <div class="am-form am-margin am-form-horizontal" >
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">物流公司名称</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          <input type="text" class="am-form-field" name="deliveryCorp.name" value="${deliveryCorp.name!}" required>
+        </div>
+      </div>
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">物流公司网址</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          <input type="text" class="am-form-field" name="deliveryCorp.url" value="${deliveryCorp.url!}" placeholder="请以http://或https://开头!">
+        </div>
+      </div>
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">排序</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          <input type="number" class="am-form-field" name="deliveryCorp.orderList" value="${deliveryCorp.orderList!50}" placeholder="只允许输入零或正整数" min="0" required>
+        </div>
+      </div>
+      <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
+      <div class="am-form-group am-form-group-sm">
+        <div class="am-u-sm-8 am-u-sm-offset-4 am-u-md-9 am-u-md-offset-3">
+          <button type="submit" class="am-btn am-btn-primary"><span class="am-icon-save">  保  存</span></button>
+          <button type="button" class="am-btn am-btn-default" onclick="window.history.back(); return false;"><span class="am-icon-undo">  返  回</span></button>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div> 
+</div>
+<!-- content end -->
 </body>
 </html>

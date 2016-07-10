@@ -22,11 +22,12 @@ public class AdminValidator extends Validator {
 			validateEqualField("admin.password", "rePassword", "rePasswordMessages", "两次密码输入不一致!");
 			validateString("admin.password", 4, 20, "passwordMessages", "密码长度必须在【4】到【20】之间!");
 		}
-        
-		String newValue = c.getPara("admin.username","");	
-		if (Admin.dao.getAdminByUsername(newValue) != null) {
+        String newValue = c.getPara("admin.username","");
+        Admin newAdmin = Admin.dao.getAdminByUsername(newValue);
+		if (newAdmin != null && !newAdmin.get("id").toString().equals(c.getPara("admin.id",""))) {//TODO:SUN.AO 对于修改的情况需要排除自身
 			addError("usernameMessages","用户名称已存在!");
 		}
+        
 	}
 
 	@Override

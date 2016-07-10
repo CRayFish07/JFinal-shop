@@ -1,22 +1,18 @@
 <!-- 分页 -->
-<ul class="pagination am-pagination" id="pager"></ul>
+<ul class="am-pagination" id="pager"></ul>
 <input type="hidden" name="pageNumber" id="pageNumber" value="${pager.pageNumber!}" />
-
 <script type="text/javascript" src="${base}/template/jqPaginator/jqPaginator.min.js"></script>
-<link type="text/css" rel="stylesheet" href="${base}/template/jqPaginator/bootstrap.min.css"/>
 <script type="text/javascript">
 	var $listForm = $("#listForm");// 列表表单
 	var $pageNumber = $("#pageNumber");// 当前页码
 	$.jqPaginator('#pager', {
 	    totalPages: ${pager.totalPage},
 	    totalCounts:${pager.totalRow},
-	    visiblePages: 7,
+	    visiblePages: 1,
 	    currentPage: ${pager.pageNumber},
-	    first: '<li class="first"><a href="javascript:void(0);">首页<\/a><\/li>',
-        prev: '<li class="prev"><a href="javascript:void(0);"><i class="arrow arrow2"><\/i>上一页<\/a><\/li>',
-        next: '<li class="next"><a href="javascript:void(0);">下一页<i class="arrow arrow3"><\/i><\/a><\/li>',
-        last: '<li class="last"><a href="javascript:void(0);">末页<\/a><\/li>',
-        page: '<li class="page"><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+        prev: '<li class="am-pagination-prev"><a href="javascript:void(0);"><i class="am-icon-arrow-circle-left"> 上一页<\/a><\/li>',
+        next: '<li class="am-pagination-next"><a href="javascript:void(0);">下一页 <i class="am-icon-arrow-circle-right"><\/i><\/a><\/li>',
+        page: '<li class="am-active"><a href="javascript:void(0);" class="am-active">{{page}}<\/a><\/li>',
 	    onPageChange: function (num, type) {
 		    if (type == 'change'){
 		    	$pageNumber.val(num);
@@ -25,7 +21,6 @@
 	    }
 	});    
 </script>
-
 <!-- 
 参数	默认值	说明
 totalPages	0	设置分页的总页数

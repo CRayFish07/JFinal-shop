@@ -1,235 +1,181 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html class="no-js">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>添加/编辑会员 - Powered By ${systemConfig.systemName}</title>
-<meta name="Author" content="JFinalShop Team" />
-<meta name="Copyright" content="JFinalShop" />
-<link rel="icon" href="favicon.ico" type="image/x-icon" />
-<% include("/common/include.html"){}%>
-<link href="${base}/template/admin/css/input.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript">
-$().ready( function() {
-
-	// 地区选择菜单
-	$(".areaSelect").lSelect({
-		url: "${base}/admin/area/ajaxChildrenArea"// Json数据获取url
-	});
-
-});
-</script>
-<%
-var isAdd = false;
-var isEdit = false;
-if(isEmpty(member.id)){
+<% include("/common/head.html",{title: '添加/编辑会员', validatorJS: true}){}%>
+<%var isAdd = false;
+  var isEdit = false;
+  if(isEmpty(member.id)){
 	isAdd = true;
-}else{
+  }else{
 	isEdit = true;
-}%>
+  }%>
 </head>
-<body class="input">
-	<div class="body">
-		<div class="inputBar">
-			<h1><span class="icon">&nbsp;</span><%if(isAdd){%>添加会员<%}else{%>编辑会员<%}%></h1>
-		</div>
-		<form id="inputForm" class="validate" action="<%if(isAdd){%>${base}/admin/member/save<%}else{%>${base}/admin/member/update<%}%>" method="post">
-			<%if(isEdit){%><input type="hidden" name="member.id" value="${member.id!}" /><%}%>
-			<table class="inputTable">
-				<tr>
-					<th>
-						用户名:
-					</th>
-					<td>
-						<%if (isAdd){%>
-							<input type="text" name="member.username" class="formText {required: true, minlength: 2, maxlength: 20, username: true, remote: '${base}/admin/member/checkUsername', messages: {remote: '用户名已存在!'}}" />
-							<label class="requireField">*</label>
-						<%}else{%>
-							${member.username}
-							<input type="hidden" name="member.username" value="${member.username!}" />
-						<%}%>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						密 码:
-					</th>
-					<td>
-						<input type="password" id="password" name="member.password" class="formText<%if (isAdd){%> {required: true, minlength: 4, maxlength: 20}<%}else{%> {minlength: 4, maxlength: 20}<%}%>" />
-						<%if(isAdd){%><label class="requireField">*</label><%}%>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						确认密码:
-					</th>
-					<td>
-						<input type="password" name="rePassword" class="formText {equalTo: '#password', messages: {equalTo: '两次密码输入不一致!'}}" />
-					</td>
-				</tr>
-				<tr>
-					<th>
-						E-mail:
-					</th>
-					<td>
-						<input type="text" name="member.email" class="formText {required: true, email: true}" value="${member.email!}" />
-						<label class="requireField">*</label>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						积分:
-					</th>
-					<td>
-						<input type="text" name="member.point" class="formText {required: true, digits: true}" value="${member.point!"0"}" title="只允许输入零或正整数" />
-						<label class="requireField">*</label>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						预存款:
-					</th>
-					<td>
-						<input type="text" name="member.deposit" class="formText {required: true, min: 0}" value="${member.deposit.balance!"0"}" title="只允许输入大于或等于零的数" />
-						<label class="requireField">*</label>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						会员等级:
-					</th>
-					<td>
-						<select name="member.memberRank_id">
-							<%for(list in allMemberRank){%>	
-								<option value="${list.id}"<%if ((isAdd && list.isDefault) || (isEdit && member.memberRank_id == list.id)){%> selected<%}%>>${list.name}</option>
-							<%}%>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						是否启用:
-					</th>
-					<td>
-						<label><input type="radio" name="member.isAccountEnabled" value="true"<%if (isAdd || member.isAccountEnabled == true){%> checked<%}%> />是</label>
-						<label><input type="radio" name="member.isAccountEnabled" value="false"<%if (member.isAccountEnabled! == false){%> checked<%}%> />否</label>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						&nbsp;
-					</th>
-					<td>
-						&nbsp;
-					</td>
-				</tr>
-				<%if(isEdit){%>
-					<tr>
-						<th>
-							注册时间:
-						</th>
-						<td>
-							${member.createDate,"yyyy-MM-dd HH:mm:ss"}
-						</td>
-					</tr>
-					<tr>
-						<th>
-							注册IP:
-						</th>
-						<td>
-							${member.registerIp!}
-						</td>
-					</tr>
-				<%}%>
-				<%for (list in enabledMemberAttributeList){%>
-					<tr>
-						<th>
-							${list.name}:
-						</th>
-						<td>
-							<%if (list.attributeType == "text"){%>
-								<input type="text" name="${list.id}" class="formText<%if (list.isRequired){%> {required: true}<%}%>" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "number"){%>
-								<input type="text" name="${list.id}" class="formText {<%if (list.isRequired){%>required: true, <%}%>number: true}" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "alphaint"){%>
-								<input type="text" name="${list.id}" class="formText {<%if (list.isRequired){%>required: true, <%}%>lettersonly: true}" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "email"){%>
-								<input type="text" name="${list.id}" class="formText {<%if (list.isRequired){%>required: true, <%}%>email: true}" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "select"){%>
-								<select name="${list.id}"<%if (list.isRequired){%> class="{required: true}"<%}%>>
-									<option value="">请选择...</option>
-									<%for(attributeOptionList in list.attributeOptionList){%>
-										<option value="${attributeOptionList}"<%if (member.memberAttributeMap[list.id]! == attributeOptionList){%> selected<%}%>>${attributeOptionList}</option>
-									<%}%>
-								</select>
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "checkbox"){%>
-								<%for(attributeOptionList in list.attributeOptionList){%>
-									<label><input type="checkbox" name="${list.id}"<%if (list.isRequired){%> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"<%}%> value="${attributeOptionList}"<%if (strutil.contain(member.memberAttributeMap[list.id]!,attributeOptionList)){%> checked<%}%>  />${attributeOptionList}</label>
-								<%}%>
-								<span id="${list.id}MessagePosition"></span>
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "name"){%>
-								<input type="text" name="${list.id}" class="formText <%if (list.isRequired){%>{required: true}<%}%>" value="${member.memberAttributeMap[list.id]}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "gender"){%>
-								<label><input type="radio" name="${list.id}"<%if (list.isRequired){%> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"<%}%> value="male" <%if (member.memberAttributeMap[list.id]! == "male"){%> checked<%}%> />${i18n("Gender.male")}</label>
-								<label><input type="radio" name="${list.id}"<%if (list.isRequired){%> class="{required: true, messagePosition: '#${list.id}MessagePosition'}"<%}%> value="female" <%if (member.memberAttributeMap[list.id]! == "female"){%> checked<%}%> />${i18n("Gender.female")}</label>
-								<span id="${list.id}MessagePosition"></span>
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "date"){%>
-								<input type="text" name="${list.id}" class="formText datePicker {<%if (list.isRequired){%>required: true, <%}%>dateISO: true}" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "area"){%>
-								<input type="text" name="${list.id}" class="formText areaSelect<%if (list.isRequired){%> {required: true}<%}%>" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "address"){%>
-								<input type="text" name="${list.id}" class="formText <%if (list.isRequired){%>{required: true}<%}%>" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "zipCode"){%>
-								<input type="text" name="${list.id}" class="formText {<%if (list.isRequired){%>required: true, <%}%>zipCode: true}" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "mobile"){%>
-								<input type="text" name="${list.id}" class="formText {<%if (list.isRequired){%>required: true, <%}%>mobile: true}" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "phone"){%>
-								<input type="text" name="${list.id}" class="formText {<%if (list.isRequired){%>required: true, <%}%>phone: true}" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "qq"){%>
-								<input type="text" name="${list.id}" class="formText <%if (list.isRequired){%>{required: true}<%}%>" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "msn"){%>
-								<input type="text" name="${list.id}" class="formText <%if (list.isRequired){%>{required: true}<%}%>" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "wangwang"){%>
-								<input type="text" name="${list.id}" class="formText <%if (list.isRequired){%>{required: true}<%}%>" value="${member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}else if (list.attributeType == "skype"){%>
-								<input type="text" name="${list.id}" class="formText <%if (list.isRequired){%>{required: true}<%}%>" value="$(member.memberAttributeMap[list.id]!}" />
-								<%if (list.isRequired){%><label class="requireField">*</label><%}%>
-							<%}%>
-						</td>
-					</tr>
-				<%}%>
-				<%if (!isEmpty(member.id)){%>
-					<tr>
-						<th>
-							&nbsp;
-						</th>
-						<td>
-							<span class="warnInfo"><span class="icon">&nbsp;</span>如果要修改密码，请填写密码，若留空，密码将保持不变</span>
-						</td>
-					</tr>
-				<%}%>
-			</table>
-			<div class="buttonArea">
-				<input type="submit" class="formButton" value="确  定" hidefocus="true" />&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="formButton" onclick="window.history.back(); return false;" value="返  回" hidefocus="true" />
-			</div>
-		</form>
-	</div>
+<body>
+<!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+    <div class="am-cf app-padding-title">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">会员管理</strong> / <small><%if(isAdd){%>添加会员<%}else{%>编辑会员<%}%></small>
+      </div>
+    </div>
+  
+    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
+    
+    <form id="inputForm" class="am-form" action="<%if(isAdd){%>${base}/admin/member/save<%}else{%>${base}/admin/member/update<%}%>" method="post">
+    <%if(isEdit){%><input type="hidden" name="member.id" value="${member.id!}" /><%}%>
+    <div class="am-form am-margin am-form-horizontal" >
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">用户名</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          <%if (isAdd){%>
+          <input type="text" class="am-form-field" name="member.username" value="${member.username!}" minlength="2" maxlength="20" required>
+          <%}else{%>
+          ${member.username}
+          <input type="hidden" name="member.username" value="${member.username!}" />
+          <%}%>
+        </div>
+      </div>
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">密 码</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          <input type="password" id="doc-vld-pwd-1" class="am-form-field" name="member.password" placeholder="最少6位"<%if(isAdd){%> minlength="6" required<%}%>/>
+          <%if (!isEmpty(member.id)){%>
+          <a class="am-badge am-badge-warning">如果要修改密码，请填写密码，若留空，密码将保持不变</a>
+          <%}%>
+        </div>
+      </div>
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">重复密码</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          <input type="password" id="doc-vld-pwd-2" class="am-form-field" name="rePassword" placeholder="请与上面输入的一致" data-equal-to="#doc-vld-pwd-1"<%if(isAdd){%> required<%}%>/>
+        </div>
+      </div>
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">E-mail</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          <input type="email" class="am-form-field" name="member.email" value="${member.email!}" required>
+        </div>
+      </div>
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">积分</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          <input type="number" class="am-form-field" name="member.point" value="${member.point!0}" min="0" placeholder="只允许输入零或正整数" required>
+        </div>
+      </div>
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">预存款</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          <input type="number" class="am-form-field" name="member.deposit" value="${member.deposit.balance!0}" min="0" placeholder="只允许输入大于或等于零的数" required>
+        </div>
+      </div>
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">会员等级</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          <select name="member.memberRank_id" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}" required>
+            <%for(list in allMemberRank){%>	
+			<option value="${list.id}"<%if ((isAdd && list.isDefault) || (isEdit && member.memberRank_id == list.id)){%> selected<%}%>>${list.name}</option>
+			<%}%>
+          </select>
+        </div>
+      </div>
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">是否启用</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          <label class="am-radio-inline">
+            <input type="radio" name="member.isAccountEnabled" value="true"<%if (isAdd || member.isAccountEnabled == true){%> checked<%}%> required> 是
+          </label>
+          <label class="am-radio-inline">
+            <input type="radio" name="member.isAccountEnabled" value="false"<%if (member.isAccountEnabled! == false){%> checked<%}%>> 否
+          </label>
+        </div>
+      </div>
+      <%if(isEdit){%>
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">注册时间</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          ${member.createDate,"yyyy-MM-dd HH:mm:ss"}
+        </div>
+      </div>
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">注册IP</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          ${member.registerIp!}
+        </div>
+      </div>
+      <%}%>
+      <hr data-am-widget="divider" class="am-divider am-divider-dotted" />
+	  <%for (list in enabledMemberAttributeList){%>
+      <div class="am-form-group am-form-group-sm">
+        <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">${list.name}</label>
+        <div class="am-u-sm-8 am-u-md-9">
+          <%if (list.attributeType == "text"){%>
+          <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}else if (list.attributeType == "number"){%>
+          <input type="number" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}else if (list.attributeType == "alphaint"){%>
+          <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}else if (list.attributeType == "email"){%>
+          <input type="email" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}else if (list.attributeType == "select"){%>
+          <select name="${list.id}" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}"<%if (list.isRequired){%> required<%}%>>
+            <option value=""></option>
+            <%for(attributeOptionList in list.attributeOptionList){%>
+            <option value="${attributeOptionList}"<%if (member.memberAttributeMap[list.id]! == attributeOptionList){%> selected<%}%>>${attributeOptionList}</option>
+            <%}%>
+          </select>
+          <%}else if (list.attributeType == "checkbox"){%>
+          <%for(attributeOptionList in list.attributeOptionList){%>
+          <label class="am-checkbox-inline">
+            <input type="checkbox" name="${list.id}" value="${attributeOptionList}"<%if (strutil.contain(product.productAttributeMap[list.id],attributeOptionList)){%> checked<%}%><%if (list.isRequired && listLP.index==1){%> required<%}%>>${attributeOptionList}
+          </label>
+          <%}%>
+          <%}else if (list.attributeType == "name"){%>
+          <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}else if (list.attributeType == "gender"){%>
+          <label class="am-radio-inline">
+            <input type="radio" name="${list.id}" value="male"<%if (member.memberAttributeMap[list.id]! == "male"){%> checked<%}%><%if (list.isRequired){%> required<%}%>> ${i18n("Gender.male")}
+          </label>
+          <label class="am-radio-inline">
+            <input type="radio" name="${list.id}" value="female"<%if (member.memberAttributeMap[list.id]! == "female"){%> checked<%}%>> ${i18n("Gender.female")}
+          </label>
+          <%}else if (list.attributeType == "date"){%>
+          <div class="am-form-group am-form-icon">
+            <i class="am-icon-calendar"></i>
+            <input type="date" class="am-form-field" name="${list.id}" value="${product.productAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          </div>
+          <%}else if (list.attributeType == "area"){%>  <!-- TODO:SUN.AO  地区选择控件还需要调整 -->
+          <%}else if (list.attributeType == "address"){%>
+          <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}else if (list.attributeType == "zipCode"){%>
+          <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}else if (list.attributeType == "mobile"){%>
+          <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}else if (list.attributeType == "phone"){%>
+          <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}else if (list.attributeType == "qq"){%>
+          <input type="number" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}else if (list.attributeType == "msn"){%>
+          <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}else if (list.attributeType == "wangwang"){%>
+          <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}else if (list.attributeType == "skype"){%>
+          <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+          <%}%>
+        </div>
+      </div>
+	  <%}%>
+      <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
+      <div class="am-form-group am-form-group-sm">
+        <div class="am-u-sm-8 am-u-sm-offset-4 am-u-md-9 am-u-md-offset-3">
+          <button type="submit" class="am-btn am-btn-primary"><span class="am-icon-save">  保  存</span></button>
+          <button type="button" class="am-btn am-btn-default" onclick="window.history.back(); return false;"><span class="am-icon-undo">  返  回</span></button>
+        </div>
+      </div>
+    </div>
+    </form>
+  </div> 
+</div>
+<!-- content end -->
 </body>
 </html>

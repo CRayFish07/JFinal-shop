@@ -1,0 +1,113 @@
+<!doctype html>
+<html class="no-js">
+<head>
+<% include("/common/head.html",{title:'商品列表'}){}%>
+<script type="text/javascript" src="${base}/template/admin/js/list.js"></script>
+</head>
+<body>
+  <div class="admin-content">
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">商品管理</strong> / <small>商品列表</small>
+      </div>
+    </div>
+    <hr>
+    <form class="am-form" id="listForm" action="${base}/product/list" method="post">
+      <div class="am-g">
+        <div class="am-u-sm-5 am-u-md-5">
+          <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+              <button type="button" class="am-btn am-btn-default" onclick="location.href='${base}/product/add'">
+                <span class="am-icon-plus"></span> 新增
+              </button>
+              <button type="button" id="deleteButton" disabled="disabled" class="am-btn am-btn-default" onclick="deleteAll('${base}/product/delete')">
+                <span class="am-icon-trash-o"></span> 删除
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="am-u-sm-3 am-u-md-3">
+          <div class="am-form-group">
+            <select name="property" data-am-selected="{btnSize: 'sm'}">
+              <option value="name"<%if(property! == "name"){%>selected="selected"<%}%>>名称</option>
+              <option value="url"<%if(url! == "url"){%>selected="selected"<%}%>>URL</option>
+            </select>
+          </div>
+        </div>
+        <div class="am-u-sm-4 am-u-md-4">
+          <div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field" name="keyword" value=""> <span class="am-input-group-btn">
+              <button id="searchButton" class="am-btn am-btn-default" type="button">搜索</button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <table class="am-table am-table-striped am-table-hover table-main">
+            <thead>
+              <tr>
+                <th class="table-check"><input type="checkbox" id="allCheck"></th>
+                <th class="table-id">序号</th>
+                <th class="table-title">商品名称</th>
+                <th class="hidden-xs">本店价格</th>
+                <th class="hidden-xs">上架</th>
+                <th class="hidden-xs">精品</th>
+                <th class="hidden-xs">新品</th>
+                <th class="hidden-xs">热销</th>
+                <th>库存</th>
+                <th class="table-set">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%for(list in pager.list){%>
+              <tr>
+                <td><input type="checkbox" name="ids" value="${list.id}"></td>
+                <td>${listLP.index}</td>
+                <td>${list.name}</td>
+                <td class="hidden-xs">${list.price}</td>
+                <td class="hidden-xs">${list.isMarketable}</td>
+                <td class="hidden-xs">${list.isBest}</td>
+                <td class="hidden-xs">${list.isNew}</td>
+                <td class="hidden-xs">${list.isHot}</td>
+                <td>${list.store}</td>
+                <td>
+                  <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                      <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="location.href='${base}/product/edit?id=${list.id}'">
+                        <span class="am-icon-pencil-square-o"></span>编辑
+                      </button>
+                      <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="deleteAll('${base}/product/delete')">
+                        <span class="am-icon-trash-o"></span> 删除
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <%}%>
+            </tbody>
+          </table>
+          <div class="am-cf">
+            <!-- 分页 -->
+            <%if (pager.list.~size > 0){%>
+            <div class="am-fr"><% include("/admin/pager.html"){}%></div>
+            <%}else{%>
+            <div class="am-kai">
+              <h3>没有找到任何记录!</h3>
+            </div>
+            <%}%>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- content end -->
+
+  <!--[if (gte IE 9)|!(IE)]><!-->
+  <script src="${base}/template/assets/js/amazeui.min.js"></script>
+  <!--<![endif]-->
+  <!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<![endif]-->
+</body>
+</html>

@@ -18,6 +18,7 @@ import com.jfinalshop.interceptor.AdminInterceptor;
 import com.jfinalshop.model.Admin;
 import com.jfinalshop.security.ShiroUtils;
 import com.jfinalshop.util.CommonUtil;
+import com.jfinalshop.util.SQLUtil;
 import com.jfinalshop.util.SystemConfigUtil;
 
 
@@ -83,11 +84,12 @@ public class BaseAdminController <M extends Model<M>> extends Controller {
 		String select = "select *";
 		String sqlExceptSelect = "from " + getModelClass().getSimpleName() + " where 1 = 1 ";
 		if (StrKit.notBlank(getProperty()) && StrKit.notBlank(getKeyword())) {
-			sqlExceptSelect += "and " + getProperty() + " like '%" + getKeyword() + "%'";
+			sqlExceptSelect += "and " + getProperty() + " like '%" + SQLUtil.decodeSpecialCharsWhenLikeUseBackslash(getKeyword()) + "%'";
 		}		
 		sqlExceptSelect += " order by createDate desc ";				
 		Page<M> pager = getModel(getModelClass()).paginate(getParaToInt("pageNumber", 1), getParaToInt("pageSize", 10), select, sqlExceptSelect);
 		setAttr("pager", pager);
+		setAttr("keyword", getKeyword());//回传回去，供页面显示
 	}
 
 	/**

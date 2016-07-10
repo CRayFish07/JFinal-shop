@@ -14,14 +14,15 @@ public class RoleValidator extends Validator{
 		validateRegex("role.value", "^ROLE_.*", "valueMessages", "角色标识必须以ROLE_开头!");
 		
 		// 检查角色名是否存在
-		String name = c.getPara("role.name","");	
-		if (!Role.dao.checkName(name)) {
+		String name = c.getPara("role.name","");
+		String id = c.getPara("role.id","");
+		if (!Role.dao.checkName(name, id)) {//TODO:SUN.AO 添加id 修改时排除自身
 			addError("nameMessages","角色名称已存在!");
 		}
 		
 		// 检查角色值是否存在
 		String value = c.getPara("role.value","");
-		if (!Role.dao.checkValue(value)) {
+		if (!Role.dao.checkValue(value, id)) {
 			addError("valueMessages","角色值称已存在!");
 		}
 		

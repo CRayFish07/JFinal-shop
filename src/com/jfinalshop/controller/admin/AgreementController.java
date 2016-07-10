@@ -22,7 +22,11 @@ public class AgreementController extends BaseAdminController<Agreement>{
 	@Before(AgreementValidator.class)
 	public void update(){
 		agreement = getModel(Agreement.class);
-		agreement.update();
+		if(agreement.update()){
+			ajaxJsonSuccessMessage("操作成功！");
+		}else{
+			ajaxJsonErrorMessage("操作失败！");
+		}
 	}
 
 }
