@@ -1,32 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-<meta charset="UTF-8">
-<title>JFinalShop后台登录</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="format-detection" content="telephone=no">
-<meta name="renderer" content="webkit">
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-<link rel="alternate icon" type="image/png" href="${base}/statics/AmazeUI/assets/i/favicon.png">
-<link rel="stylesheet" href="${base}/statics/AmazeUI/assets/css/amazeui.min.css" />
-<script src="${base}/statics/AmazeUI/assets/js/jquery.min.js"></script>
-<script src="${base}/statics/js/plugin/jquery.validate.min.js"></script>
-<style>
-.header {
-	text-align: center;
-}
-
-.header h1 {
-	font-size: 200%;
-	color: #333;
-	margin-top: 30px;
-}
-
-.header p {
-	font-size: 14px;
-}
-</style>
+<!doctype html>
+<html class="no-js fixed-layout">
+<head>
+<% include("/common/head.html",{title: 'JFinal shop管理'}){}%>
 <script>
 $().ready(function() {
   if(self.location==top.location){
@@ -38,98 +13,76 @@ $().ready(function() {
 </head>
 <body>
   <div class="header">
-    <div class="am-g">
-      <h1>JFinalShop后台管理</h1>
-      <p>JFinalShop后台管理基于JFinal、AmazeUI开发！</p>
+    <div class="am-g am-text-center am-margin-top">
+      <h1>JFinal shop管理</h1>
     </div>
-    <hr />
+    <hr class="am-margin-top-0" />
   </div>
   <div class="am-g">
     <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
-      <h3>登录</h3>
-      <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed" />
-      <form action="${base}/admin/singIn" id="login-form" method="post" class="am-form">
-        <label for="username">用户名:</label> 
-        <div class="am-form-icon">
-          <i class="am-icon-user"></i>
-          <input type="text" name="username" id="username" class="am-form-field" value="admin" placeholder="用户名/邮箱"> 
+    <form class="am-form am-form-horizontal" action="${base}/admin/singIn" method="post">
+      <div class="am-form-group">
+        <label for="username" class="am-u-sm-3 am-form-label">用户名</label>
+        <div class="am-u-sm-9">
+          <input type="text" name="username" id="username" placeholder="用户名/邮箱" value="admin" required>
         </div>
-        <div class="am-text-warning am-form-group"></div>
-        <label for="password">密码:</label> 
-        <div class="am-form-icon">
-          <i class="am-icon-lock"></i>
-          <input type="password" name="password" id="password" class="am-form-field" value="123456" placeholder="密码"> 
+      </div>
+
+      <div class="am-form-group">
+        <label for="passward" class="am-u-sm-3 am-form-label">密码</label>
+        <div class="am-u-sm-9">
+          <input type="password" name="password" id="passward" placeholder="密码" value="123456" required>
         </div>
-        <div class="am-text-warning am-form-group"></div>
-        <label for="captcha">验证码:</label> 
-        <div class="am-g am-form-group">
-          <div class="am-u-sm-8"><input type="text" name="captchaToken" id="captcha" value=""></div> 
-          <div class="am-u-sm-4"><img id="captchaImage" src="${base}/captcha?width=100&height=35&fontsize=30" alt="换一张" /></div>
-          <div class="am-text-warning am-u-sm-12"></div>
+      </div>
+      
+      <div class="am-form-group">
+        <label for="captcha" class="am-u-sm-3 am-form-label">验证码</label>
+        <div class="am-u-sm-5">
+          <input type="text" name="captchaToken" id="captcha" placeholder="验证码 →" value="" required>
         </div>
-        <label for="remember-me"> 
-          <input id="remember-me" name="remember" type="checkbox"> 保持登录状态
-        </label> <br />
-        <div class="am-cf">
-          <input type="submit" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl"> 
-          <a class="am-btn am-btn-default am-btn-sm am-fr" href="forgotpassword.html">忘记密码 ^_^? </a>
+        <div class="am-u-sm-4 am-padding-left-0">
+          <img id="captchaImage" src="${base}/captcha?width=100&height=35&fontsize=30" alt="换一张" />
         </div>
-      </form>
-      <hr>
-      <p>© 2016 sun.ao. Licensed under MIT license.</p>
+      </div>
+      
+      <div class="am-form-group">
+        <div class="am-u-sm-7 am-u-md-offset-3 am-u-md-5">
+          <div class="checkbox">
+            <label>
+              <input name="remember" type="checkbox"> 保持登录状态
+            </label>
+          </div>
+        </div>
+        <div class="am-u-sm-5 am-u-md-4 am-text-right">
+          <a class="am-badge am-badge-warning" href="forgotpassword.html">忘记密码 ^_^? </a>
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <div class="am-u-sm-12 am-u-md-9 am-u-md-offset-3">
+          <button type="submit" class="am-btn am-btn-primary am-btn-block">登 录</button>
+        </div>
+      </div>
+    </form>
+    <hr>
+    <p>JFinal shop &copy; 2016 | <a href="http://sun-ao.github.io" target="_blank">sun.ao</a>. Licensed under MIT license.</p>
     </div>
   </div>
-  <script type="text/javascript">
-    $(function() {
-      // Validation
-      $("#login-form").validate({
-        // Rules for form validation
-        rules : {
-          username : {
-            required : true
-          },
-          password : {
-            required : true
-          },
-          captchaToken : {
-            required : true
-          }
-        },
-
-        // Messages for form validation
-        messages : {
-          username : {
-            required : '请输入用户名'
-          },
-          password : {
-            required : '请输入密码'
-          },
-          captchaToken : {
-            required : '请输入验证码'
-          }
-        },
-
-        // Do not change code below
-        errorPlacement : function(error, element) {
-      	  element.parent().nextAll().filter(".am-text-warning").first().html(error);
-        }
-      });
-    });
-
-    $().ready( function() {
-      var $captcha = $("#captcha");
-      var $captchaImage = $("#captchaImage");
+<script>
+  $().ready( function() {
+    var $captcha = $("#captcha");
+    var $captchaImage = $("#captchaImage");
             
-      $captchaImage.click( function() {
-         var timestamp = (new Date()).valueOf();
-         var imageSrc = $captchaImage.attr("src");
-         if(imageSrc.indexOf("?") >= 0) {
-           imageSrc = imageSrc.substring(0, imageSrc.indexOf("?"));
-         }
-         imageSrc = imageSrc + "?timestamp=" + timestamp + "&width=100&height=35&fontsize=30";
-         $captchaImage.attr("src", imageSrc);
-      });
+    $captchaImage.click( function() {
+      var timestamp = (new Date()).valueOf();
+      var imageSrc = $captchaImage.attr("src");
+      if(imageSrc.indexOf("?") >= 0) {
+        imageSrc = imageSrc.substring(0, imageSrc.indexOf("?"));
+      }
+      imageSrc = imageSrc + "?timestamp=" + timestamp + "&width=100&height=35&fontsize=30";
+      $captchaImage.attr("src", imageSrc);
     });
-  </script>
+  });
+</script>
 </body>
 </html>

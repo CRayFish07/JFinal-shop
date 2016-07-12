@@ -1,7 +1,7 @@
 <!doctype html>
 <html class="no-js">
 <head>
-<% include("/common/head.html",{title: '添加/编辑会员', validatorJS: true}){}%>
+<% include("/common/head.html",{title: '添加/编辑会员', validatorJS: true, lSelectJS: true}){}%>
 <%var isAdd = false;
   var isEdit = false;
   if(isEmpty(member.id)){
@@ -9,6 +9,14 @@
   }else{
 	isEdit = true;
   }%>
+<script type="text/javascript">
+$().ready( function() {
+  // 地区选择菜单
+  $(".areaSelect").lSelect({
+    url: "${base}/area/ajaxChildrenArea"// Json数据获取url
+  });
+});
+</script>
 </head>
 <body>
 <!-- content start -->
@@ -145,6 +153,7 @@
             <input type="date" class="am-form-field" name="${list.id}" value="${product.productAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
           </div>
           <%}else if (list.attributeType == "area"){%>  <!-- TODO:SUN.AO  地区选择控件还需要调整 -->
+          <input type="hidden" name="${list.id}" class="areaSelect" value="${member.memberAttributeMap[list.id]!}" <%if (list.isRequired){%> required<%}%>>
           <%}else if (list.attributeType == "address"){%>
           <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
           <%}else if (list.attributeType == "zipCode"){%>

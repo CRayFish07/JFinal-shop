@@ -34,8 +34,10 @@ public class Area extends Model<Area>{
 	 * 
 	 */
 	public List<Area> getChildrenAreaList(Area area) {
-		String sql = "select * from  area where id != ? and area.path like ?";
-		return dao.find(sql,area.getStr("id"),area.getStr("path")+"%");
+		//String sql = "select * from  area where id != ? and area.path like ?";
+		String sql = "select * from  area where parent_id = ?";//TODO:SUN.AO 改造成只获取直接下级
+		//return dao.find(sql,area.getStr("id"),area.getStr("path")+"%");
+		return dao.find(sql,area.getStr("id"));
 	}
 	
 	public Area getParent() {
@@ -44,8 +46,10 @@ public class Area extends Model<Area>{
 	}
 	
 	public List<Area> getChildren(String id) {
-		String sql = "select * from area t where id != ? and t.path like ?";
-		return dao.find(sql,id,id+"%");
+		//String sql = "select * from area t where id != ? and t.path like ?";
+		String sql = "select * from  area where parent_id = ?";
+		//return dao.find(sql,id,id+"%");
+		return dao.find(sql,id);
 	} 
 	
 	/**

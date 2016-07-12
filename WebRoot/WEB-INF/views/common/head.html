@@ -1,7 +1,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="description" content="JFinal shop">
+  <meta name="keywords" content="JFinal,AmazeUI,Shop">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${title}</title>
 
@@ -11,20 +11,20 @@
   <!-- No Baidu Siteapp-->
   <meta http-equiv="Cache-Control" content="no-siteapp"/>
 
-  <link rel="icon" type="image/png" href="${base}/statics/AmazeUI/assets/i/favicon.png">
+  <link rel="icon" type="image/png" href="${base}/statics/img/favicon.png">
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="icon" sizes="192x192" href="${base}/statics/AmazeUI/assets/i/app-icon72x72@2x.png">
+  <link rel="icon" sizes="192x192" href="${base}/statics/img/app-icon72x72@2x.png">
 
   <!-- Add to homescreen for Safari on iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
-  <link rel="apple-touch-icon-precomposed" href="${base}/statics/AmazeUI/assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="JFinal shop"/>
+  <link rel="apple-touch-icon-precomposed" href="${base}/statics/img/app-icon72x72@2x.png">
 
   <!-- Tile icon for Win8 (144x144 + tile color) -->
-  <meta name="msapplication-TileImage" content="${base}/statics/AmazeUI/assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileImage" content="${base}/statics/img/app-icon72x72@2x.png">
   <meta name="msapplication-TileColor" content="#0e90d2">
 
   <link rel="stylesheet" href="${base}/statics/AmazeUI/assets/css/amazeui.min.css">
@@ -73,3 +73,6 @@
   <script src="${base}/statics/js/plugin/jquery.metadata.js"></script>
   <%}%>
   <script src="${base}/statics/js/base.js"></script>
+  <%if (has(lSelectJS) && lSelectJS){%>
+  <script src="${base}/statics/js/jquery.lSelect.js"></script>
+  <%}%>

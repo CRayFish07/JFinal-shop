@@ -20,7 +20,7 @@ $().ready( function() {
           async: false,
     	  success: function(data) {
     		if (data.status == "success") {
-    		  $this.parent().html("&nbsp;");
+    		  $this.parent().remove();
     		}
     		Modal.alert(data.message);
     	  }

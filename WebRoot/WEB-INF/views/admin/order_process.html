@@ -1,7 +1,7 @@
 <!doctype html>
 <html class="no-js">
 <head>
-<% include("/common/head.html",{title: '处理订单', livequeryJS: true}){}%>
+<% include("/common/head.html",{title: '处理订单', livequeryJS: true, lSelectJS: true}){}%>
 <script>
 $().ready(function() {
 	
@@ -16,6 +16,11 @@ $().ready(function() {
   var $refundProcessButton = $("#refundProcess");
   var $reshipProcessButton = $("#reshipProcess");
   var $invalidProcessButton = $("#invalidProcess");
+  
+  //地区选择菜单
+  $(".areaSelect").lSelect({
+	url: "${base}/area/ajaxChildrenArea"// Json数据获取url
+  });
   
   var tabs = $("div.am-tabs");
   //禁用的点击不响应
@@ -412,8 +417,7 @@ $().ready(function() {
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">收货地区</label>
               <div class="am-u-sm-8 am-u-md-9">
-                ${orders.shipArea}
-                <input type="hidden" name="shipping.shipAreaPath" value="${orders.shipAreaPath}">
+                <input type="hidden" name="shipping.shipAreaPath" class="areaSelect" value="${orders.shipAreaPath}" required/>
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
@@ -644,8 +648,7 @@ $().ready(function() {
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">退货地区</label>
               <div class="am-u-sm-8 am-u-md-9">
-                ${orders.shipArea}
-                <input type="hidden" name="reship.shipAreaPath" value="${orders.shipAreaPath}">
+                <input type="hidden" name="reship.shipAreaPath" class="areaSelect" value="${orders.shipAreaPath}" required/>
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
