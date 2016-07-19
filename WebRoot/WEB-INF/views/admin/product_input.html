@@ -394,7 +394,7 @@ if(isEmpty(product.id)){
               <%}else if (list.attributeType == "checkbox"){%>
               <%for(attributeOptionList in list.attributeOptionList){%>
               <label class="am-radio-inline">
-                <input type="radio" name="${list.id}" value="${attributeOptionList}"<%if (strutil.contain(product.productAttributeMap[list.id],attributeOptionList)){%> checked<%}%><%if (list.isRequired && listLP.index==1){%> required<%}%>>${attributeOptionList}
+                <input type="radio" name="${list.id}" value="${attributeOptionList}"<%if (strutil.contain(product.productAttributeMap[list.id],attributeOptionList)){%> checked<%}%><%if (list.isRequired && attributeOptionListLP.index==1){%> required<%}%>>${attributeOptionList}
               </label>
               <%}%>
               <%}else if (list.attributeType == "date"){%>

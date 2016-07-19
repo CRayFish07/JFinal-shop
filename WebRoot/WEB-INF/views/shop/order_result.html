@@ -1,22 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html class="no-js fixed-layout">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>订单结果 - Powered By ${systemConfig.systemName}</title>
-<meta name="Author" content="JFinalShop Team" />
-<meta name="Copyright" content="JFinalShop" />
-<link rel="icon" href="favicon.ico" type="image/x-icon" />
-<% include("/common/include.html"){}%>
-<link href="${base}/template/shop/css/login.css" rel="stylesheet" type="text/css" />
-<link href="${base}/template/shop/css/register.css" rel="stylesheet" type="text/css" />
-<link href="${base}/template/shop/css/order.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${base}/template/shop/js/login.js"></script>
-<script type="text/javascript" src="${base}/template/shop/js/register.js"></script>
+<% include("/common/shop_head.html"){}%>
 </head>
-<body class="orderResult">
-	<%include("/shop/header.html"){}%>
-	<div class="body">
-		<div class="blank"></div>
+<body>
+<%include("/shop/header.html"){}%>
+<div class="am-cf shop-main">
+  <!-- content start -->
+  <div class="shop-content">
+    <div class="shop-content-body">
 		<div class="orderResultDetail">
 			<div class="message"><span class="icon">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;您的订单已经成功提交！</div>
 			<div class="blank"></div>
@@ -90,10 +82,10 @@
 				</table>
 			<%}%>
 		</div>
-		<div class="blank"></div>
-		<%include("/shop/friend_link.html"){}%>
-	</div>
-	<div class="blank"></div>
-	<%include("/shop/footer.html"){}%>
+    </div>
+		<%include("/shop/footer.html"){}%>
+  </div>
+  <!-- content end -->
+</div>
 </body>
 </html>

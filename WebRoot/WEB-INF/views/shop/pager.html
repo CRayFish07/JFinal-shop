@@ -49,10 +49,8 @@ if (endPageNumber > totalPage){
 }
 %>
 <%if (totalPage >= 1){%>
-	<ul class="pager">
-		<li class="pageInfo">
-			共 ${totalPage} 页
-		</li>
+    共 ${totalPage} 页
+	<ul class="am-pagination">
 		<!-- 首页 -->
 		<%if (pageNumber > 1){%>
 			<li class="firstPage">

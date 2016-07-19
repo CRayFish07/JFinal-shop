@@ -1,25 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html class="no-js fixed-layout">
 <head>
-<#if returnStatus == "success">
-	<meta name="TENCENT_ONLINE_PAYMENT" content="China TENCENT">
-</#if>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>支付结果 - Powered By ${systemConfig.systemName}</title>
-<meta name="Author" content="JFinalShop Team" />
-<meta name="Copyright" content="JFinalShop" />
-<link rel="icon" href="favicon.ico" type="image/x-icon" />
-<#include "/WEB-INF/template/common/include.ftl">
-<link href="${base}/template/shop/css/login.css" rel="stylesheet" type="text/css" />
-<link href="${base}/template/shop/css/register.css" rel="stylesheet" type="text/css" />
-<link href="${base}/template/shop/css/payment.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${base}/template/shop/js/login.js"></script>
-<script type="text/javascript" src="${base}/template/shop/js/register.js"></script>
+<% include("/common/shop_head.html"){}%>
 </head>
-<body class="paymentResult">
-	<#include "/WEB-INF/template/shop/header.ftl">
-	<div class="body">
-		<div class="blank"></div>
+<body>
+<%include("/shop/header.html"){}%>
+<div class="am-cf shop-main">
+  <!-- content start -->
+  <div class="shop-content">
+    <div class="shop-content-body">
 		<div class="paymentResultDetail">
 			<#if paymentResult == "success">
 				<span class="icon success">&nbsp;</span>在线支付成功，支付总金额<span class="red">${(amountPayable + paymentFee)?string(orderUnitCurrencyFormat)}
@@ -30,10 +19,10 @@
 				<input type="submit" class="formButton" onclick="location.href='${base}/'" value="返回首页" />
 			</div>
 		</div>
-		<div class="blank"></div>
-		<#include "/WEB-INF/template/shop/friend_link.ftl">
-	</div>
-	<div class="blank"></div>
-	<#include "/WEB-INF/template/shop/footer.ftl">
+    </div>
+    <%include("/shop/footer.html"){}%>
+  </div>
+  <!-- content end -->
+</div>
 </body>
 </html>
