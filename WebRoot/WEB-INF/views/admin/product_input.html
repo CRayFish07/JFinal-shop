@@ -77,12 +77,13 @@
 	var productImageLiHtmlTemp = '<li><div class="am-thumbnail">'
 	    + '<div class="app-product-image-preview am-text-center am-text-warning">暂无图片</div>'
 	    + '<ul class="am-thumbnail-caption am-avg-sm-3">'
-		+ '<li><button class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-left"><span class="am-icon-chevron-left"></span></button></li>'
-		+ '<li><button class="am-btn am-btn-default am-text-danger am-btn-xs am-center opr-img-delete" disabled="disabled"><span class="am-icon-trash"></span></button></li>'
-		+ '<li><button class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-right"><span class="am-icon-chevron-right"></span></button></li>'
+		+ '<li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-left"><span class="am-icon-chevron-left"></span></button></li>'
+		+ '<li><button type="button" class="am-btn am-btn-default am-text-danger am-btn-xs am-center opr-img-delete" disabled="disabled"><span class="am-icon-trash"></span></button></li>'
+		+ '<li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-right"><span class="am-icon-chevron-right"></span></button></li>'
 		+ '</ul><hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" /><ul class="am-thumbnail-caption am-avg-sm-1">'
 		+ '<li><div class="am-form-group am-form-file"><button type="button" class="am-btn am-btn-default am-btn-xs am-center"><i class="am-icon-cloud-upload"></i> 上传图片</button><input class="doc-form-file" name="productImages" type="file"></div></li>';
 		+ '</ul></div></li>';
+		
 	var index = 0;
 	$("input.doc-form-file").livequery('change', function() {
 	  var $this = $(this);
@@ -287,9 +288,9 @@ if(isEmpty(product.id)){
                 <input type="hidden" name="productImageParameterTypes" value="productImageId" />
                 <img src="${base}${list.bigProductImagePath}" class="am-img-bdrs">
                 <ul class="am-thumbnail-caption am-avg-sm-3">
-                  <li><button class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-left"><span class="am-icon-chevron-left"></span></button></li>
-                  <li><button class="am-btn am-btn-default am-text-danger am-btn-xs am-center opr-img-delete"><span class="am-icon-trash"></span></button></li>
-                  <li><button class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-right"><span class="am-icon-chevron-right"></span></button></li>
+                  <li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-left"><span class="am-icon-chevron-left"></span></button></li>
+                  <li><button type="button" class="am-btn am-btn-default am-text-danger am-btn-xs am-center opr-img-delete"><span class="am-icon-trash"></span></button></li>
+                  <li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-right"><span class="am-icon-chevron-right"></span></button></li>
                 </ul>
                 <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
                 <ul class="am-thumbnail-caption am-avg-sm-1">
@@ -310,9 +311,9 @@ if(isEmpty(product.id)){
                   暂无图片
                 </div>
                 <ul class="am-thumbnail-caption am-avg-sm-3">
-                  <li><button class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-left"><span class="am-icon-chevron-left"></span></button></li>
-                  <li><button class="am-btn am-btn-default am-text-danger am-btn-xs am-center opr-img-delete" disabled="disabled"><span class="am-icon-trash"></span></button></li>
-                  <li><button class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-right"><span class="am-icon-chevron-right"></span></button></li>
+                  <li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-left"><span class="am-icon-chevron-left"></span></button></li>
+                  <li><button type="button" class="am-btn am-btn-default am-text-danger am-btn-xs am-center opr-img-delete" disabled="disabled"><span class="am-icon-trash"></span></button></li>
+                  <li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-right"><span class="am-icon-chevron-right"></span></button></li>
                 </ul>
                 <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
                 <ul class="am-thumbnail-caption am-avg-sm-1">

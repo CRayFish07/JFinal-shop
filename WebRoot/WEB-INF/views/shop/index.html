@@ -23,10 +23,12 @@
         <div class="am-u-sm-12 am-u-md-12 am-u-lg-8 am-padding-horizontal-xs">
           <div class="am-slider am-slider-default" data-am-flexslider id="demo-slider-0">
             <ul class="am-slides">
+              <%for(list in systemConfig.bannerImagePathList){%>
+              <li><img src="${base}${list}" /></li>
+              <%}%>
+              <%if (systemConfig.bannerImagePathList! == null || systemConfig.bannerImagePathList.~size == 0){%>
               <li><img src="${base}/statics/img/banner1.png" /></li>
-              <li><img src="${base}/statics/img/banner2.png" /></li>
-              <li><img src="${base}/statics/img/banner3.png" /></li>
-              <li><img src="${base}/statics/img/banner4.png" /></li>
+              <%}%>
             </ul>
           </div>
         </div>

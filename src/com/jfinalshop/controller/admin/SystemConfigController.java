@@ -11,7 +11,9 @@ import org.apache.commons.lang.StringUtils;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
 import com.jfinal.kit.PathKit;
+import com.jfinal.upload.UploadFile;
 import com.jfinalshop.bean.SystemConfig;
 import com.jfinalshop.bean.SystemConfig.CurrencyType;
 import com.jfinalshop.bean.SystemConfig.PointType;
@@ -20,6 +22,7 @@ import com.jfinalshop.bean.SystemConfig.StoreFreezeTime;
 import com.jfinalshop.bean.SystemConfig.WatermarkPosition;
 import com.jfinalshop.interceptor.AdminInterceptor;
 import com.jfinalshop.util.CommonUtil;
+import com.jfinalshop.util.ImageUtil;
 import com.jfinalshop.util.SystemConfigUtil;
 
 /**
@@ -40,6 +43,8 @@ public class SystemConfigController extends Controller {
 	private String defaultThumbnailProductImageFileName;
 	private File watermarkImage;
 	private String watermarkImageFileName;
+	private List<UploadFile> bannerImages;
+	private String[] bannerImagePathItems;
 	
 	// 编辑
 	public void edit() {
@@ -50,6 +55,45 @@ public class SystemConfigController extends Controller {
 		setAttr("allStoreFreezeTime", getAllStoreFreezeTime());
 		setAttr("allPointType", getAllPointType());
 		render("/admin/system_config_input.html");
+	}
+	
+	public List<UploadFile> getFiles(String parameterName) {
+		List<UploadFile> files = new ArrayList<UploadFile>();
+		List<UploadFile> uploadFiles = getFiles();
+		for (UploadFile uploadFile : uploadFiles) {
+			if (uploadFile.getParameterName().startsWith(parameterName)) {
+				files.add(uploadFile);
+			}
+		}
+		return files;
+	}
+	
+	/**
+	 * 保存横幅广告图片
+	 * 
+	 * @param uploadBannerImageFile
+	 *            上传图片文件
+	 * 
+	 */
+	public String buildBannerImage(File uploadBannerImageFile) {
+		String sourceProductImageFormatName = ImageUtil.getImageFormatName(uploadBannerImageFile);
+		
+		String uuid = CommonUtil.getUUID();
+		String sourceProductImagePath = SystemConfig.UPLOAD_BANNER_DIR + uuid + "." + sourceProductImageFormatName;
+		File sourceProductImageFile = new File(JFinal.me().getServletContext().getRealPath(sourceProductImagePath));
+
+		File sourceProductImageParentFile = sourceProductImageFile.getParentFile();
+		if (!sourceProductImageParentFile.exists()) {
+			sourceProductImageParentFile.mkdirs();
+		}
+
+		try {
+			// 将上传图片复制到原图片目录
+			FileUtils.copyFile(uploadBannerImageFile, sourceProductImageFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return sourceProductImagePath;
 	}
 
 	// 更新
@@ -79,6 +123,9 @@ public class SystemConfigController extends Controller {
 			watermarkImage = getFile("watermarkImage").getFile();
 			watermarkImageFileName = watermarkImage.getName();
 		}
+		//横幅广告
+		bannerImages = getFiles("bannerImageFile");
+		
 		systemConfig = getModel(SystemConfig.class);
 		
 		if (systemConfig.getPointType() == PointType.orderAmount) {
@@ -152,6 +199,49 @@ public class SystemConfigController extends Controller {
 			}
 		}
 		
+		// 处理横幅广告
+	    if (bannerImages != null && bannerImages.size() > 0) {
+			String allowedUploadImageExtension = getSystemConfig().getAllowedUploadImageExtension().toLowerCase();
+			if (StringUtils.isEmpty(allowedUploadImageExtension)) {
+				addActionError("不允许上传图片文件!");
+				return;
+			}
+			for(int i = 0; i < bannerImages.size(); i ++) {
+				File images = bannerImages.get(i).getFile();
+				String productImageExtension =  StringUtils.substringAfterLast(images.getName(), ".").toLowerCase();
+				String[] imageExtensionArray = allowedUploadImageExtension.split(SystemConfig.EXTENSION_SEPARATOR);
+				if (!ArrayUtils.contains(imageExtensionArray, productImageExtension)) {
+					addActionError("横幅广告只允许上传图片文件类型: " + allowedUploadImageExtension + "!");
+					return;
+				}
+				if (getSystemConfig().getUploadLimit() != 0 && images.length() > getSystemConfig().getUploadLimit() * 1024) {
+					addActionError("横幅广告存在上传文件大小超出限制!");
+					return;
+				}
+			}
+		}
+	    
+	    List<String> bannerImageList = new ArrayList<String>();
+		if (bannerImages != null && bannerImages.size() > 0) {
+			for(int i = 0; i < bannerImages.size(); i ++) {
+				bannerImageList.add(buildBannerImage(bannerImages.get(i).getFile()));
+			}
+		}
+		
+		bannerImagePathItems = getParaValues("bannerImagePathItems");
+		if (bannerImagePathItems != null && bannerImagePathItems.length > 0) {
+			int index = 0;
+			for (int i = 0; i < bannerImagePathItems.length; i++) {
+				if("file".equals(bannerImagePathItems[i])){
+					bannerImagePathItems[i] = bannerImageList.get(index);
+					index++;
+				}
+			}
+			systemConfig.setBannerImagePath(StringUtils.join(bannerImagePathItems, SystemConfig.BANNER_SEPARATOR));
+		} else {
+			systemConfig.setBannerImagePath("");
+		}
+		
 		SystemConfig persistent = SystemConfigUtil.getSystemConfig();
 		
 		if (StringUtils.isEmpty(systemConfig.getSmtpPassword())) {
@@ -216,6 +306,7 @@ public class SystemConfigController extends Controller {
 			FileUtils.copyFile(watermarkImage, watermarkImageFile);
 			systemConfig.setWatermarkImagePath(watermarkImagePath);
 		}
+		
 		// 如是这个对象的某一个属性不为空，把他copy到另一个有这个属性的bean中
 		CommonUtil.copyProperties(persistent, systemConfig);
 		SystemConfigUtil.update(persistent);

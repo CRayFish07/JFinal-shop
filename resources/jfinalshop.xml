@@ -5,16 +5,14 @@
 	<systemConfig>
 		<systemName>JFinalShop</systemName>
 		<systemVersion>V1.0</systemVersion>
-		<systemDescription>JFinalShop是使用JFinal、AmazeUI等开发的开源网店系统。
-		</systemDescription>
+		<systemDescription>JFinalShop是使用JFinal、AmazeUI等开发的开源网店系统。</systemDescription>
 		<isInstalled>true</isInstalled>
 		<shopName>JFinalShop商城</shopName>
 		<shopUrl>http://www.jfinalshop.com</shopUrl>
 		<shopLogo>/statics/img/upload/logo.png</shopLogo>
 		<hotSearch>电子书,生活电器,电脑配件</hotSearch>
 		<metaKeywords>JFinalShop商城</metaKeywords>
-		<metaDescription>JFinalShop是使用JFinal、AmazeUI等开发的开源网店系统。
-		</metaDescription>
+		<metaDescription>JFinalShop是使用JFinal、AmazeUI等开发的开源网店系统。</metaDescription>
 		<address>中国·杭州</address>
 		<phone>400-8888888</phone>
 		<zipCode>310000</zipCode>
@@ -43,14 +41,10 @@
 		<smallProductImageHeight>300</smallProductImageHeight>
 		<thumbnailProductImageWidth>140</thumbnailProductImageWidth>
 		<thumbnailProductImageHeight>140</thumbnailProductImageHeight>
-		<defaultBigProductImagePath>/statics/img/upload/default_big_product_image.png
-		</defaultBigProductImagePath>
-		<defaultSmallProductImagePath>/statics/img/upload/default_small_product_image.png
-		</defaultSmallProductImagePath>
-		<defaultThumbnailProductImagePath>/statics/img/upload/default_thumbnail_product_image.png
-		</defaultThumbnailProductImagePath>
-		<allowedUploadImageExtension>jpg,jpge,bmp,gif,png
-		</allowedUploadImageExtension>
+		<defaultBigProductImagePath>/statics/img/upload/default_big_product_image.png</defaultBigProductImagePath>
+		<defaultSmallProductImagePath>/statics/img/upload/default_small_product_image.png</defaultSmallProductImagePath>
+		<defaultThumbnailProductImagePath>/statics/img/upload/default_thumbnail_product_image.png</defaultThumbnailProductImagePath>
+		<allowedUploadImageExtension>jpg,jpge,bmp,gif,png</allowedUploadImageExtension>
 		<allowedUploadMediaExtension />
 		<allowedUploadFileExtension />
 		<smtpFromMail>jfinalshop@qq.com</smtpFromMail>
@@ -60,5 +54,6 @@
 		<smtpPassword>jfinalshop2016</smtpPassword>
 		<pointType>productSet</pointType>
 		<pointScale>1</pointScale>
+		<bannerImagePath>/statics/img/banner1.png,/statics/img/banner2.png,/statics/img/banner3.png,/statics/img/banner4.png</bannerImagePath>
 	</systemConfig>
 </jfinalshop>

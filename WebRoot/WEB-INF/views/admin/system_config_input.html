@@ -67,6 +67,62 @@ $().ready(function() {
     }
   });
   
+  //图片左移
+  $(".opr-img-left").livequery("click", function() {
+	var $bannerImageLi = $(this).parent().parent().parent().parent();
+	var $bannerImagePrevLi = $bannerImageLi.prev("li");
+	if ($bannerImagePrevLi.length > 0) {
+	  $bannerImagePrevLi.insertAfter($bannerImageLi);
+	}
+  });
+	
+  // 图片右移
+  $(".opr-img-right").livequery("click", function() {
+	var $bannerImageLi = $(this).parent().parent().parent().parent();
+	var $bannerImageNextLi = $bannerImageLi.next("li");
+	if ($bannerImageNextLi.length > 0) {
+	  $bannerImageNextLi.insertBefore($bannerImageLi);
+	}
+  });
+	
+  // 图片删除
+  $(".opr-img-delete").livequery("click", function() {
+	var $bannerImageLi = $(this).parent().parent().parent().parent();
+	$bannerImageLi.remove();
+  });
+	
+  // 添加图片
+  var bannerImageLiHtmlTemp = '<li><div class="am-thumbnail">'
+	    + '<div class="app-banner-image-preview am-text-center am-text-warning">暂无图片</div>'
+	    + '<ul class="am-thumbnail-caption am-avg-sm-3">'
+		+ '<li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-left"><span class="am-icon-chevron-left"></span></button></li>'
+		+ '<li><button type="button" class="am-btn am-btn-default am-text-danger am-btn-xs am-center opr-img-delete" disabled="disabled"><span class="am-icon-trash"></span></button></li>'
+		+ '<li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-right"><span class="am-icon-chevron-right"></span></button></li>'
+		+ '</ul><hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" /><ul class="am-thumbnail-caption am-avg-sm-1">'
+		+ '<li><div class="am-form-group am-form-file"><button type="button" class="am-btn am-btn-default am-btn-xs am-center"><i class="am-icon-cloud-upload"></i> 上传图片</button><input class="banner-form-file" name="bannerImageFile" type="file"></div></li>';
+		+ '</ul></div></li>';
+		
+  var index = 0;		
+  $("input.banner-form-file").livequery('change', function() {
+	var $this = $(this);
+	var $bannerImageLi = $this.parent().parent().parent().parent();
+	var $bannerImagePreview = $bannerImageLi.find(".app-banner-image-preview");
+	var $bannerImageDeteleBtn = $bannerImageLi.find(".opr-img-delete");
+	var fileName = $this.val().substr($this.val().lastIndexOf("\\") + 1);
+	if (/(<%for(list in strutil.split(systemConfig.allowedUploadImageExtension,@com.jfinalshop.bean.SystemConfig.EXTENSION_SEPARATOR)){%><%if (!listLP.last){%>.${list}|<%}else{%>.${list}<%}%><%}%>)$/i.test($this.val()) == false) {
+	  $.message("您选择的文件格式错误！");
+      return false;
+	}
+	$bannerImagePreview.html('<input type="hidden" name="bannerImagePathItems" value="file" /><img src="' + window.URL.createObjectURL($this[0].files[0]) + '" class="am-img-bdrs">');
+	if($bannerImageDeteleBtn.attr('disabled')){
+      index++;
+      $bannerImageDeteleBtn.attr('disabled',false);
+	  var bannerImageLiHtml = bannerImageLiHtmlTemp;
+	  bannerImageLiHtml = bannerImageLiHtml.replace("bannerImageFile", "bannerImageFile"+index);
+	  $('#banner-file-list').append(bannerImageLiHtml);
+	}
+  });
+  
 });
 </script>
 </head>
@@ -90,6 +146,7 @@ $().ready(function() {
         <li><a href="#tab3">安全设置</a></li>
         <li><a href="#tab4">邮件设置</a></li>
         <li><a href="#tab5">其它设置</a></li>
+        <li><a href="#tab6">横幅广告</a></li>
       </ul>
       
       <div class="am-tabs-bd am-form">
@@ -543,7 +600,86 @@ $().ready(function() {
               <input type="number" class="am-form-field" name="systemConfig.pointScale" value="${systemConfig.pointScale!}" placeholder="每消费1元可获得积分数 " min="0">
             </div>
           </div>
-         </div>
+        </div>
+         
+        <div class="am-tab-panel am-fade app-min-height app-banner-image" id="tab6">
+          <ul class="am-avg-sm-1 am-avg-md-2 am-thumbnails" id="banner-file-list">
+            <%for(list in systemConfig.bannerImagePathList!){%>
+            <li>
+              <div class="am-thumbnail">
+                <input type="hidden" name="bannerImagePathItems" value="${list}" />
+                <div class="app-product-image-preview am-text-center am-text-warning">
+                  <img src="${base}${list}" class="am-img-bdrs">
+                </div>
+                <ul class="am-thumbnail-caption am-avg-sm-3">
+                  <li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-left"><span class="am-icon-chevron-left"></span></button></li>
+                  <li><button type="button" class="am-btn am-btn-default am-text-danger am-btn-xs am-center opr-img-delete"><span class="am-icon-trash"></span></button></li>
+                  <li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-right"><span class="am-icon-chevron-right"></span></button></li>
+                </ul>
+                <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
+                <ul class="am-thumbnail-caption am-avg-sm-1">
+                  <li>
+                    <div class="am-form-group am-form-file">
+                      <button type="button" class="am-btn am-btn-success am-btn-xs am-center" disabled="disabled">
+                        <i class="am-icon-info-circle"></i> 已经上传
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <%}%>
+            <li>
+              <div class="am-thumbnail">
+                <div class="app-banner-image-preview am-text-center am-text-warning">
+                  暂无图片
+                </div>
+                <ul class="am-thumbnail-caption am-avg-sm-3">
+                  <li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-left"><span class="am-icon-chevron-left"></span></button></li>
+                  <li><button type="button" class="am-btn am-btn-default am-text-danger am-btn-xs am-center opr-img-delete" disabled="disabled"><span class="am-icon-trash"></span></button></li>
+                  <li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-right"><span class="am-icon-chevron-right"></span></button></li>
+                </ul>
+                <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
+                <ul class="am-thumbnail-caption am-avg-sm-1">
+                  <li>
+                    <div class="am-form-group am-form-file">
+                      <%if (systemConfig.allowedUploadImageExtension != ""){%>
+                      <button type="button" class="am-btn am-btn-default am-btn-xs am-center">
+                        <i class="am-icon-cloud-upload"></i> 上传图片
+                      </button>
+                      <input class="banner-form-file" name="bannerImageFile0" type="file">
+                      <%}else{%>
+                      <button type="button" class="am-btn am-btn-danger am-btn-xs am-center" disabled="disabled">
+                        <i class="am-icon-warning"></i> 不允许上传
+                      </button>
+                      <%}%>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+            
+          <div class="am-alert am-alert-warning am-text-xs">
+            <span class="am-icon-warning"> <strong>请将上传图片的大小设置为778x260</strong>!</span>
+            <%if (systemConfig.allowedUploadImageExtension != ""){%>
+            <%if ((systemConfig.uploadLimit != 0) && (systemConfig.uploadLimit < 1024)){%>
+            小于${systemConfig.uploadLimit}KB
+            <%}else if (systemConfig.uploadLimit >= 1024){%>
+            小于${systemConfig.uploadLimit / 1024}MB
+            <%}%> 
+            <%for(list in strutil.split(systemConfig.allowedUploadImageExtension,@com.jfinalshop.bean.SystemConfig.EXTENSION_SEPARATOR)){%>
+            <%if (listLP.last){%>
+            *.${list};
+            <%}else{%>
+            *.${list}
+            <%}%>
+            <%}%>
+            <%}else{%>
+            系统设置不允许上传图片文件!
+            <%}%>
+          </div>
+        </div>
        </div>
     </div>
     <div class="am-margin">

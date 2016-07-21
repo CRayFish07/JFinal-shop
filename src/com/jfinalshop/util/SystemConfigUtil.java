@@ -101,6 +101,7 @@ public class SystemConfigUtil {
 		Node smtpPasswordNode = document.selectSingleNode("/jfinalshop/systemConfig/smtpPassword");
 		Node pointTypeNode = document.selectSingleNode("/jfinalshop/systemConfig/pointType");
 		Node pointScaleNode = document.selectSingleNode("/jfinalshop/systemConfig/pointScale");
+		Node bannerImagePathNode = document.selectSingleNode("/jfinalshop/systemConfig/bannerImagePath");
 		
 		SystemConfig systemConfig = new SystemConfig();
 		systemConfig.setSystemName(systemNameNode.getText());
@@ -154,6 +155,7 @@ public class SystemConfigUtil {
 		systemConfig.setSmtpPassword(smtpPasswordNode.getText());
 		systemConfig.setPointType(PointType.valueOf(pointTypeNode.getText()).name());
 		systemConfig.setPointScale(Double.valueOf(pointScaleNode.getText()));
+		systemConfig.setBannerImagePath(bannerImagePathNode.getText());
 		
 		//OsCacheConfigUtil.putInCache(SYSTEM_CONFIG_CACHE_KEY, systemConfig);
 		return systemConfig;
@@ -229,6 +231,7 @@ public class SystemConfigUtil {
 		Node smtpPasswordNode = document.selectSingleNode("/jfinalshop/systemConfig/smtpPassword");
 		Node pointTypeNode = document.selectSingleNode("/jfinalshop/systemConfig/pointType");
 		Node pointScaleNode = document.selectSingleNode("/jfinalshop/systemConfig/pointScale");
+		Node bannerImagePathNode = document.selectSingleNode("/jfinalshop/systemConfig/bannerImagePath");
 		
 		if(systemNameNode == null){
 			systemNameNode = systemConfigElement.addElement("systemName");
@@ -383,6 +386,9 @@ public class SystemConfigUtil {
 		if(pointScaleNode == null){
 			pointScaleNode = systemConfigElement.addElement("pointScale");
 		}
+		if(bannerImagePathNode == null){
+			bannerImagePathNode = systemConfigElement.addElement("bannerImagePath");
+		}
 		systemNameNode.setText(systemConfig.getSystemName());
 		systemVersionNode.setText(systemConfig.getSystemVersion());
 		systemDescriptionNode.setText(systemConfig.getSystemDescription());
@@ -438,6 +444,7 @@ public class SystemConfigUtil {
 		smtpPasswordNode.setText(systemConfig.getSmtpPassword());
 		pointTypeNode.setText(systemConfig.getPointType().toString());
 		pointScaleNode.setText(systemConfig.getPointScale().toString());
+		bannerImagePathNode.setText(systemConfig.getBannerImagePath().toString());
 		try {
 			OutputFormat outputFormat = OutputFormat.createPrettyPrint();// 设置XML文档输出格式
 			outputFormat.setEncoding("UTF-8");// 设置XML文档的编码类型

@@ -33,12 +33,14 @@
 	min-height: 300px;
 }
 
-.app-product-image div.am-thumbnail img {
+.app-product-image div.am-thumbnail img,
+.app-banner-image div.am-thumbnail img {
 	height: 200px;
 	width: 100%;
 }
 
-.app-product-image-preview {
+.app-product-image-preview,
+.app-banner-image-preview {
 	height: 200px;
 	width: 100%;
 	line-height: 200px;

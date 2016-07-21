@@ -40,6 +40,7 @@ public class SystemConfig {
 
 	public static final String HOT_SEARCH_SEPARATOR = ",";// 热门搜索分隔符
 	public static final String EXTENSION_SEPARATOR = ",";// 文件扩展名分隔符
+	public static final String BANNER_SEPARATOR = ",";// 横幅广告图片分隔符
 
 	public static final String LOGO_UPLOAD_NAME = "logo";// Logo图片文件名称(不包含扩张名)
 	public static final String DEFAULT_BIG_PRODUCT_IMAGE_FILE_NAME = "default_big_product_image";// 默认商品图片（大）文件名称(不包含扩展名)
@@ -49,6 +50,7 @@ public class SystemConfig {
 	public static final String UPLOAD_IMAGE_DIR = "/upload/image/";// 图片文件上传目录
 	public static final String UPLOAD_MEDIA_DIR = "/upload/media/";// 媒体文件上传目录
 	public static final String UPLOAD_FILE_DIR = "/upload/file/";// 其它文件上传目录
+	public static final String UPLOAD_BANNER_DIR = "/upload/banner/";// 横幅广告上传目录
 
 	private String systemName;// 系统名称
 	private String systemVersion;// 系统版本
@@ -113,6 +115,8 @@ public class SystemConfig {
 	
 	private PointType pointType;// 积分获取方式
 	private Double pointScale;// 积分换算比率
+	
+	private String bannerImagePath;// 页头横幅广告图片集合
 
 	public String getSystemName() {
 		return systemName;
@@ -528,10 +532,23 @@ public class SystemConfig {
 	public void setPointScale(Double pointScale) {
 		this.pointScale = pointScale;
 	}
+	
+	public String getBannerImagePath() {
+		return bannerImagePath;
+	}
+
+	public void setBannerImagePath(String bannerImagePath) {
+		this.bannerImagePath = bannerImagePath;
+	}
 
 	// 获取热门搜索关键词集合
 	public List<String> getHotSearchList() {
 		return StringUtils.isNotEmpty(hotSearch) ? Arrays.asList(hotSearch.split(HOT_SEARCH_SEPARATOR)) : new ArrayList<String>();
+	}
+	
+	// 获取首页页头横幅广告集合
+	public List<String> getBannerImagePathList() {
+		return StringUtils.isNotEmpty(bannerImagePath) ? Arrays.asList(bannerImagePath.split(BANNER_SEPARATOR)) : new ArrayList<String>();
 	}
 
 }
