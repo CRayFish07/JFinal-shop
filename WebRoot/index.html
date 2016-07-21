@@ -1,351 +1,64 @@
-
 <!doctype html>
-<html class="no-js fixed-layout">
+<html class="no-js">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="keywords" content="JFinalShop商城" />
-  <meta name="description" content="JFinalShop是使用JFinal、AmazeUI等开发的开源网店系统。
-		" />
+  <title>JFinal shop</title>
+  <meta name="description" content="初始化界面">
+  <meta name="keywords" content="404">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>JFinalShop商城</title>
-
-  <!-- Set render engine for 360 browser -->
   <meta name="renderer" content="webkit">
-
-  <!-- No Baidu Siteapp-->
-  <meta http-equiv="Cache-Control" content="no-siteapp"/>
-
-  <link rel="icon" type="image/png" href="/shop/statics/img/favicon.png">
-
-  <!-- Add to homescreen for Chrome on Android -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <link rel="icon" sizes="192x192" href="/shop/statics/img/app-icon72x72@2x.png">
-
-  <!-- Add to homescreen for Safari on iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="JFinal shop"/>
-  <link rel="apple-touch-icon-precomposed" href="/shop/statics/img/app-icon72x72@2x.png">
-
-  <!-- Tile icon for Win8 (144x144 + tile color) -->
-  <meta name="msapplication-TileImage" content="/shop/statics/img/app-icon72x72@2x.png">
-  <meta name="msapplication-TileColor" content="#0e90d2">
-
-  <link rel="stylesheet" href="/shop/statics/AmazeUI/assets/css/amazeui.min.css">
-  <link rel="stylesheet" href="/shop/statics/AmazeUI/assets/css/shop.css">
-  
-  <!--[if (gte IE 9)|!(IE)]><!-->
-  <script src="/shop/statics/AmazeUI/assets/js/jquery.min.js"></script>
-  <!--<![endif]-->
-  <script src="/shop/statics/AmazeUI/assets/js/amazeui.min.js"></script>
-  <script src="/shop/statics/AmazeUI/assets/js/app.js"></script>
-  <script type="text/javascript">
-    $(function(){
-        $('.category-sort').bind({mouseover:function(){
-            $(this).children('.category-detail').removeClass("am-hide").show();
-        },mouseout:function(){
-            $(this).children('.category-detail').hide();
-        }});
-    });
-
-</script>
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="statics/img/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="statics/img/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="JFinal shop" />
+  <link rel="stylesheet" href="statics/AmazeUI/assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="statics/AmazeUI/assets/css/admin.css">
 </head>
 <body>
-<div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
-  <div class="am-modal-dialog am-panel am-panel-default">
-    <div class="am-modal-hd am-panel-hd">
-      会员登录<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
-    </div>
-    <form class="am-form am-form-horizontal am-margin-top" action="${base}/admin/singIn" method="post">
-    <div class="am-modal-bd am-panel-bd am-padding-0">
-      <div class="am-form-group">
-        <div class="am-u-sm-12 am-input-group am-input-group-sm">
-          <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
-          <input type="text" class="am-form-field" placeholder="用户名">
-        </div>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+  <!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">404</strong> / <small>That’s an error</small></div>
       </div>
 
-      <div class="am-form-group am-form-group-sm">
-        <div class="am-u-sm-12 am-input-group am-input-group-sm">
-          <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
-          <input type="text" class="am-form-field" placeholder="密码">
-        </div>
-      </div>
-      
-      <div class="am-form-group am-margin-bottom-xs">
-        <div class="am-u-sm-7 am-input-group am-input-group-sm">
-          <span class="am-input-group-label"><i class="am-icon-barcode am-icon-fw"></i></span>
-          <input type="text" class="am-form-field" placeholder="验证码">
-        </div>
-        <div class="am-u-sm-5 am-padding-left-0">
-          <img id="captchaImage" class="am-fl" src="http://127.0.0.1:8080/shop/captcha?width=85&height=33&fontsize=27" alt="换一张" />
-        </div>
-      </div>
-      
-      <div class="am-form-group am-margin-bottom-xs">
-        <div class="am-u-sm-12 am-u-md-12 am-text-right">
-          <a class="am-badge am-badge-warning" href="forgotpassword.html">忘记密码 ^_^? </a>
-        </div>
-      </div>
-      
-      <div class="am-form-group am-form-group-sm">
-        <div class="am-u-sm-12 am-input-group am-input-group-sm">
-          <button type="submit" class="am-btn am-btn-primary am-btn-block">登录</button>
-        </div>
-      </div>
-    </div>
-     
-    <div class="am-modal-footer am-margin">
-      
-    </div>
-    </form>
-    </div>
-  </div>
-</div>
-<div class="am-panel am-panel-default am-margin-bottom-0">
-    <div class="am-panel-hd am-kai am-text-xs am-padding-vertical-0 am-padding-horizontal-xl am-cf">
-    <div class="am-fl">
-      您好<span id="headerLoginMemberUsername"></span>，欢迎来到JFinalShop商城!
-	  <a href="#" id="headerShowLoginWindow" class="showLoginWindow" data-am-modal="{target: '#my-prompt'}">[登  录]</a>
-	  <a href="/shop/memberCenter" id="headerMemberCenter">[会员中心]</a>
-	  <a href="#" id="headerShowRegisterWindow" class="showRegisterWindow">[注  册]</a>
-	  <a href="/shop/memberCenter/logout" id="headerLogout">[退  出]</a>
-    </div>
-    <div class="am-fr am-hide-sm-only">
-      <a href="/shop/html/article_content/201010/5010509a555548939840a3103d3cea71.html"  target="_blank">关于我们</a>
-    </div>   
-    </div>
-    <div class="am-panel-bd">
+      <hr>
+
       <div class="am-g">
-        <div class="am-hide-sm-only am-u-md-4 am-u-lg-4 am-vertical-align" style="height:64px;">
-            <img class="am-vertical-align-middle" src="/shop/statics/img/upload/logo.png" title="JFinalShop商城">
-        </div>
-        <div class="am-u-sm-12 am-u-md-5 am-u-lg-4 am-margin-vertical-xs">
-            <form id="productSearchForm" action="/shop/shop/product/search" method="get">
-            <div class="am-g">
-            <div class="am-u-sm-12 am-input-group am-input-group-sm am-input-group-primary">
-              <input type="text" id="productSearchKeyword" name="keyword" class="am-form-field" placeholder="请输入关键词...">
-              <span class="am-input-group-btn">
-                <button class="am-btn am-btn-primary" type="button"><span class="am-icon-search"></span></button>
-              </span>
-            </div>
-            <div class="am-u-sm-12 am-text-xs">
-            热门关键词: 
-            <a href="/shop/shop/product/search?keyword=电子书">电子书 </a>
-            <a href="/shop/shop/product/search?keyword=生活电器">生活电器 </a>
-            <a href="/shop/shop/product/search?keyword=电脑配件">电脑配件 </a>
-            </div>
-            </div>
-            </form>
-        </div>
-        <div class="am-show-lg-only am-u-lg-4 am-text-right am-vertical-align" style="height:64px;">
-            <div class="am-text-sm am-vertical-align-middle">
-            7×24小时服务热线：<strong>400-8888888</strong>
-            </div>
+        <div class="am-u-sm-12">
+          <p class="am-text-center">没有找到你要的页面</p>
+          <p class="am-text-center">访问 <a class="am-badge am-badge-success am-round" href="admin/login" target="_blank"> 管理平台 </a> </p>
+          <p class="am-text-center">菜单：<a class="am-badge">模板管理</a> > <a class="am-badge">一键网站更新</a></p>
+          <p class="am-text-center am-text-warning">操作：更新全部</p>
+        <pre class="page-404">
+          .----.
+       _.'__    `.
+   .--($)($$)---/#\
+ .' @          /###\
+ :         ,   #####
+  `-..__.-' _.-\###/
+        `;_:    `"'
+      .'"""""`.
+     /,   ya  ,\
+    //   404!  \\
+    `-._______.-'
+    ___`. | .'___
+   (______|______)
+        </pre>
         </div>
       </div>
     </div>
+
+    <footer class="admin-content-footer">
+      <hr>
+      <p class="am-padding-left"><a href="http://sun-ao.github.io" target="_blank">sun.ao</a> &copy; 2016 | Licensed under MIT license.</p>
+    </footer>
   </div>
-<header class="am-topbar am-margin-bottom-0">
-  <div class="am-topbar-brand am-dropdown" data-am-dropdown>
-      <button class="am-btn am-btn-default am-btn-sm am-dropdown-toggle" data-am-dropdown-toggle>全部商品分类 <span class="am-icon-caret-down"></span></button>
-      <ul class="am-dropdown-content am-text-sm">
-        <li><a href="#">厨房电器</a></li>
-        <li class="category-sort am-kai am-text-xs"><a href="#">榨汁机</a>
-          <div class="category-detail am-hide">
-           <a class="am-badge am-badge-secondary am-margin-top-xs am-margin-left-xs am-round">1</a>
-           <a class="am-badge am-badge-secondary am-margin-top-xs am-margin-left-xs am-round">22</a>
-           <a class="am-badge am-badge-secondary am-margin-top-xs am-margin-left-xs am-round">333</a>
-           <a class="am-badge am-badge-secondary am-margin-top-xs am-margin-left-xs am-round">4444</a>
-           <a class="am-badge am-badge-secondary am-margin-top-xs am-margin-left-xs am-round">55555</a>
-           <a class="am-badge am-badge-secondary am-margin-top-xs am-margin-left-xs am-round">666666</a>
-           <a class="am-badge am-badge-secondary am-margin-top-xs am-margin-left-xs am-round">Secondary</a>
-          </div>
-        </li>
-        <li class="optn"><a href="#">电陶炉</a></li>
-        <li class="am-divider"></li>
-        <li><a href="#">3C数码配件市场</a></li>
-        <li class="optn"><a href="#">移动电源</a></li>
-        <li class="optn"><a href="#">电脑</a></li>
-        <li class="optn"><a href="#">手机</a></li>
-        <li class="am-divider"></li>
-        <li><a href="#">个人护理清洁</a></li>
-      </ul>
-  </div>
-
-  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
-
-  <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
-    <ul class="am-nav am-nav-pills am-topbar-nav">
-      <li>
-         <a href="/shop/">首页</a>
-      </li>
-    </ul>
-
-    <div class="am-topbar-right">
-      <div class="am-dropdown" data-am-dropdown="{boundary: '.am-topbar'}">
-        <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-dropdown-toggle" data-am-dropdown-toggle>其他 <span class="am-icon-caret-down"></span></button>
-        <ul class="am-dropdown-content">
-          <li><a href="#">注册</a></li>
-          <li><a href="#">随便看看</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="am-topbar-right">
-      <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm" onclick="window.open('/shop/shop/cartItem/list')">购物车</button>
-    </div>
-  </div>
-</header>  <!-- content start -->
-<div class="shop-content">
-    <div class="am-g">
-      <div class="am-u-sm-12 am-u-md-12 am-u-lg-8 am-padding-0">
-        <div class="am-slider am-slider-default" data-am-flexslider id="demo-slider-0">
-          <ul class="am-slides">
-            <li><img src="http://127.0.0.1:8080/shop/upload/image/banner1.jpg" /></li>
-            <li><img src="http://127.0.0.1:8080/shop/upload/image/banner2.jpg" /></li>
-            <li><img src="http://127.0.0.1:8080/shop/upload/image/banner3.jpg" /></li>
-          </ul>
-        </div>
-      </div>
-      <div class="am-u-lg-4">
-        <ol class="am-breadcrumb am-breadcrumb-slash am-margin-bottom-xs">
-          <li class="am-active"><span class="am-icon-cart-plus">新品上架</span></li>
-          <li><a href="#" class="am-text-xs">查看更多>></a></li>
-        </ol>
-        <ul class="am-avg-sm-4 am-avg-md-8 am-avg-lg-4 am-thumbnails">
-          <li><img class="am-thumbnail" src="http://127.0.0.1:8080/shop/statics/img/upload/default_thumbnail_product_image.png" /></li>
-          <li><img class="am-thumbnail" src="http://127.0.0.1:8080/shop/statics/img/upload/default_thumbnail_product_image.png" /></li>
-          <li><img class="am-thumbnail" src="http://127.0.0.1:8080/shop/statics/img/upload/default_thumbnail_product_image.png" /></li>
-          <li><img class="am-thumbnail" src="http://127.0.0.1:8080/shop/statics/img/upload/default_thumbnail_product_image.png" /></li>
-          <li><img class="am-thumbnail" src="http://127.0.0.1:8080/shop/statics/img/upload/default_thumbnail_product_image.png" /></li>
-          <li><img class="am-thumbnail" src="http://127.0.0.1:8080/shop/statics/img/upload/default_thumbnail_product_image.png" /></li>
-          <li><img class="am-thumbnail" src="http://127.0.0.1:8080/shop/statics/img/upload/default_thumbnail_product_image.png" /></li>
-          <li><img class="am-thumbnail" src="http://127.0.0.1:8080/shop/statics/img/upload/default_thumbnail_product_image.png" /></li>
-        </ul>
-      </div>
-    </div>
-    
-    <div class="am-panel am-panel-secondary">
-      <div class="am-panel-hd">
-        <ol class="am-breadcrumb am-breadcrumb-slash am-padding-0 am-margin-0">
-          <li class="am-active"><span class="am-icon-cart-plus"> </span>热卖商品</li>
-          <li><a href="#" class="am-text-xs">查看更多>></a></li>
-        </ol>
-      </div>
-      <div class="am-panel-bd">
-        <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-thumbnails">
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0 am-circle" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0 am-circle" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0 am-radius" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0 am-radius" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0 am-round" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0 am-round" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-        </ul>
-      </div>
-    </div>
-    
-    <div class="am-panel am-panel-success">
-      <div class="am-panel-hd">
-        <ol class="am-breadcrumb am-breadcrumb-slash am-padding-0 am-margin-0">
-          <li class="am-active"><span class="am-icon-cart-plus"> </span>精品推荐</li>
-          <li><a href="#" class="am-text-xs">查看更多>></a></li>
-        </ol>
-      </div>
-      <div class="am-panel-bd">
-        <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5 am-thumbnails">
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0 am-circle" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0 am-circle" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0 am-radius" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0 am-radius" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0 am-round" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-          <li>
-            <img class="am-thumbnail am-margin-bottom-0 am-round" src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" />
-            <p class="am-kai am-text-center am-text-truncate am-margin-0">1234陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC陈士大夫啊实打实的ABC</p>
-            <p class="am-monospace am-text-danger am-text-center am-margin-0">￥12345678.90</p>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="am-margin-horizontal">
-    <div class="am-slider am-slider-default am-slider-carousel am-padding" data-am-flexslider="{controlNav: false, smoothHeight: true, itemWidth: 100, itemMargin: 25, slideshow: false}">
-      <ul class="am-slides">
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-        <li><img src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" /></li>
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-        <li><img src="http://shop.big1000.com/statics/img/upload/default_small_product_image.png" /></li>
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-        <li><img src="http://127.0.0.1:8080/shop/upload/image/1e31632cf9214b4191bd0adb50b4ed3e.png" /></li>
-      </ul>
-    </div> 
-    </div>   
-    </div>
-    
   <!-- content end -->
-  </div>
 </body>
 </html>

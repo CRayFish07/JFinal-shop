@@ -1,5 +1,4 @@
 <%
-
 var pageNumber = pager.pageNumber;
 var pageSize = pager.pageSize;
 var totalPage = pager.totalPage;
@@ -49,78 +48,40 @@ if (endPageNumber > totalPage){
 }
 %>
 <%if (totalPage >= 1){%>
-    共 ${totalPage} 页
-	<ul class="am-pagination">
-		<!-- 首页 -->
-		<%if (pageNumber > 1){%>
-			<li class="firstPage">
-				<a href="${base}${firstPageUrl}">首页</a>
-			</li>
-		<%}else{%>
-			<li class="firstPage">
-				<span>首页</span>
-			</li>
-		<%}%>
-		
+  <div class="am-cf am-margin-right">
+    <div class="am-fr">
+	  <ul class="am-pagination am-text-xs am-margin-0">
 		<!-- 上一页 -->
 		<%if (pageNumber > 1){%>
-			<li class="prePage">
-				<a href="${base}${prePageUrl}">上一页</a>
-			</li>
+	    <li>
+	      <a href="${base}${prePageUrl}"><span class="am-icon-arrow-circle-left"> 上一页</span></a>
+	    </li>
 		<%}else{%>
-			<li class="prePage">
-				<span>上一页</span>
-			</li>
+		<li>
+		  <span class="am-icon-arrow-circle-left"> 上一页</span>
+		</li>
 		<%}%>
 		
-		<%if (startPageNumber > 1){%>
-			<li>
-				<a href="${base}${baseUrl + "pageNumber=" + (pageNumber - 2) + parameter}">...</a>
-			</li>
-		<%}%>
-		
-		<%for(var index in range(startPageNumber,endPageNumber)){%>
-			<%if (pageNumber != index){%>
-				<li>
-					<a href="${base}${baseUrl + "pageNumber=" + index + parameter}">${index}</a>
-				</li>
-			<%}else{%>
-				<li class="currentPage">
-					<span>${index}</span>
-				</li>
-			<%}%>
-		<%}%>
-		
-		<%if (endPageNumber < totalPage){%>
-			<li>
-				<a href="${base}${baseUrl + "pageNumber=" + (pageNumber + 2) + parameter}">...</a>
-			</li>
-		<%}%>
-	    
+		<li class="am-active">
+		  <span>${pageNumber}</span>
+		</li>
+    
 		<!-- 下一页 -->
 		<%if (pageNumber < totalPage){%>
-			<li class="nextPage">
-				<a href="${base}${nextPageUrl}">下一页</a>
-			</li>
+		<li>
+		  <a href="${base}${nextPageUrl}">下一页 <span class="am-icon-arrow-circle-right"></span></a>
+		</li>
 		<%}else{%>
-			<li class="nextPage">
-				<span>下一页</span>
-			</li>
+	    <li>
+		  <span>下一页 <span class="am-icon-arrow-circle-right"></span></span>
+		</li>
 		<%}%>
 		
-		<!-- 末页 -->
-		<%if (pageNumber < totalPage){%>
-			<li class="lastPage">
-				<a href="${base}${lastPageUrl}">末页</a>
-			</li>
-		<%}else{%>
-			<li class="lastPage">
-				<span>末页</span>
-			</li>
-		<%}%>
-	</ul>
-<%}%>
-
-
-
-
+		<!-- 总页数 -->
+		<li>
+		  共 ${totalPage} 页
+		</li>
+	  </ul>
+      <%}%>
+    </div>
+  </div>

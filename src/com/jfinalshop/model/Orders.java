@@ -18,7 +18,7 @@ public class Orders extends Model<Orders> {
 	
 	public static final Orders dao = new Orders();
 
-	public static final int DEFAULT_ORDER_LIST_PAGE_SIZE = 15;// 订单列表默认每页显示数
+	public static final int DEFAULT_ORDER_LIST_PAGE_SIZE = 10;// 订单列表默认每页显示数
 
 	// 订单状态（未处理、已处理、已完成、已作废）
 	public enum OrderStatus {

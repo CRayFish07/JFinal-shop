@@ -267,9 +267,9 @@ $(function() {
         <form id="productSearchForm" action="${base}/shop/product/search" method="get">
         <div class="am-g">
           <div class="am-u-sm-12 am-input-group am-input-group-sm am-input-group-primary">
-            <input type="text" id="productSearchKeyword" name="keyword" class="am-form-field" placeholder="请输入关键词...">
+            <input type="text" id="productSearchKeyword" name="keyword" class="am-form-field" placeholder="请输入关键词..." value="${keyword!}" required>
             <span class="am-input-group-btn">
-              <button class="am-btn am-btn-primary" type="button"><span class="am-icon-search"></span></button>
+              <button class="am-btn am-btn-primary" type="submit"><span class="am-icon-search"></span></button>
             </span>
           </div>
           <div class="am-u-sm-12 am-text-xs">

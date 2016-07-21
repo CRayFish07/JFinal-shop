@@ -14,7 +14,7 @@ public class Message extends Model<Message>{
 	
 	public static final Message dao = new Message();
 
-	public static final int DEFAULT_MESSAGE_LIST_PAGE_SIZE = 12;// 消息列表默认每页显示数
+	public static final int DEFAULT_MESSAGE_LIST_PAGE_SIZE = 10;// 消息列表默认每页显示数
 
 	// 删除状态（未删除、发送者删除、接收者删除）
 	public enum DeleteStatus {
@@ -87,7 +87,7 @@ public class Message extends Model<Message>{
 	 */
 	public Page<Message> getMemberDraftboxPager(int pageNumber, int pageSize,Member member) {
 		String select = "select * ";
-		String sqlExceptSelect = " from message where toMember_id = ? and isSaveDraftbox = ? and deleteStatus <> ? ";
+		String sqlExceptSelect = " from message where fromMember_id = ? and isSaveDraftbox = ? and deleteStatus <> ? ";
 
 		sqlExceptSelect += " order by createDate desc ";
 		

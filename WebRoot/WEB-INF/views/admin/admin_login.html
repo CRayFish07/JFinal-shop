@@ -1,7 +1,7 @@
 <!doctype html>
 <html class="no-js fixed-layout">
 <head>
-<% include("/common/head.html",{title: 'JFinal shop管理'}){}%>
+<% include("/common/admin_head.html",{title: 'JFinal shop管理'}){}%>
 <script>
 $().ready(function() {
   if(self.location==top.location){
@@ -24,14 +24,14 @@ $().ready(function() {
       <div class="am-form-group">
         <label for="username" class="am-u-sm-3 am-form-label">用户名</label>
         <div class="am-u-sm-9">
-          <input type="text" name="username" id="username" placeholder="用户名/邮箱" value="admin" required>
+          <input type="text" name="username" id="username" placeholder="用户名/邮箱" value="" required>
         </div>
       </div>
 
       <div class="am-form-group">
         <label for="passward" class="am-u-sm-3 am-form-label">密码</label>
         <div class="am-u-sm-9">
-          <input type="password" name="password" id="passward" placeholder="密码" value="123456" required>
+          <input type="password" name="password" id="passward" placeholder="密码" value="" required>
         </div>
       </div>
       

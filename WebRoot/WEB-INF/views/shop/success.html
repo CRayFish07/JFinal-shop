@@ -1,29 +1,41 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html class="no-js fixed-layout">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>提示信息 - Powered By ${systemConfig.systemName}</title>
-<meta name="Author" content="JFinalShop Team" />
-<meta name="Copyright" content="JFinalShop" />
-<link rel="icon" href="favicon.ico" type="image/x-icon" />
-<% include("/common/include.html"){}%>
+<% include("/common/shop_head.html"){}%>
 </head>
-<body class="message">
-	<div class="main">
-		<div class="messageBox">
-			<div class="boxTop">
-				<div class="boxTitle">提示信息&nbsp;</div>
-				<a class="boxClose windowClose" href="#" hidefocus="true"></a>
-			</div>
-			<div class="boxMiddle">
-				<div class="messageContent">
-					<span class="icon success">&nbsp;</span>
-					<span class="messageText">${message}<br>
-				</div>
-				<input type="button" class="formButton messageButton" <%if (!isEmpty(redirectionUrl)){%>onclick="window.location.href='${redirectionUrl}'"<%}else{%>onclick="window.history.back(); return false;"<%}%> value="确  定" hidefocus="true" />
-			</div>
-			<div class="boxBottom"></div>
-		</div>
-	</div>
+<body>
+   <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding">
+        <div class="am-fl am-cf">
+          <strong class="am-text-primary am-text-lg">系统消息</strong> / <small>提示信息</small>
+        </div>
+      </div>
+      
+      <hr data-am-widget="divider" class="am-divider am-divider-dotted am-margin-0" />
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <h2 class="am-text-center am-text-lg am-margin-top-lg">${message}</h2>
+        <pre class="page-404">
+          .----.
+       _.'__    `.
+   .--($)($$)---/#\
+ .' @          /###\
+ :         ,   #####
+  `-..__.-' _.-\###/
+        `;_:    `"'
+      .'"""""`.
+     /,      ,\\
+    //         \\
+    `-._______.-'
+    ___`. | .'___
+   (______|______)
+        </pre>
+        <p class="am-text-center"><button type="button" class="am-btn am-btn-primary am-btn-xs" <%if (!isEmpty(redirectionUrl)){%>onclick="window.location.href='${base}${redirectionUrl}'"<%}else{%>onclick="window.history.back(); return false;"<%}%>>确  定</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

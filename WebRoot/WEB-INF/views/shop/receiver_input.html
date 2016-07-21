@@ -1,27 +1,22 @@
 <!doctype html>
 <html class="no-js fixed-layout">
 <head>
-<% include("/common/shop_head.html"){}%>
+<% include("/common/shop_head.html",{noFormJS:true, lSelectJS: true}){}%>
 <script type="text/javascript">
 $().ready( function() {
-
-	var $areaSelect = $(".areaSelect");
-
-	// 地区选择菜单
-	$areaSelect.lSelect({
-		url: "${base}/area/ajaxChildrenArea"// AJAX数据获取url
-	});
-
+  // 地区选择菜单
+  $(".areaSelect").lSelect({
+    url: "${base}/area/ajaxChildrenArea"// AJAX数据获取url
+  });
 });
 </script>
-<%
-var isAdd = false;
-var isEdit = false;
-if(isEmpty(receiver.id)){
+<%var isAdd = false;
+  var isEdit = false;
+  if(isEmpty(receiver.id)){
 	isAdd = true;
-}else{	
+  }else{	
 	isEdit = true;
-}%>
+  }%>
 </head>
 <body>
 <%include("/shop/header.html"){}%>
@@ -34,90 +29,73 @@ if(isEmpty(receiver.id)){
   <div class="shop-content">
     <div class="shop-content-body">
       <ol class="am-breadcrumb am-margin-left am-margin-bottom-0">
-        <li class="am-active">收货地址</li>
+        <li><span class="am-icon-info-circle am-icon-fw"> </span>个人资料</li>
+        <li>收货地址</li>
+        <li class="am-active"><%if (isAdd){%>新增<%}else{%>修改<%}%></li>
       </ol>
-				<div class="middle">
-					<div class="blank"></div>
-					<form id="inputForm" class="validate" action="<%if (isAdd){%>${base}/receiver/save<%}else{%>${base}/receiver/update<%}%>" method="post">
-						<input type="hidden" name="receiver.id" value="${receiver.id!}" />
-						<table class="inputTable">
-							<tr>
-								<th>
-									收货人姓名:
-								</th>
-								<td>
-									<input type="text" name="receiver.name" class="formText {required: true, messages: {required: '请输入收货人姓名！'}}" value="${receiver.name!}" />
-									<label class="requireField">*</label>
-								</td>
-							</tr>
-							<tr>
-								<th>
-									地区:
-								</th>
-								<td>
-									<input type="text" name="receiver.areaPath" class="areaSelect hidden {required: true, messages: {required: '请选择地区！'}, messagePosition: '#addressMessagePosition'}" value="${receiver.areaPath!}" />
-									<span id="addressMessagePosition"></span>
-									<label class="requireField">*</label>
-								</td>
-							</tr>
-							<tr>
-								<th>
-									地址:
-								</th>
-								<td>
-									<input type="text" name="receiver.address" class="formText {required: true, messages: {required: '请输入地址！'}}" value="${receiver.address!}" />
-									<label class="requireField">*</label>
-								</td>
-							</tr>
-							<tr>
-								<th>
-									电话:
-								</th>
-								<td>
-									<input type="text" name="receiver.phone" class="formText {requiredOne: '#mobile', phone: true, messages: {requiredOne: '电话、手机必须填写其中一项!'}}" value="${receiver.phone!}" />
-									<label class="requireField">*</label>
-								</td>
-							</tr>
-							<tr>
-								<th>
-									手机:
-								</th>
-								<td>
-									<input type="text" id="mobile" name="receiver.mobile" class="formText {mobile: true}" value="${receiver.mobile!}" />
-								</td>
-							</tr>
-							<tr>
-								<th>
-									邮编:
-								</th>
-								<td>
-									<input type="text" name="receiver.zipCode" class="formText {required: true, zipCode: true, messages: {required: '请输入邮编！'}}" value="${receiver.zipCode!}" />
-									<label class="requireField">*</label>
-								</td>
-							</tr>
-							<tr>
-								<th>
-									是否默认:
-								</th>
-								<td>
-									<label><input type="radio" name="receiver.isDefault" value="true"<%if (isEdit && receiver.isDefault){%> checked<%}%> />是</label>
-									<label><input type="radio" name="receiver.isDefault" value="false"<%if (isAdd || !receiver.isDefault){%> checked<%}%> />否</label>
-								</td>
-							</tr>
-							<tr>
-								<th>
-									&nbsp;
-								</th>
-								<td>
-									<input type="submit" class="submitButton" value="提 交" hidefocus="true" />
-									<input type="button" class="backButton" onclick="window.history.back(); return false;" value="返 回" hidefocus="true" />
-								</td>
-							</tr>
-						</table>
-					</form>
-					<div class="blank"></div>
-				</div>
-				</div>
+      
+	  <form id="inputForm" class="validate" action="<%if (isAdd){%>${base}/receiver/save<%}else{%>${base}/receiver/update<%}%>" method="post">
+	  <input type="hidden" name="receiver.id" value="${receiver.id!}" />  
+      <div class="am-panel am-panel-default am-margin-horizontal-sm am-padding-top">
+        <div class="am-panel-bd am-g am-padding-0 am-form am-form-horizontal">
+          <div class="am-form-group am-form-group-sm">
+            <label class="am-u-sm-3 am-text-right am-form-label">收货人姓名</label>
+            <div class="am-u-sm-8 am-u-end">
+              <input type="text" class="am-form-field" name="receiver.name" value="${receiver.name!}" placeholder="请输入收货人姓名!"  required>
+            </div>
+          </div>		
+          <div class="am-form-group am-form-group-sm">
+            <label class="am-u-sm-3 am-text-right am-form-label">地区</label>
+            <div class="am-u-sm-8 am-u-end">
+              <input type="hidden" name="receiver.areaPath" class="areaSelect" value="${receiver.areaPath!}" required>
+            </div>
+          </div>		
+          <div class="am-form-group am-form-group-sm">
+            <label class="am-u-sm-3 am-text-right am-form-label">地址</label>
+            <div class="am-u-sm-8 am-u-end">
+              <input type="text" class="am-form-field" name="receiver.address" value="${receiver.address!}" placeholder="请输入地址!"  required>
+            </div>
+          </div>		
+          <div class="am-form-group am-form-group-sm">
+            <label class="am-u-sm-3 am-text-right am-form-label">电话</label>
+            <div class="am-u-sm-8 am-u-end">
+              <input type="text" class="am-form-field" name="receiver.phone" value="${receiver.phone!}" placeholder="电话、手机必须填写其中一项!">
+            </div>
+          </div>		
+          <div class="am-form-group am-form-group-sm">
+            <label class="am-u-sm-3 am-text-right am-form-label">手机</label>
+            <div class="am-u-sm-8 am-u-end">
+              <input type="text" class="am-form-field" name="receiver.mobile" value="${receiver.mobile!}" placeholder=""  required>
+            </div>
+          </div>		
+          <div class="am-form-group am-form-group-sm">
+            <label class="am-u-sm-3 am-text-right am-form-label">邮编</label>
+            <div class="am-u-sm-8 am-u-end">
+              <input type="number" class="am-form-field" name="receiver.zipCode" value="${receiver.zipCode!}" placeholder="请输入邮编！"  required>
+            </div>
+          </div>
+          <div class="am-form-group am-form-group-sm">
+            <label class="am-u-sm-3 am-text-right am-form-label">是否默认</label>
+            <div class="am-u-sm-8 am-u-end">
+              <label class="am-radio-inline">
+                <input type="radio" name="receiver.isDefault" value="true"<%if (isEdit && receiver.isDefault){%> checked<%}%> />是
+              </label>
+              <label class="am-radio-inline">
+                <input type="radio" name="receiver.isDefault" value="false"<%if (isAdd || !receiver.isDefault){%> checked<%}%> />否
+              </label>
+            </div>
+          </div>
+          <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
+          <div class="am-form-group am-form-group-sm">
+            <div class="am-u-sm-8 am-u-sm-offset-3">
+              <button type="submit" class="am-btn am-btn-primary"><span class="am-icon-save"> 保 存</span></button>
+              <button type="button" class="am-btn am-btn-default" onclick="window.history.back(); return false;"><span class="am-icon-undo">  返  回</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </form>
+    </div>
     <%include("/shop/footer.html"){}%>
   </div>
   <!-- content end -->

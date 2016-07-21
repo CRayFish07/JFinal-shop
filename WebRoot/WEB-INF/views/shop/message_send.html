@@ -6,14 +6,11 @@
 $().ready( function() {
 	
 	$(".messageType").click( function(event) {
-		$toMemberTr = $(".toMemberTr");
-		$toMemberInput = $(".toMemberTr input");
+		$toMemberInput = $(".toMember div input");
 		if ($(this).val() == "member") {
-			$toMemberTr.show();
-			$toMemberInput.attr("disabled", false);
+			$toMemberInput.attr("required", true);
 		} else {
-			$toMemberTr.hide();
-			$toMemberInput.attr("disabled", true);
+			$toMemberInput.attr("required", false);
 		}
 	});
 	
@@ -31,42 +28,45 @@ $().ready( function() {
   <div class="shop-content">
     <div class="shop-content-body">
       <ol class="am-breadcrumb am-margin-left am-margin-bottom-0">
+        <li><span class="am-icon-comment am-icon-fw"> </span>我的消息</li>
         <li class="am-active">发送消息</li>
       </ol>
       <form id="inputForm" action="${base}/shop/message/save" method="post">
-      <div class="am-form am-margin am-form-horizontal">
-        <div class="am-form-group am-form-group-sm">
-            <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">发送给</label>
-            <div class="am-u-sm-8 am-u-md-9">
+      <input type="hidden" name="message.id" value="${message.id!}" />
+      <div class="am-panel am-panel-default am-margin-horizontal-sm am-padding-top">
+        <div class="am-panel-bd am-g am-padding-0 am-form am-form-horizontal">
+          <div class="am-form-group am-form-group-sm">
+            <label class="am-u-sm-3 am-text-right am-form-label">发送给</label>
+            <div class="am-u-sm-8 am-u-end">
               <label class="am-radio-inline">
-                <input type="radio" name="messageType" value="member"<%if (message! == null || message.toMember != null){%> checked<%}%>>其它会员
+                <input type="radio" class="messageType" name="messageType" value="member"<%if (message! == null || message.toMember != null){%> checked<%}%>>其它会员
               </label>
               <label class="am-radio-inline">
-                <input type="radio" name="messageType" value="admin"<%if (message.toMember! == null){%> checked<%}%>>管理员
+                <input type="radio" class="messageType" name="messageType" value="admin"<%if (message.toMember! == null){%> checked<%}%>>管理员
               </label>
             </div>
           </div>
-        <div class="am-form-group am-form-group-sm"<%if (message.toMember! == null){%> style="display: none;"<%}%>>
-          <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">对方用户名</label>
-          <div class="am-u-sm-8 am-u-md-9">
-            <input type="text" class="am-form-field" name="toMemberUsername" value="" placeholder="收件人不允许为自己!"  required>
+          <div class="am-form-group am-form-group-sm toMember">
+            <label class="am-u-sm-3 am-text-right am-form-label">对方账号</label>
+            <div class="am-u-sm-8 am-u-end">
+              <input type="text" class="am-form-field" name="toMemberUsername" value="" placeholder="发送给管理员可以不填写">
+            </div>
           </div>
-        </div>
-        <div class="am-form-group am-form-group-sm">
-          <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">标题</label>
-          <div class="am-u-sm-8 am-u-md-9">
-            <input type="text" class="am-form-field" name="message.title" value="${message.title!}" placeholder="请填写标题!"  required>
+          <div class="am-form-group am-form-group-sm">
+            <label class="am-u-sm-3 am-text-right am-form-label">标题</label>
+            <div class="am-u-sm-8 am-u-end">
+              <input type="text" class="am-form-field" name="message.title" value="${message.title!}" placeholder="请填写标题!"  required>
+            </div>
           </div>
-        </div>
-        <div class="am-form-group am-form-group-sm">
-          <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">内容</label>
-          <div class="am-u-sm-8 am-u-md-9">
-            <textarea rows="10" class="am-form-field" name="message.content">${message.content!}</textarea>
+          <div class="am-form-group am-form-group-sm">
+            <label class="am-u-sm-3 am-text-right am-form-label">内容</label>
+            <div class="am-u-sm-8 am-u-end">
+              <textarea rows="6" class="am-form-field" name="message.content">${message.content!}</textarea>
+            </div>
           </div>
-        </div>
-        <div class="am-form-group am-form-group-sm">
-            <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">选项</label>
-            <div class="am-u-sm-8 am-u-md-9">
+          <div class="am-form-group am-form-group-sm">
+            <label class="am-u-sm-3 am-text-right am-form-label">选项</label>
+            <div class="am-u-sm-8 am-u-end">
               <label class="am-radio-inline">
                 <input type="radio" name="message.isSaveDraftbox" value="false" checked>立即发送
               </label>
@@ -75,14 +75,15 @@ $().ready( function() {
               </label>
             </div>
           </div>
-        <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
-      <div class="am-form-group am-form-group-sm">
-        <div class="am-u-sm-8 am-u-sm-offset-4 am-u-md-9 am-u-md-offset-3">
-          <button type="submit" class="am-btn am-btn-primary"><span class="am-icon-send">提 交</span></button>
+          <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
+          <div class="am-form-group am-form-group-sm">
+            <div class="am-u-sm-8 am-u-sm-offset-3">
+              <button type="submit" class="am-btn am-btn-primary am-btn-xs"><span class="am-icon-send"> 提 交</span></button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    </form>
+      </form>
     </div>
     <%include("/shop/footer.html"){}%>
   </div>

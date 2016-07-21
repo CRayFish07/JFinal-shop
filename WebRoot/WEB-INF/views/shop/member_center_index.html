@@ -14,7 +14,7 @@
   <div class="shop-content">
     <div class="shop-content-body">
       <ol class="am-breadcrumb am-margin-left am-margin-bottom-0">
-        <li class="am-active"><span class="am-icon-home"> </span>会员中心首页</li>
+        <li class="am-active"><span class="am-icon-home am-icon-fw"> </span>会员中心首页</li>
       </ol>
       
       <div class="am-panel am-panel-default am-text-xs am-margin-horizontal-sm">
@@ -25,7 +25,7 @@
           <%}%>
         </div>
         <div class="am-panel-bd am-g am-padding-0">
-          <table class="am-table am-table-bordered am-table-compact am-text-nowrap am-accordion-bd">
+          <table class="am-table am-table-bordered am-table-compact am-text-nowrap am-margin-0">
             <tbody>
             <tr>
               <th>帐户总积分</th>
@@ -50,9 +50,8 @@
         </div>
       </div>
       
-      <div class="am-g">
-        <div class="am-u-sm-12 am-padding-0 am-margin-0">
-          <div class="am-scrollable-horizontal">
+      <div class="am-panel am-panel-default am-text-xs am-margin-horizontal-sm">
+        <div class="am-panel-bd am-g am-padding-0 am-scrollable-horizontal">
           <table class="am-table am-table-bordered am-table-striped am-table-hover am-text-nowrap am-text-xs am-margin-bottom-0">
           <thead>
             <tr>
@@ -60,7 +59,7 @@
               <th>下单时间</th>
               <th>订单金额</th>
               <th>订单状态</th>
-              <th style="width: 300px;">商品名称</th>
+              <th>商品名称</th>
             </tr>
           </thead>
           <tbody>
@@ -84,8 +83,7 @@
 			  </td>
               <td>
                 <a href="${base}/shop/order/view?id=${list.id}">
-                 <!-- title="<%for(listProduct in list.productItemList!){%><%if(listProductLP.index != 1){%>、<%}%>${listProduct.name}<%}%>" -->
-                  <div class="am-text-truncate shop-text-truncate-order-product-name">
+                  <div class="am-text-truncate shop-text-truncate-order-product-name"  data-am-popover="{theme: 'secondary sm', content: '<%for(listProduct in list.orderItemList!){%><%if(listProductLP.index != 1){%><br><%}%>${listProduct.productName}<%}%>', trigger: 'hover focus'}">
                   <%for(listItem in list.orderItemList!){%>
                   <%if(listItemLP.index != 1){%>、<%}%>
                   ${listItem.productName}
@@ -100,10 +98,9 @@
 			<%}%>
           </tbody>
           </table>
-          </div>
         </div>
       </div>
-      <div class="am-text-right am-margin-bottom am-margin-right">
+      <div class="am-text-xs am-text-right am-margin-bottom am-margin-right">
          <a href="${base}/shop/order/list">更多订单>></a>
       </div>
     </div>

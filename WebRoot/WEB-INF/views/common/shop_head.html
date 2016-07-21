@@ -38,4 +38,26 @@
   <script src="${base}/statics/AmazeUI/assets/js/amazeui.modal.js"></script>
   
   <script src="${base}/statics/js/plugin/jquery.cookie.js"></script>
+  <%if (has(noFormJS) && noFormJS){%>
+  <!-- TODO:SUN.AO 此处form的导入和amazeui.min.js会有冲突,需要再执行注册脚本 -->
+  <%}else{%>
   <script src="${base}/statics/js/plugin/jquery.form.js"></script>
+  <%}%>
+  <%if (has(lSelectJS) && lSelectJS){%>
+  <script src="${base}/statics/js/jquery.lSelect.js"></script>
+  <%}%>
+  <%if (has(productJS) && productJS){%>
+  <script src="${base}/statics/js/plugin/jquery.metadata.js"></script>
+  <script> 
+    var JFinalshop = {
+      base: "${base!}",
+	  currencySign: "￥",// 货币符号
+	  currencyUnit: "元",// 货币单位
+	  priceScale: "2",// 商品价格精确位数
+	  priceRoundType: "roundHalfUp",// 商品价格精确方式
+	  orderScale: "2",// 订单金额精确位数
+	  orderRoundType: "roundHalfUp"// 订单金额精确方式
+	};
+  </script>
+  <script src="${base}/statics/shop/js/product.js"></script>
+  <%}%>

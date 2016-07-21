@@ -38,7 +38,7 @@ public class MessageController extends BaseShopController<Message> {
 		id = getPara("id","");
 		if (StringUtils.isNotEmpty(id)) {
 			message = Message.dao.findById(id);
-			if (message.getBoolean("isSaveDraftbox") == false || message.getFromMember() != getLoginMember()) {
+			if (message.getBoolean("isSaveDraftbox") == false || !message.getStr("fromMember_id").equals(getLoginMember().getStr("id"))) {
 				addActionError("参数错误!");
 				return;
 			}
@@ -92,7 +92,7 @@ public class MessageController extends BaseShopController<Message> {
 		String toMemberUsername = getPara("toMemberUsername","");
 		if (StringUtils.isNotEmpty(toMemberUsername)) {
 			Member toMember = Member.dao.getMemberByUsername(toMemberUsername);
-			if (StrKit.isBlank(toMember.getStr("id"))) {
+			if (toMember == null || StrKit.isBlank(toMember.getStr("id"))) {
 				addActionError("收件人不存在!");
 				return;
 			}
@@ -108,13 +108,8 @@ public class MessageController extends BaseShopController<Message> {
 		message.set("deleteStatus",DeleteStatus.valueOf(DeleteStatus.nonDelete.name()).ordinal());
 		message.set("isRead",false);
 		
-		if (StringUtils.isNotEmpty(id)) {
-			Message persistent = Message.dao.findById(id);
-			if (persistent.getBoolean("isSaveDraftbox") == false || persistent.getFromMember() != getLoginMember()) {
-				addActionError("参数错误!");
-				return;
-			}
-			updated(persistent);
+		if (StringUtils.isNotEmpty(message.getStr("id"))) {
+			updated(message);
 		} else {
 			saved(message);
 		}

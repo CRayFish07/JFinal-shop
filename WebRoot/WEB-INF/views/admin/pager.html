@@ -1,7 +1,7 @@
 <!-- 分页 -->
 <ul class="am-pagination" id="pager"></ul>
 <input type="hidden" name="pageNumber" id="pageNumber" value="${pager.pageNumber!}" />
-<script type="text/javascript" src="${base}/template/jqPaginator/jqPaginator.min.js"></script>
+<script type="text/javascript" src="${base}/statics/js/plugin/jqPaginator.min.js"></script>
 <script type="text/javascript">
 	var $listForm = $("#listForm");// 列表表单
 	var $pageNumber = $("#pageNumber");// 当前页码
@@ -10,8 +10,8 @@
 	    totalCounts:${pager.totalRow},
 	    visiblePages: 1,
 	    currentPage: ${pager.pageNumber},
-        prev: '<li class="am-pagination-prev"><a href="javascript:void(0);"><i class="am-icon-arrow-circle-left"> 上一页<\/a><\/li>',
-        next: '<li class="am-pagination-next"><a href="javascript:void(0);">下一页 <i class="am-icon-arrow-circle-right"><\/i><\/a><\/li>',
+        prev: '<li class="am-pagination-prev"><a href="javascript:void(0);"><span class="am-icon-arrow-circle-left"><\/span> 上一页<\/a><\/li>',
+        next: '<li class="am-pagination-next"><a href="javascript:void(0);">下一页 <span class="am-icon-arrow-circle-right"><\/span><\/a><\/li>',
         page: '<li class="am-active"><a href="javascript:void(0);" class="am-active">{{page}}<\/a><\/li>',
 	    onPageChange: function (num, type) {
 		    if (type == 'change'){

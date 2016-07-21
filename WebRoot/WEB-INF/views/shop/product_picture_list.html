@@ -1,7 +1,7 @@
 <!doctype html>
 <html class="no-js fixed-layout">
 <head>
-<% include("/common/shop_head.html"){}%>
+<% include("/common/shop_head.html", {productJS: true}){}%>
 <script>
   $().ready( function() {
     AMUI.plugin('mySelected', AMUI.selected);
@@ -118,7 +118,7 @@
                       <strong class="am-text-warning">${list.price,priceCurrencyFormat}</strong> <br /> <del>${list.marketPrice,priceCurrencyFormat}</del>
                     </span>
                     <div class="am-btn-group am-btn-group-xs am-fr am-margin-top-xs">
-                      <button type="button" class="am-btn am-btn-default am-padding-xs"<%if (list.isOutOfStock){%> disabled> 缺货<%}else{%>> 购买<%}%> </button>
+                      <button type="button" class="addCartItem {id: '${list.id}'} am-btn am-btn-default am-padding-xs"<%if (list.isOutOfStock){%> disabled> 缺货<%}else{%>> 购买<%}%> </button>
                       <button type="button" class="am-btn am-btn-default am-padding-xs"> 收藏 </button>
                     </div>
                   </div>
@@ -128,6 +128,7 @@
                 <li class="am-text-xs am-text-danger">没有找到相关商品！</li>
                 <%}%>
               </ul>
+              <%include("/shop/pager.html", {"pageNumber":pager.pageNumber,"pageSize":pager.pageSize,"pageCount":pager.totalPage,"property":"","keyword":"无","orderBy":"","orderType":"","baseUrl":"/shop/product/list"}) {}%>
             </div>
           </div>
           </form>
