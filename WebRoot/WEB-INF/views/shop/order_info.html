@@ -5,56 +5,54 @@
 <script type="text/javascript">
 $().ready( function() {
 	
-	$('#myCollapse').collapse({
-      toggle: false
-	});
+  $('#myCollapse').collapse({
+    toggle: false
+  });
 	
-	// 地区选择菜单
-	$(".areaSelect").lSelect({
-		url: "${base}/area/ajaxChildrenArea"// Json数据获取url
-	});
+  // 地区选择菜单
+  $(".areaSelect").lSelect({
+    url: "${base}/area/ajaxChildrenArea"// Json数据获取url
+  });
 
-	var productTotalPrice = ${productTotalPrice};// 商品总价格
-	var deliveryFee = 0;// 配送费用
-	var paymentFee = 0;// 支付费用
+  var productTotalPrice = ${productTotalPrice};// 商品总价格
+  var deliveryFee = 0;// 配送费用
+  var paymentFee = 0;// 支付费用
 	
-	var $orderInfoForm = $("#orderInfoForm");
-	var $areaSelect = $(".areaSelect");
-	var $receiverInput = $("input[name='receiver.id']");
-	var $otherReceiverTable = $("#otherReceiverTable");
-	var $otherReceiverTableInput = $(".otherReceiverTable :input");
-	var $deliveryTypeInput = $("input[name='deliveryType.id']");
-	var $paymentConfigTr = $(".paymentConfigTr");
-	var $paymentConfigInput = $("input[name='paymentConfig.id']");
-	var $productTotalPrice = $("#productTotalPrice");
-	var $deliveryFee = $("#deliveryFee");
-	var $paymentFee = $("#paymentFee");
-	var $orderAmount = $("#orderAmount");
+  var $orderInfoForm = $("#orderInfoForm");
+  var $receiverInput = $("input[name='receiver.id']");
+  var $otherReceiverTable = $("#otherReceiverTable");
+  var $otherReceiverTableInput = $(".otherReceiverTable :input");
+  var $deliveryTypeInput = $("input[name='deliveryType_id']");
+  var $paymentConfig = $(".paymentConfig");
+  var $paymentConfigInput = $("input[name='paymentConfig_id']");
+  var $productTotalPrice = $("#productTotalPrice");
+  var $deliveryFee = $("#deliveryFee");
+  var $paymentFee = $("#paymentFee");
+  var $orderAmount = $("#orderAmount");
 	
-	// 地区选择菜单
-	$areaSelect.lSelect({
-		url: "${base}/area/ajaxChildrenArea"// Json数据获取url
-	});
+  // 如果默认选择“其它收货地址”，则显示“其它收货地址输入框”
+  alert($receiverInput.uCheck().val());
+  if ($receiverInput.val() == "") {
+	  alert(1);
+    //$otherReceiverTable.show();
+	$otherReceiverTableInput.attr('required','required');
+  } else {
+	  alert(2);
+	//$otherReceiverTable.hide();
+	$otherReceiverTableInput.removeAttr('required');
+  }
 	
-	// 如果默认选择“其它收货地址”，则显示“其它收货地址输入框”
-	if ($receiverInput.val() == "") {
-		$otherReceiverTable.fadeIn();
-		$otherReceiverTableInput.removeClass("ignoreValidate");
+  // 显示“其它收货地址输入框”
+  $receiverInput.click( function() {
+    $this = $(this);
+	if ($this.val() == "") {
+	  //$otherReceiverTable.show();
+	  $otherReceiverTableInput.attr('required','required');
 	} else {
-		$otherReceiverTableInput.addClass("ignoreValidate");
+	  //$otherReceiverTable.hide();
+	  $otherReceiverTableInput.removeAttr('required');
 	}
-	
-	// 显示“其它收货地址输入框”
-	$receiverInput.click( function() {
-		$this = $(this);
-		if ($this.val() == "") {
-			$otherReceiverTable.fadeIn();
-			$otherReceiverTableInput.removeClass("ignoreValidate");
-		} else {
-			$otherReceiverTable.fadeOut();
-			$otherReceiverTableInput.addClass("ignoreValidate");
-		}
-	});
+  });
 	
 	// 根据配送方式修改配送费用、订单总金额，并显示/隐藏支付方式
 	$deliveryTypeInput.click( function() {
@@ -65,10 +63,10 @@ $().ready( function() {
 		var deliveryMethod = $parent.metadata().deliveryMethod;
 		if (deliveryMethod == "deliveryAgainstPayment") {
 			$paymentConfigInput.removeClass("ignoreValidate");
-			$paymentConfigTr.show();
+			$paymentConfig.show();
 		} else {
 			$paymentConfigInput.addClass("ignoreValidate");
-			$paymentConfigTr.hide();
+			$paymentConfig.hide();
 		}
 		deliveryFee = $parent.metadata().deliveryFee;
 		$deliveryFee.text(orderUnitCurrencyFormat(deliveryFee));
@@ -113,7 +111,7 @@ $().ready( function() {
               <div class="am-u-sm-6">
                 <%for(list in loginMember.receiverList){%>
                 <label class="am-radio">
-                  <input type="radio" name="receiver.id" value="${list.id}"<%if (list.isDefault){%> checked<%}%> />${list.name}
+                  <input type="radio" name="receiver.id" value="${list.id}"<%if (list.isDefault){%> checked<%}%> data-am-ucheck />${list.name}
                 </label>
                 <strong>收货人：</strong>${list.name}&nbsp;&nbsp;&nbsp;&nbsp;
                 <%if (list.mobile != null){%>
@@ -124,7 +122,7 @@ $().ready( function() {
                 <br><strong>收货地址：</strong>${list.address}
                 <%}%>
                 <label class="am-radio">
-                  <input type="radio" name="receiver.id" value=""<%if (loginMember.receiverList == null || loginMember.receiverList.~size == 0){%> checked<%}%> />
+                  <input type="radio" name="receiver.id" value=""<%if (loginMember.receiverList == null || loginMember.receiverList.~size == 0){%> checked<%}%> checked data-am-ucheck />
                   填写收货地址
                 </label>
               </div>
@@ -199,7 +197,7 @@ $().ready( function() {
             </div>
           </div>
         </div>
-        <div class="am-panel am-panel-default">
+        <div class="am-panel am-panel-default paymentConfig">
           <div class="am-panel-hd">
             <h4 class="am-panel-title" data-am-collapse="{parent: '#myCollapse', target: '#myCollapse-3'}">
               支付方式

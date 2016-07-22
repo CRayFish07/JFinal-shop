@@ -5,145 +5,126 @@
 <script type="text/javascript">
 $().ready( function() {
 
-	var $listTable = $(".listTable");
-	var $quantity = $("input.quantity");
-	var $changeQuantityTip = $("#changeQuantityTip");
-	var $changeQuantityTipClose = $("#changeQuantityTipClose");
-	var $changeQuantityTipTopMessage = $("#changeQuantityTipTopMessage");
-	var $changeQuantityTipBottomMessage = $("#changeQuantityTipBottomMessage");
-	var $deleteCartItem = $(".deleteCartItem");
-	var $clearCartItem = $("#clearCartItem");
-	var $totalQuantity = $("#totalQuantity");
-	var $totalPoint = $("#totalPoint");
-	var $totalPrice = $("#totalPrice");
-	var $orderInfoButton = $("#orderInfoButton");
+  var $listTable = $(".listTable");
+  var $quantity = $("input.quantity");
+  var $deleteCartItem = $(".deleteCartItem");
+  var $clearCartItem = $("#clearCartItem");
+  var $totalQuantity = $("#totalQuantity");
+  var $totalPoint = $("#totalPoint");
+  var $totalPrice = $("#totalPrice");
+  var $orderInfoButton = $("#orderInfoButton");
 	
+  // 记录初始商品购买数
+  $quantity.each(function(){
+    $this = $(this);
+    $this.data("previousQuantity", $this.val());
+  });
 	
-	// 记录初始商品购买数
-	$quantity.each(function(){
-		$this = $(this);
-		$this.data("previousQuantity", $this.val());
+  // 修改商品数量
+  $quantity.change( function() {
+    $this = $(this);
+    var id = $this.metadata().id;
+	var quantity = $this.val();
+		
+	var reg = /^[0-9]*[1-9][0-9]*$/;
+	if (!reg.test(quantity)) {
+	  var previousQuantity = $this.data("previousQuantity");
+	  $this.val(previousQuantity);
+	  Modal.alert("商品数量修改失败,必须为正整数！");
+	  return false;
+	}
+	$.ajax({
+	  url: "${base}/shop/cartItem/ajaxEdit",
+	  data: {"id": id, "quantity": quantity},
+	  dataType: "json",
+	  async: false,
+	  beforeSend: function() {
+	    $quantity.attr("disabled", true);
+	  },
+	  success: function(data) {
+	    if (data.status == "success") {
+		  $this.data("previousQuantity", quantity);
+		  $this.parent().parent().find(".subtotalPrice").text(data.subtotalPrice);
+		  $this.next(".storeInfo").empty();
+	      $totalQuantity.text(data.totalQuantity);
+		  $totalPoint.text(data.totalPoint);
+		  $totalPrice.text(data.totalPrice);
+		  Modal.alert("商品数量修改成功！商品总金额：" + data.totalPrice);
+	    } else {
+	      var previousQuantity = $this.data("previousQuantity");
+		  $this.val(previousQuantity);
+		  Modal.alert("商品数量修改失败！" + data.message);
+	    }
+	    $quantity.attr("disabled", false);
+	  }
 	});
+  });
 	
-	// 修改商品数量
-	$quantity.change( function() {
-		$this = $(this);
-		var id = $this.metadata().id;
-		var quantity = $this.val();
-		
-		var x = $this.offset().left - 63;
-		var y = $this.offset().top + 25;
-		$changeQuantityTip.css({"left" :x, "top" :y});
-		
-		var reg = /^[0-9]*[1-9][0-9]*$/;
-		if (!reg.test(quantity)) {
-			var previousQuantity = $this.data("previousQuantity");
-			$this.val(previousQuantity);
-			$changeQuantityTipTopMessage.text("商品数量修改失败！");
-			$changeQuantityTipBottomMessage.text("商品数量必须为正整数！");
-			$changeQuantityTip.fadeIn();
-			setTimeout(function() {$changeQuantityTip.fadeOut()}, 3000);
-			return false;
-		}
-		$.ajax({
-			url: "${base}/shop/cartItem/ajaxEdit",
-			data: {"id": id, "quantity": quantity},
-			dataType: "json",
-			async: false,
-			beforeSend: function() {
-				$quantity.attr("disabled", true);
-			},
-			success: function(data) {
-				if (data.status == "success") {
-					$this.data("previousQuantity", quantity);
-					$this.parent().parent().find(".subtotalPrice").text(data.subtotalPrice);
-					$this.next(".storeInfo").empty();
-					//$.flushCartItemList();
-					$totalQuantity.text(data.totalQuantity);
-					$totalPoint.text(data.totalPoint);
-					$totalPrice.text(data.totalPrice);
-					$changeQuantityTipTopMessage.text("商品数量修改成功！");
-					$changeQuantityTipBottomMessage.text("商品总金额：" + data.totalPrice);
-					$changeQuantityTip.fadeIn();
-					setTimeout(function() {$changeQuantityTip.fadeOut()}, 3000);
-				} else {
-					var previousQuantity = $this.data("previousQuantity");
-					$this.val(previousQuantity);
-					$changeQuantityTipTopMessage.text("商品数量修改失败！");
-					$changeQuantityTipBottomMessage.text(data.message);
-					$changeQuantityTip.fadeIn();
-					setTimeout(function() {$changeQuantityTip.fadeOut()}, 3000);
-				}
-				$quantity.attr("disabled", false);
+  // 删除购物车项
+  $deleteCartItem.click( function() {
+    $this = $(this);
+	var id = $this.metadata().id;
+	Modal.register(['confirm','alert']);
+	Modal.confirm("您确定要移除此商品吗？",{
+	  relatedTarget: this,
+	  onConfirm: function(options) {
+	    $.ajax({
+		  url: "${base}/shop/cartItem/ajaxDelete",
+		  data: {"id": id},
+		  dataType: "json",
+		  async: false,
+		  success: function(data) {
+		    if (data.status == "success") {
+			  $this.parent().parent().remove();
+			  $totalQuantity.text(data.totalQuantity);
+			  $totalPoint.text(data.totalPoint);
+			  $totalPrice.text(data.totalPrice);
 			}
+			Modal.alert(data.message);
+		  }
+	    });
+	  }
+	});
+  });
+	
+  // 清空购物车项
+  $clearCartItem.click( function() {
+	Modal.register(['confirm','alert']);
+    Modal.confirm("您确定要清空购物车吗？",{
+      relatedTarget: this,
+	  onConfirm: function(options) {
+	    $.ajax({
+		  url: "${base}/shop/cartItem/ajaxClear",
+		  dataType: "json",
+		  async: false,
+		  success: function(data) {
+		    if (data.status == "success") {
+			  $(".listTable tr").remove();
+			  $listTable.append('<tr><td colspan="<%if (loginMember.memberRank.preferentialScale! != 100){%>6<%}else{%>5<%}%>">购物车目前没有加入任何商品！</td></tr>');
+			  $orderInfoButton.remove();
+			  $clearCartItem.remove();
+			}
+			Modal.alert(data.message);
+		  }
 		});
+	  }
 	});
+  });
 	
-	// 修改商品数量提示框隐藏
-	$changeQuantityTipClose.click( function() {
-		$changeQuantityTip.fadeOut();
-		return false;
-	});
-	
-	// 删除购物车项
-	$deleteCartItem.click( function() {
-		$this = $(this);
-		var id = $this.metadata().id;
-		if (confirm("您确定要移除此商品吗？") == true) {
-			$.ajax({
-				url: "${base}/shop/cartItem/ajaxDelete",
-				data: {"id": id},
-				dataType: "json",
-				async: false,
-				success: function(data) {
-					if (data.status == "success") {
-						//$.flushCartItemList();
-						$this.parent().parent().remove();
-						$totalQuantity.text(data.totalQuantity);
-						$totalPoint.text(data.totalPoint);
-						$totalPrice.text(data.totalPrice);
-					}
-					$.tip(data.status, data.message);
-				}
-			});
-		}
-	});
-	
-	// 清空购物车项
-	$clearCartItem.click( function() {
-		if (confirm("您确定要清空购物车吗？") == true) {
-			$.ajax({
-				url: "${base}/shop/cartItem/ajaxClear",
-				dataType: "json",
-				async: false,
-				success: function(data) {
-					if (data.status == "success") {
-						//$.flushCartItemList();
-						$(".listTable tr").remove();
-						$listTable.append('<tr><td class="noRecord" colspan="<%if (loginMember.memberRank.preferentialScale! != 100){%>6<%}else{%>5<%}%>">购物车目前没有加入任何商品！</td></tr>');
-						$orderInfoButton.remove();
-						$clearCartItem.remove();
-					}
-					//$.tip(data.status, data.message);
-				}
-			});
-		}
-	});
-	
-	// 结算前检测购物车状态
-	$orderInfoButton.click( function() {
-		var $this = $(this);
-		if (parseInt($totalQuantity.text()) < 1) {
-			$.message("error", "购物车目前没有加入任何商品！");
-			return false;
-		}
-		if ($.cookie("loginMemberUsername") == null) {
-			$.cookie("redirectionUrl", $(this).attr("href"), {path: "/"});
-			$("#loginWindow").jqmShow();
-			return false; 
-		} 
-	});
-
+  // 结算前检测购物车状态
+  $orderInfoButton.click( function() {
+    var $this = $(this);
+	if (parseInt($totalQuantity.text()) < 1) {
+	  Modal.alert("购物车目前没有加入任何商品！");
+	  return false;
+	}
+	if ($.cookie("loginMemberUsername") == null) {
+	  $.cookie("redirectionUrl", $(this).attr("href"), {path: "/"});
+	  loginWindowCaptchaImageRefresh();
+	  $("#member-login-modal").modal();
+	  return false; 
+	} 
+  });
 });
 </script>
 </head>
@@ -173,49 +154,49 @@ $().ready( function() {
               <%for(list in cartItemList!){%>
 			  <tr>
 			    <td class="productName">
-				 <a href="${base}${list.product.htmlFilePath}" target="_blank">
-				   <img src="${base}${list.product.productImageList[0].thumbnailProductImagePath!systemConfig.defaultThumbnailProductImagePath}" />
-				   ${list.name}
-				 </a>
-			   </td>
+				  <a href="${base}${list.product.htmlFilePath}" target="_blank">
+				    <img src="${base}${list.product.productImageList[0].thumbnailProductImagePath!systemConfig.defaultThumbnailProductImagePath}" />
+				    ${list.product.name}
+				  </a>
+			   </td class="am-text-middle">
 			   <%if (loginMember.memberRank.preferentialScale! != 100){%>
-			   <td class="priceTd">
+			   <td class="am-text-middle">
 			     <del>${list.product.price,priceCurrencyFormat}</del>
 			   </td>
-			   <td class="priceTd">
+			   <td class="am-text-middle">
 			     ${list.preferentialPrice,priceCurrencyFormat}
 			   </td>
 			   <%}else{%>
-			   <td class="priceTd">
+			   <td class="am-text-middle">
 			     ${list.product.price,priceCurrencyFormat}
 			   </td>
 			   <%}%>
-			   <td>
-			     <input type="text" name="quantity" class="quantity {id: '${list.product.id}'}" value="${list.quantity}">
+			   <td class="am-text-middle">
+                 <input type="number" class="am-form-field am-text-xs quantity {id: '${list.product.id}'}" name="quantity" value="${list.quantity}" min="1" required style="width:100px;" />
 				 <%if (list.product.store != null && list.product.freezeStore + list.quantity > list.product.store){%>
-				 <strong class="storeInfo red">[库存不足]</strong>
+				 <strong class="storeInfo am-text-danger">[库存不足]</strong>
 				 <%}%>
 			   </td>
-			   <td>
+			   <td class="am-text-middle">
 			     <span class="subtotalPrice">${list.subtotalPrice,orderCurrencyFormat}</span>
 			   </td>
-			   <td>
-			     <a class="deleteCartItem {id: '${list.product.id}'}" href="javascript: void(0);">删除</a>
+			   <td class="am-text-middle">
+			     <a class="am-badge am-badge-danger deleteCartItem {id: '${list.product.id}'}" href="javascript: void(0);">删除</a>
 			   </td>
 			 </tr>
 			 <%}%>
 			 <%if (cartItemList! == null || cartItemList.~size == 0){%>
 			 <tr>
-			   <td class="noRecord" colspan="<%if (loginMember.memberRank.preferentialScale! != 100){%>6<%}else{%>5<%}%>">购物车目前没有加入任何商品!</td>
+			   <td colspan="<%if (loginMember.memberRank.preferentialScale! != 100){%>6<%}else{%>5<%}%>">购物车目前没有加入任何商品!</td>
 			 </tr>
 			 <%}else{%>
 			 <tr>
-			   <td class="info" colspan="<%if (loginMember.memberRank.preferentialScale! != 100){%>6<%}else{%>5<%}%>">
-			     商品共计：<span id="totalQuantity" class="red">${totalQuantity!0}</span> 件&nbsp;&nbsp;&nbsp;&nbsp;
+			   <td colspan="<%if (loginMember.memberRank.preferentialScale! != 100){%>6<%}else{%>5<%}%>">
+			     商品共计：<span id="totalQuantity" class="am-text-danger">${totalQuantity!0}</span> 件&nbsp;&nbsp;&nbsp;&nbsp;
 				 <%if (systemConfig.pointType != "disable"){%>
-				 积分：<span id="totalPoint" class="red">${totalPoint!0}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+				 积分：<span id="totalPoint" class="am-text-danger">${totalPoint!0}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 				 <%}%>
-				 商品总金额(不含运费)：<span id="totalPrice" class="red">${totalPrice!0,orderUnitCurrencyFormat}</span>
+				 商品总金额(不含运费)：<span id="totalPrice" class="am-text-danger">${totalPrice!0,orderUnitCurrencyFormat}</span>
 			   </td>
 			 </tr>
 			<%}%>
@@ -226,7 +207,7 @@ $().ready( function() {
             <a class="continueShopping am-btn am-btn-default am-btn-xs am-fl" href="${base}/"><span class="am-icon-home">&nbsp;</span>继续购物</a>
             <%if (cartItemList! != null && cartItemList.~size > 0){%>
             <a id="clearCartItem" class="clearCartItem am-btn am-btn-primary am-btn-xs am-fl" href="javascript: void(0);"><span class="am-icon-remove">&nbsp;</span>清空购物车</a>
-            <a id="orderInfoButton" class="formButton am-btn am-btn-success am-btn-xs am-fr" href="${base}/shop/order/info">去结算</a>
+            <a id="orderInfoButton" class="formButton am-btn am-btn-success am-btn-xs am-fr" href="${base}/shop/order/info"><span class="am-icon-money">&nbsp;</span>去结算</a>
             <%}%>
           </div>
         </div>

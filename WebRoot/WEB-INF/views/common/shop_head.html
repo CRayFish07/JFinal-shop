@@ -2,7 +2,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <%if (systemConfig.metaKeywords! != ""){%><meta name="keywords" content="${systemConfig.metaKeywords}" /><%}%>
   <%if (systemConfig.metaDescription! != ""){%><meta name="description" content="${systemConfig.metaDescription}" /><%}%>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- minimum-scale=1.0, maximum-scale=1.0 不加这两个在iPhone浏览器下点击缩小了的输入框会使整个页面变大 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
   <title>${systemConfig.shopName!}</title>
 
   <!-- Set render engine for 360 browser -->
@@ -34,7 +35,6 @@
   <script src="${base}/statics/AmazeUI/assets/js/jquery.min.js"></script>
   <!--<![endif]-->
   <script src="${base}/statics/AmazeUI/assets/js/amazeui.min.js"></script>
-  <script src="${base}/statics/AmazeUI/assets/js/app.js"></script>
   <script src="${base}/statics/AmazeUI/assets/js/amazeui.modal.js"></script>
   
   <script src="${base}/statics/js/plugin/jquery.cookie.js"></script>

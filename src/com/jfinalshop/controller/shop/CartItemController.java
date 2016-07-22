@@ -109,6 +109,7 @@ public class CartItemController extends BaseShopController<CartItem>{
 		product = Product.dao.findById(id);
 		if (product == null && !product.getBoolean("isMarketable")) {
 			ajaxJsonErrorMessage("此商品已下架!");
+			return;
 		}
 		if (quantity == null || quantity < 1) {
 			quantity = 1;
@@ -134,6 +135,7 @@ public class CartItemController extends BaseShopController<CartItem>{
 									previousCartItemCookie.setQ(previousCartItemCookie.getQ() + quantity);
 									if (product.getInt("store") != null && (product.getInt("freezeStore") + previousCartItemCookie.getQ()) > product.getInt("store")) {
 										ajaxJsonErrorMessage("添加购物车失败，商品库存不足!");
+										return;
 									}
 								}
 								cartItemCookieList.add(previousCartItemCookie);
@@ -153,6 +155,7 @@ public class CartItemController extends BaseShopController<CartItem>{
 				totalPrice =  product.getPreferentialPrice(getLoginMember()).multiply(new BigDecimal(quantity.toString())).add(totalPrice);
 				if (product.getInt("store") != null && (product.getInt("freezeStore") + cartItemCookie.getQ()) > product.getInt("store")) {
 					ajaxJsonErrorMessage("添加购物车失败，商品库存不足!");
+					return;
 				}
 			}
 			for (CartItemCookie cartItemCookie : cartItemCookieList) {
@@ -160,6 +163,7 @@ public class CartItemController extends BaseShopController<CartItem>{
 					Product cartItemCookieProduct = Product.dao.findById(cartItemCookie.getI());
 					if (product.getInt("store") != null && (cartItemCookieProduct.getInt("freezeStore") + cartItemCookie.getQ()) > cartItemCookieProduct.getInt("store")) {
 						ajaxJsonErrorMessage("添加购物车失败，商品库存不足!");
+						return;
 					}
 				}
 			}
@@ -178,6 +182,7 @@ public class CartItemController extends BaseShopController<CartItem>{
 						previousCartItem.set("quantity",previousCartItem.getInt("quantity") + quantity);
 						if (product.getInt("store") != null && (product.getInt("freezeStore") + previousCartItem.getInt("quantity")) > product.getInt("store")) {
 							ajaxJsonErrorMessage("添加购物车失败，商品库存不足!");
+							return;
 						}
 						previousCartItem.update();
 					}
@@ -194,6 +199,7 @@ public class CartItemController extends BaseShopController<CartItem>{
 				cartItem.set("quantity",quantity);
 				if (product.getInt("store") != null && (product.getInt("freezeStore") + cartItem.getInt("quantity")) > product.getInt("store")) {
 					ajaxJsonErrorMessage("添加购物车失败，商品库存不足!");
+					return;
 				}
 				cartItem.save();
 				totalQuantity += quantity;
@@ -303,6 +309,7 @@ public class CartItemController extends BaseShopController<CartItem>{
 									subtotalPrice = product.getPreferentialPrice(getLoginMember()).multiply(new BigDecimal(quantity));
 									if (product.getInt("store") != null && (product.getInt("freezeStore") + cartItemCookie.getQ()) > product.getInt("store")) {
 										ajaxJsonErrorMessage("商品库存不足！");
+										return;
 									}
 								}
 								totalQuantity += cartItemCookie.getQ();
@@ -329,6 +336,7 @@ public class CartItemController extends BaseShopController<CartItem>{
 						cartItem.set("quantity",quantity);
 						if (product.getInt("store") != null && (product.getInt("freezeStore") + cartItem.getInt("quantity")) > product.getInt("store")) {
 							ajaxJsonErrorMessage("商品库存不足！");
+							return;
 						}
 						cartItem.update();
 						subtotalPrice = cartItem.getSubtotalPrice();

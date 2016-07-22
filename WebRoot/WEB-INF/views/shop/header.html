@@ -89,10 +89,12 @@ $(function() {
 		  if(redirectionUrl != null && redirectionUrl != "") {
 			location.href = redirectionUrl;
 		  }
-		} else {
+		} else if (data.status == "error") {
 		  loginWindowCaptchaImageRefresh();
 		  $("#loginWindowCaptcha").val("");
-		  Modal.alert("注册失败，请重试!");
+		  Modal.alert(data.message);
+		} else {
+		  Modal.alert(data);
 		}
         $("#loginWindowFormBtn").button('reset');
       }
@@ -114,10 +116,12 @@ $(function() {
 		  if(redirectionUrl != null && redirectionUrl != "") {
 			location.href = redirectionUrl;
 		  }
-		} else {
+		} else if (data.status == "error") {
 		  loginWindowCaptchaImageRefresh();
 		  $("#loginWindowCaptcha").val("");
-		  Modal.alert("登录失败，请重试!");
+		  Modal.alert(data.message);
+		} else {
+		  Modal.alert(data);
 		}
         $("#registerWindowSubmitBtn").button('reset');
       }
@@ -182,7 +186,7 @@ $(function() {
       <div class="am-form-group">
         <div class="am-u-sm-12 am-input-group am-input-group-sm">
           <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
-          <input type="text" class="am-form-field" id="loginUsername" name="member.username" placeholder="用户名：用户名只允许包含中文、英文、数字和下划线" required>
+          <input type="text" class="am-form-field" id="loginUsername" name="member.username" placeholder="用户名：中文、英文、数字和下划线" required>
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
@@ -245,7 +249,7 @@ $(function() {
 <div class="am-panel am-panel-default am-margin-bottom-0">
   <div class="am-panel-hd am-kai am-text-xs am-padding-vertical-0 am-padding-horizontal-xl am-cf">
     <div class="am-fl">
-      您好<span id="headerLoginMemberUsername"></span>，欢迎来到${systemConfig.shopName!}!
+      <span class="am-fl">您好&nbsp;</span><span id="headerLoginMemberUsername" class="am-text-warning am-fl"></span><span class="am-hide-sm-only am-fl">,欢迎来到${systemConfig.shopName!}!</span>
   	<a href="javascript:void(0);" id="headerShowLoginWindow">[登  录]</a>
   	<a href="${base}/memberCenter" id="headerMemberCenter">[会员中心]</a>
   	<a href="javascript:void(0);" id="headerShowRegisterWindow">[注  册]</a>
@@ -258,12 +262,12 @@ $(function() {
       <%}%>
     </div>   
   </div>
-  <div class="am-panel-bd">
+  <div class="am-panel-bd am-padding-0">
     <div class="am-g">
-      <div class="am-hide-sm-only am-u-md-4 am-u-lg-4 am-vertical-align" style="height:64px;">
+      <div class="am-hide-sm-only am-u-md-4 am-u-lg-4 am-vertical-align" style="height:70px;">
         <img class="am-vertical-align-middle" src="${base}${systemConfig.shopLogo!}" title="${systemConfig.shopName!}">
       </div>
-      <div class="am-u-sm-12 am-u-md-5 am-u-lg-4 am-margin-vertical-xs">
+      <div class="am-u-sm-12 am-u-md-5 am-u-lg-4 shop-margin-vertical">
         <form id="productSearchForm" action="${base}/shop/product/search" method="get">
         <div class="am-g">
           <div class="am-u-sm-12 am-input-group am-input-group-sm am-input-group-primary">

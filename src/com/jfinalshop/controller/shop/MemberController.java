@@ -192,7 +192,7 @@ public class MemberController extends Controller{
 		String captchaToken = getPara("captchaToken","");
 		
 		if (!SubjectKit.doCaptcha("captcha", captchaToken)) {
-			addActionError("验证码错误!");
+			ajaxJsonErrorMessage("验证码错误!");
 			return;
 		}
 		

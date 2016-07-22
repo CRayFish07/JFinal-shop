@@ -67,6 +67,7 @@ public class FavoriteController extends BaseShopController<Product>{
 				redirect("/shop/favorite/list");
 			} else{
 				ajaxJsonErrorMessage("删除失败!");
+				return;
 			}
 		}
 		
