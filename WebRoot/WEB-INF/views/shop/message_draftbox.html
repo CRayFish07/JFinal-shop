@@ -4,14 +4,16 @@
 <% include("/common/shop_head.html"){}%>
 <script type="text/javascript">
 $().ready( function() {
-  
-	// 删除
-	$(".deleteMessage").click( function() {
-		if (confirm("您确定要删除吗？") == false) {
-			return false;
-		}
+  // 删除
+  $(".deleteMessage").click( function() {
+    Modal.register(['confirm','alert']);
+	Modal.confirm("您确定要删除吗？",{
+      relatedTarget: this,
+	  onConfirm: function(options) {
+	    location.href="${base}/shop/message/delete?id=" + $(this.relatedTarget).data('id');
+      }
 	});
-  
+  });
 });
 </script>
 </head>
@@ -53,7 +55,7 @@ $().ready( function() {
 				  ${list.createDate,dateFormat="yyyy-MM-dd HH:mm:ss"}
 				</td>
 				<td>
-				  <a href="${base}/shop/message/delete?id=${list.id}" class="deleteMessage">删除</a>
+                  <a data-id="${list.id}" href="javascript:void(0);" class="deleteMessage am-badge am-badge-danger">删除</a>
 				</td>
 		      </tr>
 			  <%}%>

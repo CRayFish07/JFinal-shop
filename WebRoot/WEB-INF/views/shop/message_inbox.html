@@ -4,48 +4,51 @@
 <% include("/common/shop_head.html"){}%>
 <script type="text/javascript">
 $().ready( function() {
-  
-	// 删除
-	$(".deleteMessage").click( function() {
-		if (confirm("您确定要删除吗？") == false) {
-			return false;
-		}
-	});
+  // 删除
+  $(".deleteMessage").click( function() {
+    Modal.register(['confirm','alert']);
+	Modal.confirm("您确定要删除吗？",{
+	  relatedTarget: this,
+      onConfirm: function(options) {
+	    location.href="${base}/shop/message/delete?id=" + $(this.relatedTarget).data('id');
+	  }
+    });
+  });
 	
-	// 显示消息内容
-	$(".showMessageContent").click( function() {
-		var $this = $(this);
-		var $messageContentTr = $this.parent().parent().next(".messageContentTr");
-		//标记为已读
-		if (false) {
-			var id = $this.metadata().id;
-			$.ajax({
-				url: "${base}/shop/message/ajaxMessageContent",
-				data: {"id": id},
-				async: false,
-				dataType: "json",
-				beforeSend: function(data) {
-					$messageContentTr.find("td").html('<span class="am-icon-rotate-right"> </span> 加载中...');
-				},
-				success: function(data) {
-					if (data.status == "success") {
-						$messageContentTr.find("td").html(data.content);
-					} else {
-						$.message(data.status, data.message);
-					}
-				}
-			});
+  // 显示消息内容
+  $(".showMessageContent").click( function() {
+    var $this = $(this);
+	var $messageContentTr = $this.parent().parent().next(".messageContentTr");
+	//标记为已读
+	var id = $(this).data('id');
+	if(id){
+	  $.ajax({
+	    url: "${base}/shop/message/ajaxMessageContent",
+	    data: {"id": id},
+	    async: false,
+		dataType: "json",
+		beforeSend: function(data) {
+		  $messageContentTr.find("td").html('<span class="am-icon-rotate-right"> </span> 加载中...');
+		},
+		success: function(data) {
+		  if (data.status == "success") {
+		    $messageContentTr.find("td").html(data.content);
+		    $this.parent().next().next().html("是");
+		  } else {
+			$.message(data.status, data.message);
+		  }
 		}
-		var $showMessageContentIcon = $this.prev("span");
-		if ($showMessageContentIcon.hasClass("am-icon-caret-down")) {
-			$messageContentTr.show();
-			$showMessageContentIcon.removeClass("am-icon-caret-down").addClass("am-icon-caret-up");
-		} else {
-			$messageContentTr.hide();
-			$showMessageContentIcon.removeClass("am-icon-caret-up").addClass("am-icon-caret-down");
-		}
-	});
-  
+	  });
+	}
+	var $showMessageContentIcon = $this.prev("span");
+	if ($showMessageContentIcon.hasClass("am-icon-caret-down")) {
+	  $messageContentTr.show();
+	  $showMessageContentIcon.removeClass("am-icon-caret-down").addClass("am-icon-caret-up");
+	} else {
+	  $messageContentTr.hide();
+	  $showMessageContentIcon.removeClass("am-icon-caret-up").addClass("am-icon-caret-down");
+	}
+  });
 });
 </script>
 </head>
@@ -79,7 +82,7 @@ $().ready( function() {
               <%for(list in pager.list){%>
 			  <tr>
 			    <td>
-				  <span class="am-icon-caret-down"> </span><a class="showMessageContent" href="javascript: void(0);">${list.title}</a>
+				  <span class="am-icon-caret-down"> </span><a class="showMessageContent" <%if (!list.isRead){%>data-id="${list.id}"<%}%> href="javascript: void(0);">${list.title}</a>
 				</td>
 				<td>
 				  ${list.fromMember.username!"<span class=\"am-text-warning\">管理员</span>"}
@@ -95,8 +98,8 @@ $().ready( function() {
 				  ${list.createDate,dateFormat="yyyy-MM-dd HH:mm:ss"}
 				</td>
 				<td>
-				  <a href="${base}/shop/message/reply?id=${list.id}">回复</a>
-				  <a href="${base}/shop/message/delete?id=${list.id}" class="deleteMessage">删除</a>
+				  <a href="${base}/shop/message/reply?id=${list.id}" class="am-badge am-badge-secondary">回复</a>
+                  <a data-id="${list.id}" href="javascript:void(0);" class="deleteMessage am-badge am-badge-danger">删除</a>
 				</td>
 			  </tr>
 			  <tr class="messageContentTr" style="display:none;">

@@ -5,9 +5,8 @@
  *
  *	Copyright (c) 2014 JFINALSHOP. All rights reserved. 
  **/
- 
+
 var JFinalshop = {
-	base: "",
 	currencySign: "￥",// 货币符号
 	currencyUnit: "元",// 货币单位
 	priceScale: "2",// 商品价格精确位数

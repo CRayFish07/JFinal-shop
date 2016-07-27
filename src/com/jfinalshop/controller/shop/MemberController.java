@@ -142,38 +142,28 @@ public class MemberController extends Controller{
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		
 		loginMemberUsernameCookie.setPath(getRequest().getContextPath() + "/");
-		getResponse().addCookie(loginMemberUsernameCookie);
+		setCookie(loginMemberUsernameCookie);
 		
 		// 合并购物车
-		Cookie[] cookies = getRequest().getCookies();
-		if (cookies != null && cookies.length > 0) {
-			for (Cookie cookie : cookies) {
-				if (StringUtils.equalsIgnoreCase(cookie.getName(), CartItemCookie.CART_ITEM_LIST_COOKIE_NAME)) {
-					if (StringUtils.isNotEmpty(cookie.getValue())) {
-						JSONArray jsonArray = JSON.parseArray(cookie.getValue());
-						List<CartItemCookie> cartItemCookieList = JSON.parseArray(jsonArray.toJSONString(), CartItemCookie.class);
-						for (CartItemCookie cartItemCookie : cartItemCookieList) {
-							Product product = Product.dao.findById(cartItemCookie.getI());
-							if (product != null) {
-								CartItem cartItem = new CartItem();
-								cartItem.set("member_id",loginMember.getStr("id"));
-								cartItem.set("product_id",product.getStr("id"));
-								cartItem.set("quantity",cartItemCookie.getQ());
-								cartItem.save(cartItem);
-							}
-						}
-					}
+		Cookie cookie = getCookieObject(CartItemCookie.CART_ITEM_LIST_COOKIE_NAME);
+		if (cookie != null && StringUtils.isNotEmpty(cookie.getValue())) {
+			JSONArray jsonArray = JSON.parseArray(cookie.getValue());
+			List<CartItemCookie> cartItemCookieList = JSON.parseArray(jsonArray.toJSONString(), CartItemCookie.class);
+			for (CartItemCookie cartItemCookie : cartItemCookieList) {
+				Product product = Product.dao.findById(cartItemCookie.getI());
+				if (product != null) {
+					CartItem cartItem = new CartItem();
+					cartItem.set("member_id",loginMember.getStr("id"));
+					cartItem.set("product_id",product.getStr("id"));
+					cartItem.set("quantity",cartItemCookie.getQ());
+					cartItem.save(cartItem);
 				}
 			}
 		}
 		
 		// 清空临时购物车Cookie
-		Cookie cartItemCookie = new Cookie(CartItemCookie.CART_ITEM_LIST_COOKIE_NAME, null);
-		cartItemCookie.setPath(getRequest().getContextPath() + "/");
-		cartItemCookie.setMaxAge(0);
-		getResponse().addCookie(cartItemCookie);
+		removeCookie(CartItemCookie.CART_ITEM_LIST_COOKIE_NAME, getRequest().getContextPath() + "/");
 		
 		String redirectionUrl = getSessionAttr(Member.LOGIN_REDIRECTION_URL_SESSION_NAME);
 		getRequest().getSession().removeAttribute(Member.LOGIN_REDIRECTION_URL_SESSION_NAME);
@@ -256,6 +246,7 @@ public class MemberController extends Controller{
 		}
 		loginMember.set("loginIp",getRequest().getRemoteAddr());
 		loginMember.set("loginDate",new Date());
+		loginMember.set("loginFailureCount", 0);//TODO:SUN.AO登陆成功则将失败失败次数重置为0
 		loginMember.update();
 		
 		// 写入会员登录Session
@@ -269,36 +260,27 @@ public class MemberController extends Controller{
 			e.printStackTrace();
 		}
 		loginMemberUsernameCookie.setPath(getRequest().getContextPath() + "/");
-		getResponse().addCookie(loginMemberUsernameCookie);
+		setCookie(loginMemberUsernameCookie);
 
 		// 合并购物车
-		Cookie[] cookies = getRequest().getCookies();
-		if (cookies != null && cookies.length > 0) {
-			for (Cookie cookie : cookies) {
-				if (StringUtils.equalsIgnoreCase(cookie.getName(), CartItemCookie.CART_ITEM_LIST_COOKIE_NAME)) {
-					if (StringUtils.isNotEmpty(cookie.getValue())) {
-						JSONArray jsonArray = JSON.parseArray(cookie.getValue());
-						List<CartItemCookie> cartItemCookieList = JSON.parseArray(jsonArray.toJSONString(), CartItemCookie.class);
-						for (CartItemCookie cartItemCookie : cartItemCookieList) {
-							Product product = Product.dao.findById(cartItemCookie.getI());
-							if (product != null) {
-								CartItem cartItem = new CartItem();
-								cartItem.set("member_id",loginMember.getStr("id"));
-								cartItem.set("product_id",product.getStr("id"));
-								cartItem.set("quantity",cartItemCookie.getQ());
-								cartItem.save(cartItem);
-							}
-						}
-					}
+		Cookie cookie = getCookieObject(CartItemCookie.CART_ITEM_LIST_COOKIE_NAME);
+		if (cookie != null && StringUtils.isNotEmpty(cookie.getValue())) {
+			JSONArray jsonArray = JSON.parseArray(cookie.getValue());
+			List<CartItemCookie> cartItemCookieList = JSON.parseArray(jsonArray.toJSONString(), CartItemCookie.class);
+			for (CartItemCookie cartItemCookie : cartItemCookieList) {
+				Product product = Product.dao.findById(cartItemCookie.getI());
+				if (product != null) {
+					CartItem cartItem = new CartItem();
+					cartItem.set("member_id",loginMember.getStr("id"));
+					cartItem.set("product_id",product.getStr("id"));
+					cartItem.set("quantity",cartItemCookie.getQ());
+					cartItem.save(cartItem);
 				}
 			}
 		}
 		
 		// 清空临时购物车Cookie
-		Cookie cartItemCookie = new Cookie(CartItemCookie.CART_ITEM_LIST_COOKIE_NAME, null);
-		cartItemCookie.setPath(getRequest().getContextPath() + "/");
-		cartItemCookie.setMaxAge(0);
-		getResponse().addCookie(cartItemCookie);
+		removeCookie(CartItemCookie.CART_ITEM_LIST_COOKIE_NAME, getRequest().getContextPath() + "/");
 		
 		ajaxJsonSuccessMessage("会员登录成功！");
 	}
@@ -365,36 +347,27 @@ public class MemberController extends Controller{
 			e.printStackTrace();
 		}
 		loginMemberCookie.setPath(getRequest().getContextPath() + "/");
-		getResponse().addCookie(loginMemberCookie);
+		setCookie(loginMemberCookie);
 		
 		// 合并购物车
-		Cookie[] cookies = getRequest().getCookies();
-		if (cookies != null && cookies.length > 0) {
-			for (Cookie cookie : cookies) {
-				if (StringUtils.equalsIgnoreCase(cookie.getName(), CartItemCookie.CART_ITEM_LIST_COOKIE_NAME)) {
-					if (StringUtils.isNotEmpty(cookie.getValue())) {
-						JSONArray jsonArray = JSON.parseArray(cookie.getValue());
-						List<CartItemCookie> cartItemCookieList = JSON.parseArray(jsonArray.toJSONString(), CartItemCookie.class);
-						for (CartItemCookie cartItemCookie : cartItemCookieList) {
-							Product product = Product.dao.findById(cartItemCookie.getI());
-							if (product != null) {
-								CartItem cartItem = new CartItem();
-								cartItem.set("member_id",member.getStr("id"));
-								cartItem.set("product_id",product.getStr("id"));
-								cartItem.set("quantity",cartItemCookie.getQ());
-								cartItem.save(cartItem);
-							}
-						}
-					}
+		Cookie cookie = getCookieObject(CartItemCookie.CART_ITEM_LIST_COOKIE_NAME);
+		if (cookie != null && StringUtils.isNotEmpty(cookie.getValue())) {
+			JSONArray jsonArray = JSON.parseArray(cookie.getValue());
+			List<CartItemCookie> cartItemCookieList = JSON.parseArray(jsonArray.toJSONString(), CartItemCookie.class);
+			for (CartItemCookie cartItemCookie : cartItemCookieList) {
+				Product product = Product.dao.findById(cartItemCookie.getI());
+				if (product != null) {
+					CartItem cartItem = new CartItem();
+					cartItem.set("member_id",member.getStr("id"));
+					cartItem.set("product_id",product.getStr("id"));
+					cartItem.set("quantity",cartItemCookie.getQ());
+					cartItem.save(cartItem);
 				}
 			}
 		}
 		
 		// 清空临时购物车Cookie
-		Cookie cartItemCookie = new Cookie(CartItemCookie.CART_ITEM_LIST_COOKIE_NAME, null);
-		cartItemCookie.setPath(getRequest().getContextPath() + "/");
-		cartItemCookie.setMaxAge(0);
-		getResponse().addCookie(cartItemCookie);		
+		removeCookie(CartItemCookie.CART_ITEM_LIST_COOKIE_NAME, getRequest().getContextPath() + "/");
 		ajaxJsonSuccessMessage("会员注册成功！");
 	}
 	

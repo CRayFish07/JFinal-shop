@@ -1,7 +1,5 @@
 package com.jfinalshop.controller.shop;
 
-import javax.servlet.http.Cookie;
-
 import org.apache.commons.lang.StringUtils;
 
 import com.jfinalshop.model.Member;
@@ -36,10 +34,7 @@ public class MemberCenterController extends BaseShopController<Member>{
 	// 会员注销
 	public void logout() {
 		getRequest().getSession().removeAttribute(Member.LOGIN_MEMBER_ID_SESSION_NAME);
-		Cookie cookie = new Cookie(Member.LOGIN_MEMBER_USERNAME_COOKIE_NAME, null);
-		cookie.setPath(getRequest().getContextPath() + "/");
-		cookie.setMaxAge(0);
-		getResponse().addCookie(cookie);
+		removeCookie(Member.LOGIN_MEMBER_USERNAME_COOKIE_NAME, getRequest().getContextPath() + "/");
 		redirect("/");
 	}
 }

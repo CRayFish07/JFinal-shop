@@ -20,6 +20,7 @@ $().ready( function() {
 	
   var $orderInfoForm = $("#orderInfoForm");
   var $receiverInput = $("input[name='receiver.id']");
+  var $receiverInputChecked = $("input[name='receiver.id']:checked");
   var $otherReceiverTable = $("#otherReceiverTable");
   var $otherReceiverTableInput = $(".otherReceiverTable :input");
   var $deliveryTypeInput = $("input[name='deliveryType_id']");
@@ -31,14 +32,11 @@ $().ready( function() {
   var $orderAmount = $("#orderAmount");
 	
   // 如果默认选择“其它收货地址”，则显示“其它收货地址输入框”
-  alert($receiverInput.uCheck().val());
-  if ($receiverInput.val() == "") {
-	  alert(1);
-    //$otherReceiverTable.show();
+  if ($receiverInputChecked.val() == "") {
+    $otherReceiverTable.show();
 	$otherReceiverTableInput.attr('required','required');
   } else {
-	  alert(2);
-	//$otherReceiverTable.hide();
+	$otherReceiverTable.hide();
 	$otherReceiverTableInput.removeAttr('required');
   }
 	
@@ -46,48 +44,48 @@ $().ready( function() {
   $receiverInput.click( function() {
     $this = $(this);
 	if ($this.val() == "") {
-	  //$otherReceiverTable.show();
+	  $otherReceiverTable.show();
 	  $otherReceiverTableInput.attr('required','required');
 	} else {
-	  //$otherReceiverTable.hide();
+	  $otherReceiverTable.hide();
 	  $otherReceiverTableInput.removeAttr('required');
 	}
   });
 	
-	// 根据配送方式修改配送费用、订单总金额，并显示/隐藏支付方式
-	$deliveryTypeInput.click( function() {
-		var $this = $(this);
-		var $parent = $this.parent();
-		$paymentConfigInput.attr("checked", false);
-		paymentFee = 0;
-		var deliveryMethod = $parent.metadata().deliveryMethod;
-		if (deliveryMethod == "deliveryAgainstPayment") {
-			$paymentConfigInput.removeClass("ignoreValidate");
-			$paymentConfig.show();
-		} else {
-			$paymentConfigInput.addClass("ignoreValidate");
-			$paymentConfig.hide();
-		}
-		deliveryFee = $parent.metadata().deliveryFee;
-		$deliveryFee.text(orderUnitCurrencyFormat(deliveryFee));
-		$paymentFee.text(orderUnitCurrencyFormat(paymentFee));
-		$orderAmount.text(orderUnitCurrencyFormat(floatAdd(floatAdd(productTotalPrice, deliveryFee), paymentFee)));
-	});
+  // 根据配送方式修改配送费用、订单总金额，并显示/隐藏支付方式
+  $deliveryTypeInput.click( function() {
+    var $this = $(this);
+    var $parent = $this.parent();
+    $paymentConfigInput.attr("checked", false);
+    paymentFee = 0;
+	var deliveryMethod = $parent.metadata().deliveryMethod;
+	if (deliveryMethod == "deliveryAgainstPayment") {
+	  $paymentConfigInput.attr('required','required');
+	  $paymentConfig.show();
+	} else {
+	  $paymentConfigInput.removeAttr('required');
+	  $paymentConfig.hide();
+	}
+	deliveryFee = $parent.metadata().deliveryFee;
+	$deliveryFee.text(orderUnitCurrencyFormat(deliveryFee));
+	$paymentFee.text(orderUnitCurrencyFormat(paymentFee));
+	$orderAmount.text(orderUnitCurrencyFormat(floatAdd(floatAdd(productTotalPrice, deliveryFee), paymentFee)));
+  });
 	
-	// 根据支付方式修改订单总金额
-	$paymentConfigInput.click( function() {
-		var $this = $(this);
-		var $parent = $this.parent();
-		var paymentFeeTypeChecked = $parent.metadata().paymentFeeType;
-		var paymentFeeChecked = $parent.metadata().paymentFee;
-		if (paymentFeeTypeChecked == "scale") {
-			paymentFee = floatMul(floatAdd(productTotalPrice, deliveryFee), floatDiv(paymentFeeChecked, 100));
-		} else {
-			paymentFee = paymentFeeChecked;
-		}
-		$paymentFee.text(orderUnitCurrencyFormat(paymentFee));
-		$orderAmount.text(orderUnitCurrencyFormat(floatAdd(productTotalPrice, floatAdd(deliveryFee, paymentFee))));
-	});
+  // 根据支付方式修改订单总金额
+  $paymentConfigInput.click( function() {
+    var $this = $(this);
+	var $parent = $this.parent();
+	var paymentFeeTypeChecked = $parent.metadata().paymentFeeType;
+	var paymentFeeChecked = $parent.metadata().paymentFee;
+    if (paymentFeeTypeChecked == "scale") {
+      paymentFee = floatMul(floatAdd(productTotalPrice, deliveryFee), floatDiv(paymentFeeChecked, 100));
+	} else {
+	  paymentFee = paymentFeeChecked;
+	}
+	$paymentFee.text(orderUnitCurrencyFormat(paymentFee));
+	$orderAmount.text(orderUnitCurrencyFormat(floatAdd(productTotalPrice, floatAdd(deliveryFee, paymentFee))));
+  });
 	
 });
 </script>
@@ -108,10 +106,11 @@ $().ready( function() {
           </div>
           <div id="myCollapse-1" class="am-panel-collapse am-collapse am-in">
             <div class="am-panel-bd am-g">
-              <div class="am-u-sm-6">
+              <div class="am-u-md-12 am-u-lg-4">
+                <%var notExistDefault=true;%>
                 <%for(list in loginMember.receiverList){%>
                 <label class="am-radio">
-                  <input type="radio" name="receiver.id" value="${list.id}"<%if (list.isDefault){%> checked<%}%> data-am-ucheck />${list.name}
+                  <input type="radio" name="receiver.id" value="${list.id}"<%if (list.isDefault){ notExistDefault=true; %> checked<%}%> data-am-ucheck />${list.name}
                 </label>
                 <strong>收货人：</strong>${list.name}&nbsp;&nbsp;&nbsp;&nbsp;
                 <%if (list.mobile != null){%>
@@ -122,13 +121,13 @@ $().ready( function() {
                 <br><strong>收货地址：</strong>${list.address}
                 <%}%>
                 <label class="am-radio">
-                  <input type="radio" name="receiver.id" value=""<%if (loginMember.receiverList == null || loginMember.receiverList.~size == 0){%> checked<%}%> checked data-am-ucheck />
+                  <input type="radio" name="receiver.id" value=""<%if (loginMember.receiverList == null || loginMember.receiverList.~size == 0 || notExistDefault){%> checked<%}%> data-am-ucheck />
                   填写收货地址
                 </label>
               </div>
-              <div class="am-u-sm-6 am-form am-form-horizontal otherReceiverTable" id="otherReceiverTable">
+              <div class="am-u-sm-12 am-u-lg-8 am-form am-form-horizontal otherReceiverTable" id="otherReceiverTable">
                 <div class="am-form-group am-form-group-sm">
-                  <label class="am-u-sm-3 am-form-label">收货人姓名</label>
+                  <label class="am-u-sm-3 am-form-label">收货人</label>
                   <div class="am-u-sm-8 am-u-end">
                     <input type="text" class="am-form-field" name="receiver.name" value="" placeholder="请填写收货人姓名！"  required>
                   </div>
@@ -164,7 +163,7 @@ $().ready( function() {
                   </div>
                 </div>
                 <div class="am-form-group am-form-group-sm">
-                  <label class="am-u-sm-3 am-form-label">是否保存</label>
+                  <label class="am-u-sm-3 am-form-label">保存</label>
                   <div class="am-u-sm-8 am-u-end">
                     <label class="am-radio-inline">
                       <input type="radio" name="isSaveReceiver" value="true" checked />是
@@ -188,7 +187,7 @@ $().ready( function() {
             <div class="am-panel-bd">
               <%for(list in allDeliveryType){%>
 			  <label class="am-radio {deliveryFee: '${deliveryFee(totalWeightGram,list.id)}', deliveryMethod: '${list.deliveryMethod}'}">
-			    <input type="radio" name="deliveryType_id" class="{required: true, messages: {required: '请选择配送方式！'}}" value="${list.id}" />
+			    <input type="radio" name="deliveryType_id" value="${list.id}"<%if (listLP.index==1){%> required<%}%> />
 				${list.name}
 			  </label>
 			  <strong class="am-text-danger">+ ${deliveryFee(totalWeightGram,list.id),orderCurrencyFormat}</strong>
@@ -207,7 +206,7 @@ $().ready( function() {
             <div class="am-panel-bd">
               <%for(list in allPaymentConfig){%>
 			  <label class="am-radio {paymentFeeType: '${list.paymentFeeType}', paymentFee: '${list.paymentFee}'}">
-			    <input type="radio" name="paymentConfig_id" class="{required: true, messages: {required: '请选择支付方式！'}}" value="${list.id}" />
+			    <input type="radio" name="paymentConfig_id" value="${list.id}"<%if (listLP.index==1){%> required<%}%> />
 				${list.name}
 			  </label>
 			  <%if (list.paymentFeeType == "scale" && list.paymentFee != 0){%>
@@ -248,7 +247,7 @@ $().ready( function() {
                     <th>商品</th>
                     <th>销售价格</th>
                     <%if (loginMember.memberRank.preferentialScale != 100){%>
-                      <th>优惠价格</th>
+                    <th>优惠价格</th>
                     <%}%>
                     <th>商品重量</th>
                     <th>小计</th>
@@ -260,28 +259,28 @@ $().ready( function() {
                   <tr>
                     <td>
                       <a href="${base}${list.product.htmlFilePath}" target="_blank">
-                        <img src="${base}${list.product.productImageList[0].thumbnailProductImagePath!systemConfig.defaultThumbnailProductImagePath}" /> ${list.name}
+                        <img src="${base}${list.product.productImageList[0].thumbnailProductImagePath!systemConfig.defaultThumbnailProductImagePath}" /> ${list.product.name}
                       </a>
                     </td>
                     <%if (loginMember.memberRank.preferentialScale != 100){%>
-                      <td>
-                        <del>${list.product.price,priceCurrencyFormat}</del>
-                      </td>
-                      <td>
-                        ${list.preferentialPrice,priceCurrencyFormat}
-                      </td>
+                    <td class="am-text-middle">
+                      <del>${list.product.price,priceCurrencyFormat}</del>
+                    </td>
+                    <td class="am-text-middle">
+                      ${list.preferentialPrice,priceCurrencyFormat}
+                    </td>
                     <%}else{%>
-                      <td>
-                        ${list.product.price,priceCurrencyFormat}
-                      </td>
+                    <td class="am-text-middle">
+                      ${list.product.price,priceCurrencyFormat}
+                    </td>
                     <%}%>
-                    <td>
+                    <td class="am-text-middle">
                       ${list.product.weight} ${i18n("WeightUnit." + list.product.weightUnit)}
                     </td>
-                    <td>
-                      <span>${list.subtotalPrice,orderCurrencyFormat}</span>
+                    <td class="am-text-middle">
+                      <span class="am-text-danger">${list.subtotalPrice,orderCurrencyFormat}</span>
                     </td>
-                    <td>
+                    <td class="am-text-middle">
                       ${list.quantity}
                     </td>
                   </tr>
@@ -292,18 +291,18 @@ $().ready( function() {
           </div>
         </div>
         <p>
-          商品共计：<span class="red">${totalQuantity}</span> 件&nbsp;&nbsp;&nbsp;&nbsp;
-              <%if (systemConfig.pointType != "disable"){%>
-                积分：<span id="totalPoint" class="red">${totalPoint}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              <%}%>
-              商品总金额：<span id="productTotalPrice" class="red">${productTotalPrice,orderUnitCurrencyFormat}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              配送费用：<span id="deliveryFee" class="red">${0,orderUnitCurrencyFormat}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              支付手续费：<span id="paymentFee" class="red">${0,orderUnitCurrencyFormat}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-              订单总金额：<span id="orderAmount" class="red">${productTotalPrice,orderUnitCurrencyFormat}</span>
+          商品共计：<span class="am-text-danger">${totalQuantity}</span> 件&nbsp;&nbsp;&nbsp;&nbsp;
+          <%if (systemConfig.pointType != "disable"){%>
+          积分：<span id="totalPoint" class="am-text-danger">${totalPoint}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+          <%}%>
+          商品总金额：<span id="productTotalPrice" class="am-text-danger">${productTotalPrice,orderUnitCurrencyFormat}</span>&nbsp;&nbsp;&nbsp;&nbsp;<br class="am-show-sm-only">
+          配送费用：<span id="deliveryFee" class="am-text-danger">${0,orderUnitCurrencyFormat}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+          支付手续费：<span id="paymentFee" class="am-text-danger">${0,orderUnitCurrencyFormat}</span>&nbsp;&nbsp;&nbsp;&nbsp;<br class="am-show-sm-only">
+          订单总金额：<span id="orderAmount" class="am-text-danger">${productTotalPrice,orderUnitCurrencyFormat}</span>
         </p>
         <div class="am-cf am-margin">
-          <a class="backCartItem  am-btn am-btn-default am-btn-xs am-fl" href="${base}/shop/cartItem/list"><span class="am-icon-back">&nbsp;</span>返回购物车</a>
-          <button type="submit" class="formButton am-btn am-btn-success am-btn-xs am-fr">去结算</a>
+          <a class="backCartItem  am-btn am-btn-default am-btn-xs am-fl" href="${base}/shop/cartItem/list"><span class="am-icon-toggle-left am-icon-fw">&nbsp;</span>返回购物车</a>
+          <button type="submit" class="formButton am-btn am-btn-success am-btn-xs am-fr"><span class="am-icon-money am-icon-fw">&nbsp;</span>去结算</a>
         </div>
       </div>
       </form>

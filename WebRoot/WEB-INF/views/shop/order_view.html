@@ -45,7 +45,7 @@
             <input type="hidden" name="paymentType" value="online" />
             <%}%>
             <input type="hidden" name="order.id" value="${order.id}" />
-            <p class="am-text-danger">您尚未完成订单支付<button type="submit" class="am-btn am-btn-default am-btn-xs">立即支付</button></p>
+            <p class="am-text-danger">您尚未完成订单支付&nbsp;&nbsp;<button type="submit" class="am-badge am-badge-secondary">立即支付</button></p>
             </form>
             <%}else if (order.paymentStatus == "partPayment"){%>
             <form action="${base}/payment/confirm" method="post">

@@ -1,7 +1,5 @@
 package com.jfinalshop.interceptor;
 
-import javax.servlet.http.Cookie;
-
 import org.apache.commons.lang.StringUtils;
 
 import com.jfinal.aop.Interceptor;
@@ -34,10 +32,7 @@ public class MemberInterceptor implements Interceptor {
 			c.setAttr("loginMember", Member.dao.findById(loginMemberId));
 		}
 		if (loginMemberId == null) {
-			Cookie cookie = new Cookie(Member.LOGIN_MEMBER_USERNAME_COOKIE_NAME, null);
-			cookie.setPath(c.getRequest().getContextPath());
-			cookie.setMaxAge(0);
-			c.getResponse().addCookie(cookie);
+			c.removeCookie(Member.LOGIN_MEMBER_USERNAME_COOKIE_NAME, c.getRequest().getContextPath() + "/");
 			String redirectionUrl = c.getRequest().getRequestURL().toString();
 			String queryString = c.getRequest().getQueryString();
 			if (StringUtils.isNotEmpty(queryString)) {

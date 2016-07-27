@@ -23,7 +23,7 @@
         <div class="am-u-sm-8 am-u-md-9">
           ${message.fromMember.username!}
           <input type="hidden" name="toMemberUsername" value="${message.fromMember.username!}">
-          <div class="am-text-warning am-margin-top-xs">111${nameMessages!}</div>
+          <div class="am-text-warning am-margin-top-xs">${nameMessages!}</div>
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
@@ -36,7 +36,7 @@
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">内容</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <textarea rows="10" class="am-form-field" name="message.content">${message.content!}</textarea>
+          <textarea rows="10" class="am-form-field" name="message.content"></textarea>
           <div class="am-text-warning am-margin-top-xs">${contentMessages!}</div>
         </div>
       </div>

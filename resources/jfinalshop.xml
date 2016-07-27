@@ -47,11 +47,11 @@
 		<allowedUploadImageExtension>jpg,jpge,bmp,gif,png</allowedUploadImageExtension>
 		<allowedUploadMediaExtension />
 		<allowedUploadFileExtension />
-		<smtpFromMail>jfinalshop@qq.com</smtpFromMail>
-		<smtpHost>smtp.qq.com</smtpHost>
+		<smtpFromMail>jfinalshop@139.com</smtpFromMail>
+		<smtpHost>smtp.139.com</smtpHost>
 		<smtpPort>25</smtpPort>
-		<smtpUsername>jfinalshop</smtpUsername>
-		<smtpPassword>jfinalshop2016</smtpPassword>
+		<smtpUsername>jfinalshop@139.com</smtpUsername>
+		<smtpPassword>JfinalShop_2016</smtpPassword>
 		<pointType>productSet</pointType>
 		<pointScale>1</pointScale>
 		<bannerImagePath>/statics/img/banner1.png,/statics/img/banner2.png,/statics/img/banner3.png,/statics/img/banner4.png</bannerImagePath>

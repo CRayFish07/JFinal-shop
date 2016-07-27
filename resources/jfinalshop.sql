@@ -701,7 +701,7 @@ CREATE TABLE `member_product` (
   PRIMARY KEY (`favoriteMemberSet_id`,`favoriteProductSet_id`),
   KEY `FK9460284A15D7A056` (`favoriteProductSet_id`),
   KEY `FK9460284A686A142C` (`favoriteMemberSet_id`),
-  CONSTRAINT `FK9460284A15D7A056` FOREIGN KEY (`favoriteProductSet_id`) REFERENCES `packet` (`id`),
+  CONSTRAINT `FK9460284A15D7A056` FOREIGN KEY (`favoriteProductSet_id`) REFERENCES `product` (`id`),
   CONSTRAINT `FK9460284A686A142C` FOREIGN KEY (`favoriteMemberSet_id`) REFERENCES `member` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -982,9 +982,7 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `orderSn` (`orderSn`),
   KEY `FKC3DF62E5CA10C3E` (`member_id`),
-  KEY `FKC3DF62E590BFCB96` (`paymentConfig_id`),
   KEY `FKC3DF62E5FAD364DE` (`deliveryType_id`),
-  CONSTRAINT `FKC3DF62E590BFCB96` FOREIGN KEY (`paymentConfig_id`) REFERENCES `paymentconfig` (`id`),
   CONSTRAINT `FKC3DF62E5CA10C3E` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`),
   CONSTRAINT `FKC3DF62E5FAD364DE` FOREIGN KEY (`deliveryType_id`) REFERENCES `deliverytype` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

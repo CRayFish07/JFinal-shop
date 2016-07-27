@@ -2,29 +2,6 @@
 <html class="no-js fixed-layout">
 <head>
 <% include("/common/shop_head.html"){}%>
-<script type="text/javascript">
-$().ready( function() {
-	
-	var $depositRechargeForm = $("#depositRechargeForm");
-	
-	// 表单验证
-	$depositRechargeForm.validate({
-		ignore: ".ignoreValidate",
-		invalidHandler: function(form, validator) {
-			$.each(validator.invalid, function(key, value){
-				$.tip(value);
-				return false;
-			});
-		},
-		errorPlacement:function(error, element) {},
-		submitHandler: function(form) {
-			$depositRechargeForm.find(":submit").attr("disabled", true);
-			form.submit();
-		}
-	});
-	
-});
-</script>
 </head>
 <body>
 <%include("/shop/header.html"){}%>

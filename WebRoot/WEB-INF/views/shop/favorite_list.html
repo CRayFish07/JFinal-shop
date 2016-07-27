@@ -6,9 +6,13 @@
 $().ready( function() {
   // 删除
   $(".deleteFavorite").click( function() {
-    if (confirm("您确定要删除吗？") == false) {
-      return false;
-    }
+    Modal.register(['confirm','alert']);
+    Modal.confirm("您确定要移除此商品收藏吗？",{
+	  relatedTarget: this,
+	  onConfirm: function(options) {
+	    location.href="${base}/shop/favorite/delete?id=" + $(this.relatedTarget).data('id');
+	  }
+    });
   });
 });
 </script>
@@ -51,7 +55,7 @@ $().ready( function() {
 			    </td>
 				<td>${list.price}</td>
 				<td>
-				  <a href="${base}/shop/favorite/delete?id=${list.id}" class="deleteFavorite">删除</a>
+				  <a data-id="${list.id}" href="javascript:void(0);" class="deleteFavorite am-badge am-badge-danger">删除</a>
 				</td>
 			  </tr>
 			  <%}%>

@@ -47,7 +47,7 @@
               <th class="am-primary">浏览记录</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="productHistoryListDetail">
           </tbody>
           </table>
         </div>
@@ -77,11 +77,11 @@
             <div class="am-g am-text-middle">
               <div class="am-u-sm-6 am-u-md-5 am-u-lg-3">
                 <div class="am-btn-group" data-am-button>
-                  <label class="am-btn am-btn-default am-btn-xs">
-                    <input type="radio" id="tableType"><span class="am-icon-list am-icon-fw"> </span>列表
+                  <label class="am-btn am-btn-default am-btn-xs" id="tableType">
+                    <input type="radio"><span class="am-icon-list am-icon-fw"> </span>列表
                   </label>
                   <label class="am-btn am-btn-default am-btn-xs">
-                    <input type="radio" name="product.isMarketable" checked><span class="am-icon-th am-icon-fw"> </span>图片
+                    <input type="radio" checked><span class="am-icon-th am-icon-fw"> </span>图片
                   </label>
                 </div>
               </div>
@@ -119,7 +119,7 @@
                     </span>
                     <div class="am-btn-group am-btn-group-xs am-fr am-margin-top-xs">
                       <button type="button" class="addCartItem {id: '${list.id}'} am-btn am-btn-default am-padding-xs"<%if (list.isOutOfStock){%> disabled> 缺货<%}else{%>> 购买<%}%> </button>
-                      <button type="button" class="am-btn am-btn-default am-padding-xs"> 收藏 </button>
+                      <button type="button" class="addFavorite {id: '${list.id}'} am-btn am-btn-default am-padding-xs"> 收藏 </button>
                     </div>
                   </div>
                 </li>
@@ -141,7 +141,3 @@
 </div>
 </body>
 </html>
-          
-          
-						
-			

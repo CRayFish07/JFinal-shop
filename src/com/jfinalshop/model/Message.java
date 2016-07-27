@@ -76,8 +76,7 @@ public class Message extends Model<Message>{
 		String sqlExceptSelect = " from message where toMember_id = ? and isSaveDraftbox = ? and deleteStatus <> ? ";
 
 		sqlExceptSelect += " order by createDate desc ";
-		
-		Page<Message> pager = dao.paginate(pageNumber, pageSize, select, sqlExceptSelect,member.getStr("id"),false,DeleteStatus.valueOf(DeleteStatus.fromDelete.name()).ordinal());
+		Page<Message> pager = dao.paginate(pageNumber, pageSize, select, sqlExceptSelect,member.getStr("id"),false,DeleteStatus.valueOf(DeleteStatus.toDelete.name()).ordinal());
 		return pager;
 	}
 	

@@ -404,7 +404,7 @@ public class Product extends Model<Product>{
 			set("productImageListStore", null);
 			return;
 		}
-		String jsonText = JSON.toJSONString(productImageList, true);
+		String jsonText = JSON.toJSONString(productImageList);
 		set("productImageListStore", jsonText);
 	}
 		
