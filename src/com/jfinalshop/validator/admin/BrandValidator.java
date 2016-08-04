@@ -13,7 +13,7 @@ public class BrandValidator extends Validator{
 		validateUrl("brand.url", "urlMessages", "网址格式错误!");
 		validateRequiredString("brand.orderList", "orderListMessages", "排序不允许为空!");
 		
-		validateInteger("brand.orderList", 0, 100, "orderListMessages", "排序必须为零或正整数!");
+		validateInteger("brand.orderList", 0, 1000, "orderListMessages", "排序必须为零或正整数!");
 	}
 
 	@Override

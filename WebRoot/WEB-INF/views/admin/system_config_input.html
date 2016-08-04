@@ -2,129 +2,6 @@
 <html class="no-js">
 <head>
 <% include("/common/admin_head.html",{title: '系统设置', validatorJS: true, livequeryJS: true}){}%>
-<script>
-$().ready(function() {
-  $('.doc-form-file').on('change', function() {
-    var fileNames = '';
-	$.each(this.files, function() {
-      fileNames += '<span class="am-badge">' + this.name + '</span> ';
-    });
-	$(this).parent().next().find('.file-list').html(fileNames);
-  });
-
-  var $isLoginFailureLockInput = $("input[name='systemConfig.isLoginFailureLock']");
-  var $loginFailureLockCountTr = $("#loginFailureLockCountTr");
-  var $loginFailureLockTimeTr = $("#loginFailureLockTimeTr");
-
-  var $smtpFromMail = $("input[name='systemConfig.smtpFromMail']");
-  var $smtpHost = $("input[name='systemConfig.smtpHost']");
-  var $smtpPort = $("input[name='systemConfig.smtpPort']");
-  var $smtpUsername = $("input[name='systemConfig.smtpUsername']");
-  var $smtpPassword = $("input[name='systemConfig.smtpPassword']");
-  var $showSmtpTestWindow = $("#showSmtpTestWindow");
-  var $pointType = $("input[name='systemConfig.pointType']");
-  var $pointScaleTr = $(".pointScaleTr");
-  var $pointScale = $("input[name='systemConfig.pointScale']");
-  
-  $isLoginFailureLockInput.click( function() {
-    $this = $(this);
-    if($this.val() == "true") {
-      $loginFailureLockCountTr.show();
-      $loginFailureLockTimeTr.show();
-    } else {
-      $loginFailureLockCountTr.hide();
-      $loginFailureLockTimeTr.hide();
-    }
-  });
-  
-  // SMTP测试窗口
-  $showSmtpTestWindow.click( function() {
-	if(!$smtpFromMail.val() || !$smtpHost.val() || !$smtpPort.val() || !$smtpUsername.val() || !$smtpPassword.val()){
-		Modal.alert('请先将邮箱设置相关信息补充完整');
-		return false;
-	}
-    var formHtml = '<input type="hidden" name="smtpFromMail" required value="' + $smtpFromMail.val() + '" required />' 
-    	+ '<input type="hidden" name="smtpHost" value="' + $smtpHost.val() + '" required />'
-    	+ '<input type="hidden" name="smtpPort" value="' + $smtpPort.val() + '" required />'
-    	+ '<input type="hidden" name="smtpUsername" value="' + $smtpUsername.val() + '" required />'
-    	+ '<input type="hidden" name="smtpPassword" value="' + $smtpPassword.val() + '" required />';
-    $('#smtpTestForm').html(formHtml);
-    $('#doc-modal-1').modal({
-    	closeViaDimmer: 0,
-    	width: 400,
-    	height: 225
-      });
-  });
-  
-  // 根据积分获取方式显示/隐藏“积分换算比率”
-  $pointType.click( function() {
-    $this = $(this);
-    if($this.val() == "orderAmount") {
-      $pointScaleTr.show();
-    } else {
-      $pointScale.val("0");
-      $pointScaleTr.hide();
-    }
-  });
-  
-  //图片左移
-  $(".opr-img-left").livequery("click", function() {
-	var $bannerImageLi = $(this).parent().parent().parent().parent();
-	var $bannerImagePrevLi = $bannerImageLi.prev("li");
-	if ($bannerImagePrevLi.length > 0) {
-	  $bannerImagePrevLi.insertAfter($bannerImageLi);
-	}
-  });
-	
-  // 图片右移
-  $(".opr-img-right").livequery("click", function() {
-	var $bannerImageLi = $(this).parent().parent().parent().parent();
-	var $bannerImageNextLi = $bannerImageLi.next("li");
-	if ($bannerImageNextLi.length > 0) {
-	  $bannerImageNextLi.insertBefore($bannerImageLi);
-	}
-  });
-	
-  // 图片删除
-  $(".opr-img-delete").livequery("click", function() {
-	var $bannerImageLi = $(this).parent().parent().parent().parent();
-	$bannerImageLi.remove();
-  });
-	
-  // 添加图片
-  var bannerImageLiHtmlTemp = '<li><div class="am-thumbnail">'
-	    + '<div class="app-banner-image-preview am-text-center am-text-warning">暂无图片</div>'
-	    + '<ul class="am-thumbnail-caption am-avg-sm-3">'
-		+ '<li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-left"><span class="am-icon-chevron-left"></span></button></li>'
-		+ '<li><button type="button" class="am-btn am-btn-default am-text-danger am-btn-xs am-center opr-img-delete" disabled="disabled"><span class="am-icon-trash"></span></button></li>'
-		+ '<li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-right"><span class="am-icon-chevron-right"></span></button></li>'
-		+ '</ul><hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" /><ul class="am-thumbnail-caption am-avg-sm-1">'
-		+ '<li><div class="am-form-group am-form-file"><button type="button" class="am-btn am-btn-default am-btn-xs am-center"><i class="am-icon-cloud-upload"></i> 上传图片</button><input class="banner-form-file" name="bannerImageFile" type="file"></div></li>';
-		+ '</ul></div></li>';
-		
-  var index = 0;		
-  $("input.banner-form-file").livequery('change', function() {
-	var $this = $(this);
-	var $bannerImageLi = $this.parent().parent().parent().parent();
-	var $bannerImagePreview = $bannerImageLi.find(".app-banner-image-preview");
-	var $bannerImageDeteleBtn = $bannerImageLi.find(".opr-img-delete");
-	var fileName = $this.val().substr($this.val().lastIndexOf("\\") + 1);
-	if (/(<%for(list in strutil.split(systemConfig.allowedUploadImageExtension,@com.jfinalshop.bean.SystemConfig.EXTENSION_SEPARATOR)){%><%if (!listLP.last){%>.${list}|<%}else{%>.${list}<%}%><%}%>)$/i.test($this.val()) == false) {
-	  $.message("您选择的文件格式错误！");
-      return false;
-	}
-	$bannerImagePreview.html('<input type="hidden" name="bannerImagePathItems" value="file" /><img src="' + window.URL.createObjectURL($this[0].files[0]) + '" class="am-img-bdrs">');
-	if($bannerImageDeteleBtn.attr('disabled')){
-      index++;
-      $bannerImageDeteleBtn.attr('disabled',false);
-	  var bannerImageLiHtml = bannerImageLiHtmlTemp;
-	  bannerImageLiHtml = bannerImageLiHtml.replace("bannerImageFile", "bannerImageFile"+index);
-	  $('#banner-file-list').append(bannerImageLiHtml);
-	}
-  });
-  
-});
-</script>
 </head>
 <body>
 <!-- content start -->
@@ -138,7 +15,7 @@ $().ready(function() {
 
     <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
     
-    <form id="inputForm" action="${base}/systemConfig/update" enctype="multipart/form-data" method="post">
+    <form class="validator-form" action="${base}/systemConfig/update" enctype="multipart/form-data" method="post">
     <div class="am-tabs am-margin" data-am-tabs="{noSwipe: 1}">
       <ul class="am-tabs-nav am-nav am-nav-tabs">
         <li class="am-active"><a href="#tab1">基本设置</a></li>
@@ -154,13 +31,13 @@ $().ready(function() {
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">网店名称</label>
             <div class="am-u-sm-8 am-u-md-9">
-              <input type="text" class="am-form-field" name="systemConfig.shopName" value="${systemConfig.shopName!}" required>
+              <input type="text" class="am-form-field" name="systemConfig.shopName" value="${systemConfig.shopName!}" required />
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">网店网址</label>
             <div class="am-u-sm-8 am-u-md-9">
-              <input type="text" class="am-form-field" name="systemConfig.shopUrl" value="${systemConfig.shopUrl!}" required>
+              <input type="text" class="am-form-field" name="systemConfig.shopUrl" value="${systemConfig.shopUrl!}" required />
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
@@ -169,7 +46,7 @@ $().ready(function() {
               <button type="button" class="am-btn am-btn-default am-btn-sm">
                 <i class="am-icon-cloud-upload"></i> 上传图片
               </button>
-              <input class="doc-form-file" type="file" name="shopLogo">
+              <input class="doc-form-file" type="file" name="shopLogo" />
             </div>
             <div class="am-u-sm-4 am-u-md-3">
               <div class="file-list">
@@ -180,31 +57,31 @@ $().ready(function() {
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">热门搜索关键词</label>
             <div class="am-u-sm-8 am-u-md-9">
-              <input type="text" class="am-form-field" name="systemConfig.hotSearch" value="${systemConfig.hotSearch!}">
+              <input type="text" class="am-form-field" name="systemConfig.hotSearch" value="${systemConfig.hotSearch!}" />
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">联系地址</label>
             <div class="am-u-sm-8 am-u-md-9">
-              <input type="text" class="am-form-field" name="systemConfig.address" value="${systemConfig.address!}">
+              <input type="text" class="am-form-field" name="systemConfig.address" value="${systemConfig.address!}" />
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">服务电话</label>
             <div class="am-u-sm-8 am-u-md-9">
-              <input type="text" class="am-form-field" name="systemConfig.phone" value="${systemConfig.phone!}">
+              <input type="text" class="am-form-field" name="systemConfig.phone" value="${systemConfig.phone!}" />
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">邮编</label>
             <div class="am-u-sm-8 am-u-md-9">
-              <input type="text" class="am-form-field" name="systemConfig.zipCode" value="${systemConfig.zipCode!}">
+              <input type="text" class="am-form-field js-pattern-zipCode" name="systemConfig.zipCode" value="${systemConfig.zipCode!}">
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">E-mail</label>
             <div class="am-u-sm-8 am-u-md-9">
-              <input type="text" class="am-form-field" name="systemConfig.email" value="${systemConfig.email!}">
+              <input type="email" class="am-form-field" name="systemConfig.email" value="${systemConfig.email!}">
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
@@ -718,5 +595,128 @@ $().ready(function() {
   </div>
 </div>
 <!-- content end -->
+<script>
+$().ready(function() {
+  $('.doc-form-file').on('change', function() {
+    var fileNames = '';
+    $.each(this.files, function() {
+      fileNames += '<span class="am-badge">' + this.name + '</span> ';
+    });
+    $(this).parent().next().find('.file-list').html(fileNames);
+  });
+
+  var $isLoginFailureLockInput = $("input[name='systemConfig.isLoginFailureLock']");
+  var $loginFailureLockCountTr = $("#loginFailureLockCountTr");
+  var $loginFailureLockTimeTr = $("#loginFailureLockTimeTr");
+
+  var $smtpFromMail = $("input[name='systemConfig.smtpFromMail']");
+  var $smtpHost = $("input[name='systemConfig.smtpHost']");
+  var $smtpPort = $("input[name='systemConfig.smtpPort']");
+  var $smtpUsername = $("input[name='systemConfig.smtpUsername']");
+  var $smtpPassword = $("input[name='systemConfig.smtpPassword']");
+  var $showSmtpTestWindow = $("#showSmtpTestWindow");
+  var $pointType = $("input[name='systemConfig.pointType']");
+  var $pointScaleTr = $(".pointScaleTr");
+  var $pointScale = $("input[name='systemConfig.pointScale']");
+  
+  $isLoginFailureLockInput.click( function() {
+    $this = $(this);
+    if($this.val() == "true") {
+      $loginFailureLockCountTr.show();
+      $loginFailureLockTimeTr.show();
+    } else {
+      $loginFailureLockCountTr.hide();
+      $loginFailureLockTimeTr.hide();
+    }
+  });
+  
+  // SMTP测试窗口
+  $showSmtpTestWindow.click( function() {
+    if(!$smtpFromMail.val() || !$smtpHost.val() || !$smtpPort.val() || !$smtpUsername.val() || !$smtpPassword.val()){
+        Modal.alert('请先将邮箱设置相关信息补充完整');
+        return false;
+    }
+    var formHtml = '<input type="hidden" name="smtpFromMail" required value="' + $smtpFromMail.val() + '" required />' 
+        + '<input type="hidden" name="smtpHost" value="' + $smtpHost.val() + '" required />'
+        + '<input type="hidden" name="smtpPort" value="' + $smtpPort.val() + '" required />'
+        + '<input type="hidden" name="smtpUsername" value="' + $smtpUsername.val() + '" required />'
+        + '<input type="hidden" name="smtpPassword" value="' + $smtpPassword.val() + '" required />';
+    $('#smtpTestForm').html(formHtml);
+    $('#doc-modal-1').modal({
+        closeViaDimmer: 0,
+        width: 400,
+        height: 225
+      });
+  });
+  
+  // 根据积分获取方式显示/隐藏“积分换算比率”
+  $pointType.click( function() {
+    $this = $(this);
+    if($this.val() == "orderAmount") {
+      $pointScaleTr.show();
+    } else {
+      $pointScale.val("0");
+      $pointScaleTr.hide();
+    }
+  });
+  
+  //图片左移
+  $(".opr-img-left").livequery("click", function() {
+    var $bannerImageLi = $(this).parent().parent().parent().parent();
+    var $bannerImagePrevLi = $bannerImageLi.prev("li");
+    if ($bannerImagePrevLi.length > 0) {
+      $bannerImagePrevLi.insertAfter($bannerImageLi);
+    }
+  });
+    
+  // 图片右移
+  $(".opr-img-right").livequery("click", function() {
+    var $bannerImageLi = $(this).parent().parent().parent().parent();
+    var $bannerImageNextLi = $bannerImageLi.next("li");
+    if ($bannerImageNextLi.length > 0) {
+      $bannerImageNextLi.insertBefore($bannerImageLi);
+    }
+  });
+    
+  // 图片删除
+  $(".opr-img-delete").livequery("click", function() {
+    var $bannerImageLi = $(this).parent().parent().parent().parent();
+    $bannerImageLi.remove();
+  });
+    
+  // 添加图片
+  var bannerImageLiHtmlTemp = '<li><div class="am-thumbnail">'
+        + '<div class="app-banner-image-preview am-text-center am-text-warning">暂无图片</div>'
+        + '<ul class="am-thumbnail-caption am-avg-sm-3">'
+        + '<li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-left"><span class="am-icon-chevron-left"></span></button></li>'
+        + '<li><button type="button" class="am-btn am-btn-default am-text-danger am-btn-xs am-center opr-img-delete" disabled="disabled"><span class="am-icon-trash"></span></button></li>'
+        + '<li><button type="button" class="am-btn am-btn-default am-text-warning am-btn-xs am-center opr-img-right"><span class="am-icon-chevron-right"></span></button></li>'
+        + '</ul><hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" /><ul class="am-thumbnail-caption am-avg-sm-1">'
+        + '<li><div class="am-form-group am-form-file"><button type="button" class="am-btn am-btn-default am-btn-xs am-center"><i class="am-icon-cloud-upload"></i> 上传图片</button><input class="banner-form-file" name="bannerImageFile" type="file"></div></li>';
+        + '</ul></div></li>';
+        
+  var index = 0;        
+  $("input.banner-form-file").livequery('change', function() {
+    var $this = $(this);
+    var $bannerImageLi = $this.parent().parent().parent().parent();
+    var $bannerImagePreview = $bannerImageLi.find(".app-banner-image-preview");
+    var $bannerImageDeteleBtn = $bannerImageLi.find(".opr-img-delete");
+    var fileName = $this.val().substr($this.val().lastIndexOf("\\") + 1);
+    if (/(<%for(list in strutil.split(systemConfig.allowedUploadImageExtension,@com.jfinalshop.bean.SystemConfig.EXTENSION_SEPARATOR)){%><%if (!listLP.last){%>.${list}|<%}else{%>.${list}<%}%><%}%>)$/i.test($this.val()) == false) {
+      $.message("您选择的文件格式错误！");
+      return false;
+    }
+    $bannerImagePreview.html('<input type="hidden" name="bannerImagePathItems" value="file" /><img src="' + window.URL.createObjectURL($this[0].files[0]) + '" class="am-img-bdrs">');
+    if($bannerImageDeteleBtn.attr('disabled')){
+      index++;
+      $bannerImageDeteleBtn.attr('disabled',false);
+      var bannerImageLiHtml = bannerImageLiHtmlTemp;
+      bannerImageLiHtml = bannerImageLiHtml.replace("bannerImageFile", "bannerImageFile"+index);
+      $('#banner-file-list').append(bannerImageLiHtml);
+    }
+  });
+  
+});
+</script>
 </body>
 </html>

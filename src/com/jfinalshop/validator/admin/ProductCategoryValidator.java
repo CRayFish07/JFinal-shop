@@ -9,7 +9,7 @@ public class ProductCategoryValidator extends Validator{
 	@Override
 	protected void validate(Controller c) {		
 		validateRequiredString("productCategory.name", "nameMessages", "分类名称不允许为空!");
-		validateInteger("productCategory.orderList", 1, 1000, "orderListMessages", "排序必须为零或正整数，小于1000!");
+		validateInteger("productCategory.orderList", 0, 1000, "orderListMessages", "排序必须为零或正整数，小于1000!");
 	}
 
 	@Override

@@ -8,6 +8,7 @@ public class DeliveryTypeValidator extends Validator {
 	@Override
 	protected void validate(Controller c) {
 		validateRequiredString("deliveryType.name", "errorMessages","配送方式名称不允许为空!");
+		validateRequiredString("deliveryMethod", "errorMessages","配送类型不允许为空!");
 		validateRequiredString("deliveryType.firstWeight", "errorMessages", "首重量不允许为空!");
 		validateRequiredString("deliveryType.continueWeight", "errorMessages", "续重量不允许为空!");
 		validateRequiredString("firstWeightUnit", "errorMessages", "首重单位不允许为空!");
@@ -16,7 +17,7 @@ public class DeliveryTypeValidator extends Validator {
 		validateRequiredString("deliveryType.continueWeightPrice", "errorMessages", "续重价格不允许为空!");
 		validateRequiredString("deliveryType.orderList", "errorMessages", "排序不允许为空!");
 		
-		validateInteger("deliveryType.orderList", 0, 100, "errorMessages", "排序必须为零或正整数!");		
+		validateInteger("deliveryType.orderList", 0, 1000, "errorMessages", "排序必须为零或正整数!");		
 	}
 
 	@Override

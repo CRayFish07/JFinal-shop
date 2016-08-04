@@ -37,14 +37,13 @@
   
     <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
     
-    <form id="inputForm" action="<%if (isAdd){%>${base}/logConfig/save<%}else{%>${base}/logConfig/update<%}%>" method="post">
+    <form class="validator-form" action="<%if (isAdd){%>${base}/logConfig/save<%}else{%>${base}/logConfig/update<%}%>" method="post">
     <input type="hidden" name="logConfig.id" value="${logConfig.id!}" />
     <div class="am-form am-margin am-form-horizontal">
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">名称</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <input type="text" class="am-form-field" name="logConfig.operationName" value="${logConfig.operationName!}" required>
-          <div class="am-text-warning am-margin-top-xs">${operationNameMessages!}</div>
+          <input type="text" class="am-form-field" name="logConfig.operationName" value="${logConfig.operationName!}" required />
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
@@ -74,7 +73,6 @@
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">描述</label>
         <div class="am-u-sm-8 am-u-md-9">
           <textarea rows="10" class="am-form-field" name="logConfig.description">${logConfig.description!}</textarea>
-          <div class="am-text-warning am-margin-top-xs">${descriptionMessages!}</div>
         </div>
       </div>
       <hr data-am-widget="divider" class="am-divider am-divider-dashed" />

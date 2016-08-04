@@ -18,7 +18,7 @@ public class ProductAttributeValidator extends Validator{
 		validateRequiredString("productAttribute.isRequired", "isRequiredMessages", "是否必填不允许为空!");
 		validateRequiredString("productAttribute.isEnabled", "isEnabledMessages", "是否启用不允许为空!");
 		validateRequiredString("productAttribute.orderList", "orderListMessages", "排序不允许为空!");
-		validateInteger("productAttribute.orderList", 1, 1000, "orderListMessages", "排序必须为零或正整数，小于1000!");
+		validateInteger("productAttribute.orderList", 0, 1000, "orderListMessages", "排序必须为零或正整数，小于1000!");
 	}
 
 	@Override

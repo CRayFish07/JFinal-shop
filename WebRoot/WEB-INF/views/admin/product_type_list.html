@@ -16,7 +16,7 @@
       
       <form class="am-form" id="listForm" action="${base}/productType/list" method="post">
       <div class="am-g app-padding-toolbar">
-        <div class="am-u-sm-6 am-u-md-4">
+        <div class="am-u-sm-7 am-u-md-4">
           <div class="am-btn-toolbar app-padding-toolbar-item">
             <div class="am-btn-group am-btn-group-sm">
               <button type="button" class="am-btn am-btn-default" onclick="location.href='${base}/productType/add';"><span class="am-icon-plus"></span> 新增</button>
@@ -24,7 +24,7 @@
             </div>
           </div>
         </div>
-        <div class="am-u-sm-6 am-u-md-4 am-padding-0">
+        <div class="am-u-sm-5 am-u-md-4 am-padding-0">
           <div class="app-padding-toolbar-item">
             <select name="property" data-am-selected="{btnWidth: '100%', btnSize: 'sm'}">
               <option value="name"<%if(property! == "name"){%>selected="selected"<%}%>>名称</option>
@@ -46,55 +46,48 @@
       
       <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
       
-      <div class="am-g">
-        <div class="am-u-sm-12 am-padding-0 am-margin-0">
-          <div class="am-scrollable-horizontal">
-          <table class="am-table am-table-striped am-table-hover table-main am-text-nowrap">
-	        <thead>
-	          <tr>
-	            <th><input type="checkbox" id="allCheck"></th>
-	            <th>序号</th>
-                <th><div class="app-table-td-buttons-width-120">操作</div></th>
-	            <th>类型名称</th>
-	            <th>创建日期</th>
-	            <th>属性列表</th>
-	          </tr>
-	        </thead>
-	        <tbody>
-	          <%for(list in pager.list){%>
-	          <tr id="listTr${listLP.index}">
-	            <td><input type="checkbox" name="ids" value="${list.id}"></td>              
-	            <td>${listLP.index}</td>
-                <td>
-                  <div class="am-btn-group am-btn-group-xs">
-                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary app-table-button-padding" onclick="location.href='${base}/productType/edit?id=${list.id}'">
-                      <span class="am-icon-pencil"> 编辑</span>
-                    </button>
-                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger app-table-button-padding" onclick="deleteOne('${base}/productType/delete?ids=${list.id}',${listLP.index})">
-                      <span class="am-icon-trash-o"> 删除</span>
-                    </button>
-                  </div>
-                </td>              
-	            <td>${list.name}</td>
-	            <td>${list.createDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</td>
-	            <td><a href="${base!}/productAttribute/list?productTypeId=${list.id}" title="查看属性列表">[属性列表]</a></td>
-	          </tr>
-	          <%}%> 
-	        </tbody>
-	      </table>
-        </div>
-        <div class="am-cf am-margin-right">
-          <!-- 分页 -->
-          <%if (pager.list.~size > 0){%>
-          <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />    
-          <div class="am-fr"><% include("/admin/pager.html"){}%></div>
-          <%}else{%>
-          <div class="am-kai am-text-center am-margin">
-            <h3>没有找到任何记录!</h3>
-          </div>
-          <%}%>
-        </div>
-	  </div>
+      <div class="am-scrollable-horizontal">
+        <table class="am-table am-table-striped am-table-hover table-main am-text-nowrap am-margin-bottom-0">
+	      <thead>
+	        <tr>
+	          <th><input type="checkbox" id="allCheck"></th>
+	          <th>序号</th>
+              <th><div class="app-table-td-buttons-width-120">操作</div></th>
+	          <th>类型名称</th>
+	          <th>创建日期</th>
+	          <th>属性列表</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	        <%for(list in pager.list){%>
+	        <tr id="listTr${listLP.index}">
+	          <td><input type="checkbox" name="ids" value="${list.id}"></td>              
+	          <td>${listLP.index}</td>
+              <td>
+                <div class="am-btn-group am-btn-group-xs">
+                  <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary app-table-button-padding" onclick="location.href='${base}/productType/edit?id=${list.id}'">
+                    <span class="am-icon-pencil"> 编辑</span>
+                  </button>
+                  <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger app-table-button-padding" onclick="deleteOne('${base}/productType/delete?ids=${list.id}',${listLP.index})">
+                    <span class="am-icon-trash-o"> 删除</span>
+                  </button>
+                </div>
+              </td>              
+	          <td>${list.name}</td>
+	          <td>${list.createDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</td>
+	          <td><a href="${base!}/productAttribute/list?productTypeId=${list.id}" title="查看属性列表">[属性列表]</a></td>
+	        </tr>
+	        <%}%> 
+	      </tbody>
+	    </table>
+      </div>
+      <!-- 分页 -->
+      <%if (pager.list.~size > 0){%>
+      <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />    
+      <div class="am-margin-left am-text-xs"><% include("/admin/pager.html"){}%></div>
+      <%}else{%>
+      <h3 class="am-kai am-text-center am-margin-xs">没有找到任何记录!</h3>
+      <%}%>
       </form>
     </div>
   </div>

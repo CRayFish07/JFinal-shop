@@ -22,19 +22,21 @@
     
     <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
     
-    <form id="inputForm" action="<%if (isAdd){%>${base}/resource/save<%}else{%>${base}/resource/update<%}%>" method="post">
+    <form class="validator-form" action="<%if (isAdd){%>${base}/resource/save<%}else{%>${base}/resource/update<%}%>" method="post">
     <input type="hidden" name="resource.id" value="${resource.id!}" />
     <div class="am-form am-margin am-form-horizontal">
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">资源名称</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <input type="text" class="am-form-field" name="resource.name" value="${resource.name!}" required>
+          <input type="text" class="am-form-field" name="resource.name" value="${resource.name!}" required />
+          <div class="am-text-warning am-margin-top-xs am-text-xs">${nameMessages!}</div>
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">资源值</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <input type="text" class="am-form-field" name="resource.value" value="${resource.value!}" required>
+          <input type="text" class="am-form-field" name="resource.value" value="${resource.value!}" required />
+          <div class="am-text-warning am-margin-top-xs am-text-xs">${valueMessages!}</div>
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
@@ -46,7 +48,8 @@
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">排序</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <input type="number" class="am-form-field" name="resource.orderList" value="${resource.orderList!50}" placeholder="只允许输入零或正整数" min="0" required>
+          <input type="number" class="am-form-field" name="resource.orderList" value="${resource.orderList!50}" placeholder="只允许输入零或正整数" min="0" max="1000" required />
+          <div class="am-text-warning am-margin-top-xs am-text-xs">${orderListMessages!}</div>
         </div>
       </div>
       <hr data-am-widget="divider" class="am-divider am-divider-dashed" />

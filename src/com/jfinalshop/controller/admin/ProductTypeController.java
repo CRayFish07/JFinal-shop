@@ -15,6 +15,7 @@ import com.jfinalshop.validator.admin.ProductTypeValidator;
 public class ProductTypeController extends BaseAdminController<ProductType> {
 	
 	private ProductType productType;
+	private String productTypeName;
 	
 	// 添加
 	public void add() {
@@ -73,6 +74,16 @@ public class ProductTypeController extends BaseAdminController<ProductType> {
 			ajaxJsonErrorMessage("id为空未选中，删除失败！");
 		}
 		
+	}
+	
+	// ajax验证商品类型属性名称是否存在
+	public void checkProductTypeName() {
+		productTypeName = getPara("productType.name","");
+		if (ProductType.dao.isUnique(productTypeName)) {
+			renderText("true");
+		}else{
+			renderText("false");
+		}
 	}
 	
 }

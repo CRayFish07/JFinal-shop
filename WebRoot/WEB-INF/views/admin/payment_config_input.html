@@ -43,7 +43,7 @@ $().ready( function() {
   
     <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
     
-    <form id="inputForm" class="am-form" action="<%if (isAdd){%>${base}/paymentConfig/save<%}else{%>${base}/paymentConfig/update<%}%>" method="post">
+    <form class="validator-form" class="am-form" action="<%if (isAdd){%>${base}/paymentConfig/save<%}else{%>${base}/paymentConfig/update<%}%>" method="post">
     <input type="hidden" name="paymentConfig.id" value="${paymentConfig.id!}" />
     <div class="am-form am-margin am-form-horizontal" >
       <div class="am-form-group am-form-group-sm" id="productTypeTr">
@@ -62,7 +62,7 @@ $().ready( function() {
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">支付方式名称</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <input type="text" class="am-form-field" name="paymentConfig.name" value="${paymentConfig.name!}" required>
+          <input type="text" class="am-form-field" name="paymentConfig.name" value="${paymentConfig.name!}" required />
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
@@ -70,7 +70,7 @@ $().ready( function() {
         <div class="am-u-sm-8 am-u-md-9">
           <%for(list in allPaymentFeeType){%>
           <label class="am-radio-inline">
-            <input type="radio" name="paymentFeeType" value="${list}"<%if ((isAdd && list == "scale") || list == paymentConfig.paymentFeeType!){%> checked <%}%>>
+            <input type="radio" name="paymentFeeType" value="${list}"<%if (listLP.index == 1){%> required<%}%><%if ((isAdd && list == "scale") || list == paymentConfig.paymentFeeType!){%> checked<%}%>>
             ${i18n("PaymentFeeType." + list)}
           </label>
           <%}%>
@@ -79,7 +79,7 @@ $().ready( function() {
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">支付费率/固定费用</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <input type="number" class="am-form-field" name="paymentConfig.paymentFee" value="${paymentConfig.paymentFee!0}" min="0" required>
+          <input type="number" class="am-form-field" name="paymentConfig.paymentFee" value="${paymentConfig.paymentFee!0}" min="0" required />
         </div>
       </div>
       <div class="am-form-group am-form-group-sm tenpayConfigTr<%if (isAdd || paymentConfig.paymentConfigType != "tenpay"){%> hidden<%}%>">
@@ -135,7 +135,7 @@ $().ready( function() {
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">排序</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <input type="number" class="am-form-field" name="paymentConfig.orderList" value="${paymentConfig.orderList!50}" placeholder="只允许输入零或正整数" min="0" required>
+          <input type="number" class="am-form-field" name="paymentConfig.orderList" value="${paymentConfig.orderList!50}" placeholder="只允许输入零或正整数" min="0" max="1000" required />
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">

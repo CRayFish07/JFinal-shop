@@ -2,25 +2,6 @@
 <html class="no-js">
 <head>
 <% include("/common/admin_head.html",{title: '收件箱', loadListJS: true}){}%>
-<script>
-  function showMessageContent(id){
-    $.ajax({
-	  url: "${base}/message/ajaxMessageContent",
-	  data: {"id": id},
-	  async: false,
-	  dataType: "json",
-	  beforeSend: function(data) {
-	  },
-	  success: function(data) {
-	    if (data.status == "success") {
-		  Modal.alert(data.content);
-		} else {
-		  Modal.alert(data.status +' , '+ data.message)
-		}
-	  }
-	});
-  }
-</script>		
 </head>
 <body>
   <div class="admin-content">
@@ -65,10 +46,8 @@
       
       <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
       
-      <div class="am-g">
-        <div class="am-u-sm-12 am-padding-0 am-margin-0">
-          <div class="am-scrollable-horizontal">
-          <table class="am-table am-table-striped am-table-hover table-main am-text-nowrap">
+      <div class="am-scrollable-horizontal">
+        <table class="am-table am-table-striped am-table-hover table-main am-text-nowrap am-margin-bottom-0">
           <thead>
             <tr>
               <th><input type="checkbox" id="allCheck"></th>
@@ -94,7 +73,7 @@
               </td>
               <td><a href="javascript: showMessageContent('${list.id}');">${list.title}</a></td>
               <td>${list.fromMember.username!}</td>
-              <td>
+              <td class="${list.id}">
 	            <%if (list.isRead){%>
 				<span class="am-text-secondary">是</span>
 				<%}else{%>
@@ -105,24 +84,38 @@
             </tr>
             <%}%> 
           </tbody>
-         </table>
-         </div>
-        </div>
+        </table>
       </div>
-      <div class="am-cf am-margin-right">
-        <!-- 分页 -->
-        <%if (pager.list.~size > 0){%>
-        <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />    
-        <div class="am-fr"><% include("/admin/pager.html"){}%></div>
-        <%}else{%>
-        <div class="am-kai am-text-center">
-          <h3>没有找到任何记录!</h3>
-        </div>
-        <%}%>
-      </div>
+      <!-- 分页 -->
+      <%if (pager.list.~size > 0){%>
+      <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />    
+      <div class="am-margin-left am-text-xs"><% include("/admin/pager.html"){}%></div>
+      <%}else{%>
+      <h3 class="am-kai am-text-center am-margin-xs">没有找到任何记录!</h3>
+      <%}%>
       </form>
     </div>
   </div>
 <!-- content end -->
+<script>
+  function showMessageContent(id){
+    $.ajax({
+      url: "${base}/message/ajaxMessageContent",
+      data: {"id": id},
+      async: false,
+      dataType: "json",
+      beforeSend: function(data) {
+      },
+      success: function(data) {
+        if (data.status == "success") {
+          Modal.alert(data.content);
+          $('td.' + id).html('<span class="am-text-secondary">是</span>');
+        } else {
+          Modal.alert(data.status +' , '+ data.message)
+        }
+      }
+    });
+  }
+</script>
 </body>
 </html>

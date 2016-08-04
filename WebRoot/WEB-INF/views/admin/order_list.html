@@ -47,10 +47,8 @@
       
       <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
       
-      <div class="am-g">
-        <div class="am-u-sm-12 am-padding-0 am-margin-0">
-          <div class="am-scrollable-horizontal">
-          <table class="am-table am-table-striped am-table-hover table-main am-text-nowrap">
+      <div class="am-scrollable-horizontal">
+        <table class="am-table am-table-striped am-table-hover table-main am-text-nowrap am-margin-bottom-0">
           <thead>
             <tr>
               <th><input type="checkbox" id="allCheck"></th>
@@ -101,21 +99,15 @@
             </tr>
             <%}%> 
           </tbody>
-          </table>
-          </div>
-        </div>
-        <div class="am-cf am-margin-right">
-          <!-- 分页 -->
-          <%if (pager.list.~size > 0){%>
-          <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />    
-          <div class="am-fr"><% include("/admin/pager.html"){}%></div>
-          <%}else{%>
-          <div class="am-kai am-text-center am-margin-lg">
-            <h3>没有找到任何记录!</h3>
-          </div>
-          <%}%>
-        </div>
+        </table>
       </div>
+      <!-- 分页 -->
+      <%if (pager.list.~size > 0){%>
+      <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />    
+      <div class="am-margin-left am-text-xs"><% include("/admin/pager.html"){}%></div>
+      <%}else{%>
+      <h3 class="am-kai am-text-center am-margin-xs">没有找到任何记录!</h3>
+      <%}%>
       </form>
     </div>
   </div>

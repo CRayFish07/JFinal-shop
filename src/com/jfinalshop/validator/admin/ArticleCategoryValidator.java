@@ -11,7 +11,7 @@ public class ArticleCategoryValidator extends Validator{
 		validateRequiredString("articleCategory.name", "nameMessages", "分类名称不允许为空!");
 		validateRequiredString("articleCategory.orderList", "orderListMessages", "排序不允许为空!");
 		
-		validateInteger("articleCategory.orderList", 0, 100, "orderListMessages", "排序必须为零或正整数!");
+		validateInteger("articleCategory.orderList", 0, 1000, "orderListMessages", "排序必须为零或正整数!");
 	}
 
 	@Override

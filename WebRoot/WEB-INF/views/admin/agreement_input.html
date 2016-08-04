@@ -2,20 +2,6 @@
 <html class="no-js">
 <head>
 <% include("/common/admin_head.html",{title: '编辑会员注册协议', loadUE: true}){}%>
-<script>
-function updateAgreement(){
-  $.ajax({
-    method:"post",  
-    url: '${base}/agreement/update',
-    data: $("#inputForm").serialize(),
-    dataType: "json",
-    async: false,
-    success: function(data) {
-      Modal.alert(data.message);
-    }
-  });
-}
-</script>
 </head>
 <body>
 <!-- content start -->
@@ -29,7 +15,7 @@ function updateAgreement(){
   
     <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
     
-    <form id="inputForm" action="${base}/agreement/update" method="post">
+    <form class="validator-form" action="${base}/agreement/update" method="post">
     <input type="hidden" name="agreement.id" value="${agreement.id!1}" />
     <div class="am-form am-margin am-margin-horizontal-0 am-form-horizontal">
       <div class="am-form-group am-form-group-sm">
@@ -48,5 +34,19 @@ function updateAgreement(){
   </div>
 </div>
 <!-- content end -->
+<script>
+function updateAgreement(){
+  $.ajax({
+    method:"post",  
+    url: '${base}/agreement/update',
+    data: $(".validator-form").serialize(),
+    dataType: "json",
+    async: false,
+    success: function(data) {
+      Modal.alert(data.message);
+    }
+  });
+}
+</script>
 </body>
 </html>	

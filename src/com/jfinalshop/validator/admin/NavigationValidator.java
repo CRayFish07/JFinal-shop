@@ -16,7 +16,7 @@ public class NavigationValidator extends Validator {
 		validateRequiredString("navigation.isVisible", "isVisibleMessages", "是否显示不允许为空!");
 		validateRequiredString("navigation.isBlankTarget", "isBlankTargetMessages", "在新窗口中打开不允许为空!");
 		
-		validateInteger("navigation.orderList", 0, 100, "orderListMessages", "排序必须为零或正整数!");
+		validateInteger("navigation.orderList", 0, 1000, "orderListMessages", "排序必须为零或正整数!");
 	}
 
 	@Override

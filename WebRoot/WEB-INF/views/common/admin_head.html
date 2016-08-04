@@ -76,3 +76,14 @@
   <%if (has(lSelectJS) && lSelectJS){%>
   <script src="${base}/statics/js/jquery.lSelect.js"></script>
   <%}%>
+  <script>
+  <!-- iPhone真机上safari访问时滚动效果会失效  -->
+  $().ready(function() {
+    //console.info(navigator.userAgent);
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //匹配iPhone
+      var scrollableDivWidth = $(".am-scrollable-horizontal").width();//原始宽度
+      $(".am-scrollable-horizontal").width(screen.width > scrollableDivWidth ? scrollableDivWidth : screen.width);//与屏幕宽度对比，设置一个比较小的宽度
+      //console.info("iPhone");
+    }
+  });
+  </script>

@@ -10,7 +10,7 @@ public class ResourceValidator extends Validator{
 	protected void validate(Controller c) {
 		validateRequiredString("resource.name", "nameMessages", "资源名称不允许为空!");
 		validateRequiredString("resource.value", "valueMessages", "资源值不允许为空!");
-		validateInteger("resource.orderList", 0, 500, "orderListMessages", "排序必须为零或正整数!");
+		validateInteger("resource.orderList", 0, 1000, "orderListMessages", "排序必须为零或正整数!");
 
 		// 检查角色名是否存在
 		String name = c.getPara("resource.name","");

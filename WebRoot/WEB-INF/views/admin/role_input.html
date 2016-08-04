@@ -22,7 +22,7 @@
     
     <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
     
-    <form id="inputForm" action="<%if (isAdd){%>${base}/role/save<%}else{%>${base}/role/update<%}%>" method="post">
+    <form class="validator-form" action="<%if (isAdd){%>${base}/role/save<%}else{%>${base}/role/update<%}%>" method="post">
     <input type="hidden" name="role.id" value="${role.id!}" />
     <div class="am-tabs am-margin" data-am-tabs="{noSwipe: 1}">
       <ul class="am-tabs-nav am-nav am-nav-tabs">
@@ -35,19 +35,21 @@
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">角色名称</label>
             <div class="am-u-sm-8 am-u-md-9">
-              <input type="text" class="am-form-field" name="role.name" value="${role.name!}" required>
+              <input type="text" class="am-form-field" name="role.name" value="${role.name!}" required />
+              <div class="am-text-warning am-margin-top-xs am-text-xs">${nameMessages!}</div>
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">角色标识</label>
             <div class="am-u-sm-8 am-u-md-9">
-              <input type="text" class="am-form-field" name="role.value" value="${role.value!'ROLE_'}" placeholder="必须以ROLE_开头" required>
+              <input type="text" class="am-form-field" name="role.value" value="${role.value!'ROLE_'}" placeholder="必须以ROLE_开头" pattern="^(ROLE_.*)$" minlength="6" maxlength="20" required />
+              <div class="am-text-warning am-margin-top-xs am-text-xs">${valueMessages!}</div>
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">描述</label>
             <div class="am-u-sm-8 am-u-md-9">
-              <input type="text" class="am-form-field" name="role.description" value="${role.description!}">
+              <input type="text" class="am-form-field" name="role.description" value="${role.description!}" />
             </div>
           </div>
         </div>

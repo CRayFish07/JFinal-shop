@@ -9,7 +9,8 @@ public class RefundValidator extends Validator {
 	protected void validate(Controller c) {
 		validateRequiredString("refund.paymentConfig_id", "errorMessages", "退款方式不允许为空!");
 		validateRequiredString("refundType", "errorMessages", "退款类型不允许为空!");
-		validateRequiredString("refund.totalAmount", "errorMessages", "内容不允许为空!");
+		validateRequiredString("refund.totalAmount", "errorMessages", "退款金额不允许为空!");
+		validateRequiredString("refund.payee", "errorMessages", "收款人不允许为空!");
 	}
 
 	@Override

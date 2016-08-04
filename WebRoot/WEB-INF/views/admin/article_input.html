@@ -22,13 +22,14 @@
   
     <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
     
-    <form id="inputForm" action="<%if (isAdd){%>${base}/article/save<%}else{%>${base}/article/update<%}%>" method="post">
+    <form class="validator-form" action="<%if (isAdd){%>${base}/article/save<%}else{%>${base}/article/update<%}%>" method="post">
     <input type="hidden" name="article.id" value="${article.id!}" />
     <div class="am-form am-margin am-form-horizontal">
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">文章标题</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <input type="text" class="am-form-field" name="article.title" value="${article.title!}" required>
+          <input type="text" class="am-form-field" name="article.title" value="${article.title!}" required />
+          <div class="am-text-warning am-margin-top-xs am-text-xs">${titleMessages!}</div>
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
@@ -44,6 +45,7 @@
 			</option>
 			<%}%>
           </select>
+          <div class="am-text-warning am-margin-top-xs am-text-xs">${articleCategoryIdMessages!}</div>
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
@@ -61,6 +63,7 @@
           <label class="am-radio-inline">
             <input type="radio" name="article.isRecommend" value="false"<%if (isAdd || article.isRecommend! == false){%> checked<%}%>> 否
           </label>
+          <div class="am-text-warning am-margin-top-xs am-text-xs">${isRecommendMessages!}</div>
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
@@ -72,6 +75,7 @@
           <label class="am-radio-inline">
             <input type="radio" name="article.isTop" value="false"<%if (isAdd || article.isTop! == false){%> checked<%}%>> 否
           </label>
+           <div class="am-text-warning am-margin-top-xs am-text-xs">${isTopMessages!}</div>
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
@@ -83,12 +87,14 @@
           <label class="am-radio-inline">
             <input type="radio" name="article.isPublication" value="false"<%if (article.isPublication! == false){%> checked<%}%>> 否
           </label>
+           <div class="am-text-warning am-margin-top-xs am-text-xs">${isPublicationMessages!}</div>
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">内容</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <script id="editor" name="article.content" type="text/plain">${article.content!}</script>
+          <textarea class="am-validate" name="article.content" id="editor" required>${article.content!}</textarea>
+          <div class="am-text-warning am-margin-top-xs am-text-xs">${contentMessages!}</div>
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
@@ -115,5 +121,32 @@
   </div>
 </div>
 <!-- content end -->
+<script>
+<!-- UEditor验证 -->
+$(function() {
+  var $textArea = $('#editor');
+  var $form = $('.validator-form');
+
+  $form.validator({
+    submit: function() {
+      // 同步编辑器数据
+      ue.sync();
+      var formValidity = this.isFormValid();
+      // 表单验证未成功，而且未成功的第一个元素为 UEEditor 时，focus 编辑器
+      if (!formValidity && $form.find('.' + this.options.inValidClass).eq(0).is($textArea)) {
+        ue.focus();
+      }
+      return false;
+    }
+  });
+
+  // 编辑器内容变化时同步到 textarea
+  ue.addListener('contentChange', function() {
+    ue.sync();
+    // 触发验证
+    $textArea.trigger('change');
+  });
+});
+</script>
 </body>
 </html>

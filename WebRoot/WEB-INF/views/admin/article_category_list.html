@@ -2,54 +2,6 @@
 <html class="no-js">
 <head>
 <% include("/common/admin_head.html",{title:'文章分类列表'}){}%>
-<script>
-// 删除
-function deleteCategory(ids) {
-  Modal.confirm("您确定要删除吗？",{
-    relatedTarget: this,
-    onConfirm: function(options) {
-	  $.ajax({
-	    method:"post",  
-		url: '${base}/articleCategory/delete',
-		data:"id=" + ids + "",
-		dataType: "json",
-		async: false,
-		success: function(data) {
-		  Modal.alert(data.message);
-		  if (data.status == "success") {
-		    location.href='${base}/articleCategory/list';
-		  }				
-		}
-      });
-    }
-  });
-}
-$().ready(function() {
-	// 树折叠
-	$(".categoryName").click( function() {
-		var level = $(this).parent().attr("level");
-		var isHide;
-		$(this).parent().nextAll("tr").each(function(){
-			var thisLevel = $(this).attr("level");
-			if(thisLevel <=  level) {
-				return false;
-			}
-			if(isHide == null) {
-				if($(this).is(":hidden")){
-					isHide = true;
-				} else {
-					isHide = false;
-				}
-			}
-			if( isHide) {
-				$(this).show();
-			} else {
-				$(this).hide();
-			}
-		});
-	  });
-  })
-</script>
 </head>
 <body>
   <div class="admin-content">
@@ -73,32 +25,30 @@ $().ready(function() {
       
       <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
       
-      <div class="am-g">
-        <div class="am-u-sm-12 am-padding-0 am-margin-0">
-          <div class="am-scrollable-horizontal">
-          <table class="am-table am-table-striped am-table-hover table-main am-text-nowrap">
-            <thead>
-              <tr>
-                <th>分类名称</th>
-                <th>排序</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <%for(list in articleCategoryTreeList!){%>
-              <tr level="${list.level!}">
-                <td class="categoryName">
-                  <span style="margin-left: ${list.level * 20}px;">
-                    <%if (list.level == 0){%>
-                    <i class="am-icon-folder-o"></i>
-                    <%}else{%>
-                    <i class="am-icon-folder-open-o"></i>
-                    <%}%>
-                    ${list.name}
-                  </span>
-                </td>
-                <td>${list.orderList}</td>
-                <td>
+      <div class="am-scrollable-horizontal">
+        <table class="am-table am-table-striped am-table-hover table-main am-text-nowrap">
+          <thead>
+            <tr>
+              <th>分类名称</th>
+              <th>排序</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%for(list in articleCategoryTreeList!){%>
+            <tr level="${list.level!}">
+              <td class="categoryName">
+                <span style="margin-left: ${list.level * 20}px;">
+                  <%if (list.level == 0){%>
+                  <i class="am-icon-folder-o"></i>
+                  <%}else{%>
+                  <i class="am-icon-folder-open-o"></i>
+                  <%}%>
+                  ${list.name}
+                </span>
+              </td>
+              <td>${list.orderList}</td>
+              <td>
                 <div class="am-btn-toolbar">
                   <div class="am-btn-group am-btn-group-xs">   
                     <a class="am-btn am-btn-default am-btn-xs am-text-secondary" href="${base}/shop/article/list?id=${list.id}" target="_blank" title="查看"><span class="am-icon-home"></span> 查看</a>
@@ -111,24 +61,66 @@ $().ready(function() {
                   </div>
                 </div>
               </td>
-              </tr>
-              <%}%>
-            </tbody>
-          </table>
-          </div>
-          <div class="am-cf">
-            <!-- 分页 -->
-            <%if (productCategoryTreeList.~size == 0){%>
-            <div class="am-kai am-text-center am-margin">
-              <h3>没有找到任何记录!</h3>
-            </div>
+            </tr>
             <%}%>
-          </div>
-        </div>
+          </tbody>
+        </table>
       </div>
+      <!-- 分页 -->
+      <%if (productCategoryTreeList.~size == 0){%>
+      <h3 class="am-kai am-text-center am-margin-xs">没有找到任何记录!</h3>
+      <%}%>
       </form>
     </div>
   </div>
   <!-- content end -->
+<script>
+// 删除
+function deleteCategory(ids) {
+  Modal.confirm("您确定要删除吗？",{
+    relatedTarget: this,
+    onConfirm: function(options) {
+      $.ajax({
+        method:"post",  
+        url: '${base}/articleCategory/delete',
+        data:"id=" + ids + "",
+        dataType: "json",
+        async: false,
+        success: function(data) {
+          Modal.alert(data.message);
+          if (data.status == "success") {
+            location.href='${base}/articleCategory/list';
+          }             
+        }
+      });
+    }
+  });
+}
+$().ready(function() {
+    // 树折叠
+    $(".categoryName").click( function() {
+        var level = $(this).parent().attr("level");
+        var isHide;
+        $(this).parent().nextAll("tr").each(function(){
+            var thisLevel = $(this).attr("level");
+            if(thisLevel <=  level) {
+                return false;
+            }
+            if(isHide == null) {
+                if($(this).is(":hidden")){
+                    isHide = true;
+                } else {
+                    isHide = false;
+                }
+            }
+            if( isHide) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+      });
+  })
+</script>
 </body>
 </html>

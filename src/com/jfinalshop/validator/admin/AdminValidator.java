@@ -13,7 +13,8 @@ public class AdminValidator extends Validator {
 		validateRequiredString("admin.email", "emailMessages", "E-mail不允许为空!");
 		validateRequiredString("admin.isAccountEnabled", "isAccountEnabledMessages", "是否启用不允许为空!");		
 		validateString("admin.username", 2, 20, "usernameMessages", "用户名长度必须在【2】到【20】之间!");		
-		validateEmail("admin.email", "emailMessages", "E-mail格式错误!");		
+		validateEmail("admin.email", "emailMessages", "E-mail格式错误!");	
+		//\u4e00-\u9fa5  匹配中文
         validateRegex("admin.username", "^[0-9a-z_A-Z\u4e00-\u9fa5]+$", "usernameMessages", "用户名只允许包含中文、英文、数字和下划线!");
         // 更新为空不更新密码
         String actionKey = getActionKey();	

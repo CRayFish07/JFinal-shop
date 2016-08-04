@@ -13,7 +13,7 @@ public class MemberAttributeValidator extends Validator	{
 		validateRequiredString("memberAttribute.isEnabled", "errorMessages", "是否启用不允许为空!");
 		validateRequiredString("memberAttribute.orderList", "errorMessages", "排序不允许为空!");
 		
-		validateInteger("memberAttribute.orderList", 0, 100, "errorMessages", "排序必须为零或正整数!");
+		validateInteger("memberAttribute.orderList", 0, 1000, "errorMessages", "排序必须为零或正整数!");
 	}
 
 	@Override

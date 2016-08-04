@@ -13,7 +13,7 @@ public class PaymentConfigValidator extends Validator{
 		validateRequiredString("paymentConfig.paymentFee", "errorMessages", "支付手续费不允许为空!");
 		validateRequiredString("paymentConfig.orderList", "errorMessages", "排序不允许为空!");
 		
-		validateInteger("paymentConfig.orderList", 0, 50, "errorMessages", "排序必须为零或正整数!");
+		validateInteger("paymentConfig.orderList", 0, 1000, "errorMessages", "排序必须为零或正整数!");
 	}
 
 	@Override

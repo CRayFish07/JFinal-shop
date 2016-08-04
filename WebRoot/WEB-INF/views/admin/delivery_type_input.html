@@ -22,13 +22,13 @@
   
     <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
     
-    <form id="inputForm" class="am-form" action="<%if (isAdd){%>${base}/deliveryType/save<%}else{%>${base}/deliveryType/update<%}%>" method="post">
+    <form class="validator-form" class="am-form" action="<%if (isAdd){%>${base}/deliveryType/save<%}else{%>${base}/deliveryType/update<%}%>" method="post">
     <input type="hidden" name="deliveryType.id" value="${deliveryType.id!}" />
     <div class="am-form am-margin am-form-horizontal" >
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">配送方式名称</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <input type="text" class="am-form-field" name="deliveryType.name" value="${deliveryType.name!}" required>
+          <input type="text" class="am-form-field" name="deliveryType.name" value="${deliveryType.name!}" required />
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
@@ -60,7 +60,7 @@
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">首重量</label>
         <div class="am-u-sm-5 am-u-md-7">
-          <input type="number" class="am-form-field" name="deliveryType.firstWeight" value="${deliveryType.firstWeight!0}" required>
+          <input type="number" class="am-form-field" name="deliveryType.firstWeight" value="${deliveryType.firstWeight!0}" min="0" required />
         </div>
         <div class="am-u-sm-3 am-u-md-2">
           <select name="firstWeightUnit" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}" required>
@@ -75,7 +75,7 @@
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">续重量</label>
         <div class="am-u-sm-5 am-u-md-7">
-          <input type="number" class="am-form-field" name="deliveryType.continueWeight" value="${deliveryType.continueWeight!0}" required>
+          <input type="number" class="am-form-field" name="deliveryType.continueWeight" value="${deliveryType.continueWeight!0}" min="0" required />
         </div>
         <div class="am-u-sm-3 am-u-md-2">
           <select name="continueWeightUnit" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}" required>
@@ -90,19 +90,19 @@
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">首重价格</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <input type="number" class="am-form-field" name="deliveryType.firstWeightPrice" value="${deliveryType.firstWeightPrice!0}" min="0" required>
+          <input type="number" class="am-form-field" name="deliveryType.firstWeightPrice" value="${deliveryType.firstWeightPrice!0}" min="0" required />
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">续重价格</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <input type="number" class="am-form-field" name="deliveryType.continueWeightPrice" value="${deliveryType.continueWeightPrice!0}" min="0" required>
+          <input type="number" class="am-form-field" name="deliveryType.continueWeightPrice" value="${deliveryType.continueWeightPrice!0}" min="0" required />
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">
         <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">排序</label>
         <div class="am-u-sm-8 am-u-md-9">
-          <input type="number" class="am-form-field" name="deliveryType.orderList" value="${deliveryType.orderList!50}" placeholder="只允许输入零或正整数" min="0" required>
+          <input type="number" class="am-form-field" name="deliveryType.orderList" value="${deliveryType.orderList!50}" placeholder="只允许输入零或正整数" min="0" max="1000" required />
         </div>
       </div>
       <div class="am-form-group am-form-group-sm">

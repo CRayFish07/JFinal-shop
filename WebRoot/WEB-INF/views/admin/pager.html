@@ -10,8 +10,8 @@
 	    totalCounts:${pager.totalRow},
 	    visiblePages: 1,
 	    currentPage: ${pager.pageNumber},
-        prev: '<li class="am-pagination-prev"><a href="javascript:void(0);"><span class="am-icon-arrow-circle-left"><\/span> 上一页<\/a><\/li>',
-        next: '<li class="am-pagination-next"><a href="javascript:void(0);">下一页 <span class="am-icon-arrow-circle-right"><\/span><\/a><\/li>',
+        prev: '<li><a href="javascript:void(0);"><span class="am-icon-arrow-circle-left"><\/span> 上一页<\/a><\/li>',
+        next: '<li><a href="javascript:void(0);">下一页 <span class="am-icon-arrow-circle-right"><\/span><\/a><\/li>',
         page: '<li class="am-active"><a href="javascript:void(0);" class="am-active">{{page}}<\/a><\/li>',
 	    onPageChange: function (num, type) {
 		    if (type == 'change'){
@@ -19,7 +19,8 @@
 				$listForm.submit();
 			}
 	    }
-	});    
+	});
+	$("#pager").append('<li>共${pager.totalPage}页<\/li>');
 </script>
 <!-- 
 参数	默认值	说明

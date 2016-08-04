@@ -11,7 +11,7 @@ public class DeliveryCorpValidator extends Validator{
 		validateRequiredString("deliveryCorp.orderList", "errorMessages", "排序不允许为空!");
 		validateUrl("deliveryCorp.url", "errorMessages", "网址格式错误!");
 		
-		validateInteger("deliveryCorp.orderList", 0, 100, "errorMessages", "排序必须为零或正整数!");
+		validateInteger("deliveryCorp.orderList", 0, 1000, "errorMessages", "排序必须为零或正整数!");
 	}
 
 	@Override

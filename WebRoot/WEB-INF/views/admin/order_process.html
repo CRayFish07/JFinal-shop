@@ -1,126 +1,7 @@
 <!doctype html>
 <html class="no-js">
 <head>
-<% include("/common/admin_head.html",{title: '处理订单', livequeryJS: true, lSelectJS: true}){}%>
-<script>
-$().ready(function() {
-	
-  var $paymentTabButton = $("#paymentTabButton");
-  var $shippingTabButton = $("#shippingTabButton");
-  var $refundTabButton = $("#refundTabButton");
-  var $reshipTabButton = $("#reshipTabButton");
-	
-  var $paymentProcessButton = $("#paymentProcess");
-  var $shippingProcessButton = $("#shippingProcess");
-  var $completedProcessButton = $("#completedProcess");
-  var $refundProcessButton = $("#refundProcess");
-  var $reshipProcessButton = $("#reshipProcess");
-  var $invalidProcessButton = $("#invalidProcess");
-  
-  //地区选择菜单
-  $(".areaSelect").lSelect({
-	url: "${base}/area/ajaxChildrenArea"// Json数据获取url
-  });
-  
-  var tabs = $("div.am-tabs");
-  //禁用的点击不响应
-  tabs.find('.am-disabled').livequery("click", function() {
-	  return false;
-  });
-  //订单支付
-  $paymentProcessButton.click( function() {
-    tabs.tabs('open', 2);
-  });
-  // 订单发货
-  $shippingProcessButton.click( function() {
-	tabs.tabs('open', 3);
-  });
-  
-  //订单完成
-  $completedProcessButton.click( function() {
-    var $this = $(this);
-    Modal.confirm("订单完成后将不允许对此订单进行任何操作，确认执行？",{
-	  relatedTarget: this,
-	  onConfirm: function(options) {
-	    $.ajax({
-		  url: "${base}/order/completed",
-		  data: {"orders.id": "${orders.id}"},
-		  dataType: "json",
-		  async: false,
-		  beforeSend: function() {
-		    $this.attr("disabled", true);
-		  },
-		  success: function(data) {
-			Modal.alert(data.message);
-			if (data.status == "success") {
-			  $paymentTabButton.attr("class", "am-disabled");
-			  $shippingTabButton.attr("class", "am-disabled");
-			  $refundTabButton.attr("class", "am-disabled");
-			  $reshipTabButton.attr("class", "am-disabled");
-				
-			  $paymentProcessButton.attr("disabled", true);
-			  $shippingProcessButton.attr("disabled", true);
-			  $completedProcessButton.attr("disabled", true);
-			  $refundProcessButton.attr("disabled", true);
-			  $reshipProcessButton.attr("disabled", true);
-			  $invalidProcessButton.attr("disabled", true);
-			} else {
-			  $this.attr("disabled", false);
-			}
-		  }
-		});
-	  }
-    });
-  });
-  
-  //退款
-  $refundProcessButton.click( function() {
-    tabs.tabs('open', 4);
-  });
-  //退货
-  $reshipProcessButton.click( function() {
-	tabs.tabs('open', 5);
-  });
-  
-  //作废
-  $invalidProcessButton.click( function() {
-    var $this = $(this);
-	Modal.confirm("订单作废后将不允许对此订单进行任何操作，确认执行？",{
-      relatedTarget: this,
-	  onConfirm: function(options) {
-	    $.ajax({
-		  url: "${base}/order/invalid",
-		  data: {"orders.id": "${orders.id}"},
-		  dataType: "json",
-		  async: false,
-		  beforeSend: function() {
-		    $this.attr("disabled", true);
-		  },
-		  success: function(data) {
-		    //$.message(data.status, data.message);
-		    Modal.alert(data.message);
-			if (data.status == "success") {
-			  $paymentTabButton.attr("class", "am-disabled");
-			  $shippingTabButton.attr("class", "am-disabled");
-			  $refundTabButton.attr("class", "am-disabled");
-			  $reshipTabButton.attr("class", "am-disabled");
-				  
-			  $paymentProcessButton.attr("disabled", true);
-			  $shippingProcessButton.attr("disabled", true);
-			  $completedProcessButton.attr("disabled", true);
-			  $refundProcessButton.attr("disabled", true);
-			  $reshipProcessButton.attr("disabled", true);
-			  $invalidProcessButton.attr("disabled", true);
-			} else {
-			  $this.attr("disabled", false);
-			}
-		  }
-		});
-	  }
-	});
-  });
-});
-</script>
+<% include("/common/admin_head.html",{title: '处理订单', validatorJS: true, livequeryJS: true, lSelectJS: true}){}%>
 </head>
 <body>
 <!-- content start -->
@@ -271,41 +152,41 @@ $().ready(function() {
         
         <div class="am-tab-panel am-fade" id="tab3">
           <%if (orders.orderStatus != "completed" && orders.orderStatus != "invalid" && orders.paymentStatus != "paid" && orders.paymentStatus != "partRefund" && orders.paymentStatus != "refunded"){%>
-          <form id="paymentForm" action="${base}/order/payment" method="post">
+          <form id="paymentForm" class="validator-form" action="${base}/order/payment" method="post">
           <input type="hidden" name="orders.id" value="${orders.id}" />
           <div class="am-form am-margin am-form-horizontal">
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">订单编号</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">订单编号</label>
               <div class="am-u-sm-8 am-u-md-9">${orders.orderSn}</div>
             </div>
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">下单时间</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">下单时间</label>
               <div class="am-u-sm-8 am-u-md-9">${orders.createDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</div>
             </div>
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">订单总金额</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">订单总金额</label>
               <div class="am-u-sm-8 am-u-md-9"><span class="am-text-danger">${orders.totalAmount,orderUnitCurrencyFormat}</span></div>
             </div>
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">已付金额</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">已付金额</label>
               <div class="am-u-sm-8 am-u-md-9"><span class="am-text-danger">${orders.paidAmount,orderUnitCurrencyFormat}</span></div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">收款银行</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="payment.bankName" value="">
+                <input type="text" class="am-form-field" name="payment.bankName" />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">收款账号</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="payment.bankAccount" value="">
+                <input type="text" class="am-form-field" name="payment.bankAccount" />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">支付类型</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <select name="paymentType" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}">
+                <select name="paymentType" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}" required>
                   <%for(list in nonRechargePaymentTypeList){%>
 				  <option value="${list}">
 				    ${i18n("PaymentType." + list)}
@@ -329,19 +210,19 @@ $().ready(function() {
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">付款金额</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="number" class="am-form-field" name="payment.totalAmount" value="${orders.totalAmount - orders.paidAmount}" max="${orders.totalAmount - orders.paidAmount}" required>
+                <input type="number" class="am-form-field" name="payment.totalAmount" value="${orders.totalAmount - orders.paidAmount}" min="0" max="${orders.totalAmount - orders.paidAmount}" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">付款人</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="payment.payer" value="">
+                <input type="text" class="am-form-field" name="payment.payer" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">收款单备注</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">付款单备注</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="payment.memo" value="">
+                <input type="text" class="am-form-field" name="payment.memo" />
               </div>
             </div>
           </div>
@@ -355,21 +236,21 @@ $().ready(function() {
         </div>
         <div class="am-tab-panel am-fade" id="tab4">
           <%if (orders.orderStatus != "completed" && orders.orderStatus != "invalid" && orders.shippingStatus != "shipped"){%>
-          <form id="shippingForm" action="${base}/order/shipping" method="post">
+          <form id="shippingForm" class="validator-form" action="${base}/order/shipping" method="post">
           <input type="hidden" name="orders.id" value="${orders.id}" />
           <div class="am-form am-margin am-form-horizontal">
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">订单编号</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">订单编号</label>
               <div class="am-u-sm-8 am-u-md-9">${orders.orderSn}</div>
             </div>
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">下单时间</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">下单时间</label>
               <div class="am-u-sm-8 am-u-md-9">${orders.createDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">配送方式</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <select name="shipping.deliveryType_id" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}">
+                <select name="shipping.deliveryType_id" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}" required>
                   <%for(list in allDeliveryType){%>
 				  <option value="${list.id}"<%if (list == orders.deliveryType){%> selected<%}%>>
 				    ${list.name}
@@ -379,15 +260,15 @@ $().ready(function() {
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">配送费用</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">配送费用</label>
               <div class="am-u-sm-8 am-u-md-9">
                 <span class="am-text-danger">${orders.deliveryFee,orderUnitCurrencyFormat}</span>
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">配送方式</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">物流公司</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <select name="shipping.deliveryCorpName" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}">
+                <select name="shipping.deliveryCorpName" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}" required>
                   <%for(list in allDeliveryCorp){%>
 				  <option value="${list.name}"<%if (list == orders.deliveryType.defaultDeliveryCorp){%> selected<%}%>>
 				    ${list.name}
@@ -399,49 +280,49 @@ $().ready(function() {
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">物流编号</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="shipping.deliverySn" value="">
+                <input type="text" class="am-form-field" name="shipping.deliverySn" />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">物流费用</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="number" class="am-form-field" name="shipping.deliveryFee" value="${orders.deliveryFee!0}" min="0">
+                <input type="number" class="am-form-field" name="shipping.deliveryFee" value="${orders.deliveryFee!0}" min="0" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">收货人姓名</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="shipping.shipName" value="${orders.shipName}" required>
+                <input type="text" class="am-form-field" name="shipping.shipName" value="${orders.shipName}" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">收货地区</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="hidden" name="shipping.shipAreaPath" class="areaSelect" value="${orders.shipAreaPath}" required/>
+                <input type="hidden" name="shipping.shipAreaPath" class="areaSelect" value="${orders.shipAreaPath}" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">收货地址</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="shipping.shipAddress" value="${orders.shipAddress}" required>
+                <input type="text" class="am-form-field" name="shipping.shipAddress" value="${orders.shipAddress}" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">邮编</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="number" class="am-form-field" name="shipping.shipZipCode" value="${orders.shipZipCode}" required>
+                <input type="number" class="am-form-field js-pattern-zipCode" name="shipping.shipZipCode" value="${orders.shipZipCode}" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">电话</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="shipping.shipPhone" value="${orders.shipPhone}" required>
+                <input type="text" class="am-form-field js-pattern-phone" name="shipping.shipPhone" value="${orders.shipPhone}" placeholder="电话、手机必须填写其中一项！" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">手机</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="shipping.shipMobile" value="${orders.shipMobile}" required>
+                <input type="text" class="am-form-field js-pattern-mobile" name="shipping.shipMobile" value="${orders.shipMobile}" placeholder="电话、手机必须填写其中一项！" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
@@ -483,13 +364,13 @@ $().ready(function() {
                   </td>
                   <td>${list.productQuantity}</td>
                   <td>
-                    ${list.product.store!"-"}<small>[被占用数: ${list.product.freezeStore}]</small>
+                    ${list.product.store!"-"}<small class="am-text-warning">[被占用数: ${list.product.freezeStore}]</small>
                   </td>
                   <td>
                     ${list.deliveryQuantity}
                   </td>
                   <td>
-                    <input type="number" class="am-input-sm" name="deliveryItemList[${listLP.index}].deliveryQuantity" min="1" max="${list.productQuantity - list.deliveryQuantity}}" value="${list.productQuantity - list.deliveryQuantity}" style="width: 50px;" required/>
+                    <input type="number" class="am-input-sm" name="deliveryItemList[${listLP.index}].deliveryQuantity" min="1" max="${list.productQuantity - list.deliveryQuantity}}" value="${list.productQuantity - list.deliveryQuantity}" style="width: 50px;" required />
                   </td>
                 </tr> 
                 <%}%>               
@@ -508,41 +389,41 @@ $().ready(function() {
         
         <div class="am-tab-panel am-fade" id="tab5">
           <%if (orders.orderStatus != "completed" && orders.orderStatus != "invalid" && orders.paymentStatus != "unpaid" && orders.paymentStatus != "refunded"){%>
-          <form id="refundForm" action="${base}/order/refund" method="post">
+          <form id="refundForm" class="validator-form" action="${base}/order/refund" method="post">
           <input type="hidden" name="orders.id" value="${orders.id}" />
           <div class="am-form am-margin am-form-horizontal">
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">订单编号</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">订单编号</label>
               <div class="am-u-sm-8 am-u-md-9">${orders.orderSn}</div>
             </div>
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">下单时间</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">下单时间</label>
               <div class="am-u-sm-8 am-u-md-9">${orders.createDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</div>
             </div>
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">订单总金额</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">订单总金额</label>
               <div class="am-u-sm-8 am-u-md-9"><span class="am-text-danger">${orders.totalAmount,orderUnitCurrencyFormat}</span></div>
             </div>
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">已付金额</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">已付金额</label>
               <div class="am-u-sm-8 am-u-md-9"><span class="am-text-danger">${orders.paidAmount,orderUnitCurrencyFormat}</span></div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">退款银行</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="refund.bankName" value="">
+                <input type="text" class="am-form-field" name="refund.bankName" />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">退款账号</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="refund.bankAccount" value="">
+                <input type="text" class="am-form-field" name="refund.bankAccount" />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">退款类型</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <select name="refundType" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}">
+                <select name="refundType" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}" required>
                   <%for(list in refundTypeList){%>
 				  <option value="${list}">
 				    ${i18n("RefundType." + list)}
@@ -554,7 +435,7 @@ $().ready(function() {
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">退款方式</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <select name="refund.paymentConfig_id" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}">
+                <select name="refund.paymentConfig_id" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}" required>
                   <%for(list in allPaymentConfig){%>
 				  <option value="${list.id}"<%if (list == orders.paymentConfig){%> selected<%}%>>
 				    ${list.name}
@@ -566,13 +447,13 @@ $().ready(function() {
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">退款金额</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="number" class="am-form-field" name="refund.totalAmount" value="${orders.paidAmount}" max="${orders.paidAmount}" required>
+                <input type="number" class="am-form-field" name="refund.totalAmount" value="${orders.paidAmount}" min="0" max="${orders.paidAmount}" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">收款人</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="refund.payee" value="" required>
+                <input type="text" class="am-form-field" name="refund.payee" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
@@ -592,15 +473,15 @@ $().ready(function() {
         </div>
         <div class="am-tab-panel am-fade" id="tab6">
           <%if (orders.orderStatus != "completed" && orders.orderStatus != "invalid" && orders.shippingStatus != "unshipped" && orders.shippingStatus != "reshiped"){%>
-          <form id="reshipForm" action="${base}/order/reship" method="post">
+          <form id="reshipForm" class="validator-form" action="${base}/order/reship" method="post">
           <input type="hidden" name="orders.id" value="${orders.id}" />
           <div class="am-form am-margin am-form-horizontal">
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">订单编号</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">订单编号</label>
               <div class="am-u-sm-8 am-u-md-9">${orders.orderSn}</div>
             </div>
             <div class="am-form-group am-form-group-sm">
-              <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">下单时间</label>
+              <label class="am-u-sm-4 am-u-md-3 am-text-right">下单时间</label>
               <div class="am-u-sm-8 am-u-md-9">${orders.createDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</div>
             </div>
             <div class="am-form-group am-form-group-sm">
@@ -618,7 +499,7 @@ $().ready(function() {
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">物流公司</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <select name="reship.deliveryCorpName" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}">
+                <select name="reship.deliveryCorpName" data-am-selected="{btnWidth: '100%', maxHeight: '200px', btnSize: 'sm'}" required>
                   <%for(list in allDeliveryCorp){%>
 				  <option value="${list.name}">
 				    ${list.name}
@@ -630,55 +511,55 @@ $().ready(function() {
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">物流费用</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="number" class="am-form-field" name="reship.deliveryFee" value="${orders.deliveryFee!0}" min="0">
+                <input type="number" class="am-form-field" name="reship.deliveryFee" value="${orders.deliveryFee!0}" min="0" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">物流编号</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="reship.deliverySn" value="">
+                <input type="text" class="am-form-field" name="reship.deliverySn" />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">退货人姓名</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="reship.shipName" value="${orders.shipName}" required>
+                <input type="text" class="am-form-field" name="reship.shipName" value="${orders.shipName}" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">退货地区</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="hidden" name="reship.shipAreaPath" class="areaSelect" value="${orders.shipAreaPath}" required/>
+                <input type="hidden" name="reship.shipAreaPath" class="areaSelect" value="${orders.shipAreaPath}" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">退货地址</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="reship.shipAddress" value="${orders.shipAddress}" required>
+                <input type="text" class="am-form-field" name="reship.shipAddress" value="${orders.shipAddress}" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">邮编</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="number" class="am-form-field" name="reship.shipZipCode" value="${orders.shipZipCode}" required>
+                <input type="number" class="am-form-field js-pattern-zipCode" name="reship.shipZipCode" value="${orders.shipZipCode}" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">电话</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="reship.shipPhone" value="${orders.shipPhone}" required>
+                <input type="text" class="am-form-field js-pattern-phone" name="reship.shipPhone" value="${orders.shipPhone}" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">手机</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="reship.shipMobile" value="${orders.shipMobile}" required>
+                <input type="text" class="am-form-field js-pattern-mobile" name="reship.shipMobile" value="${orders.shipMobile}" required />
               </div>
             </div>
             <div class="am-form-group am-form-group-sm">
               <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">退货备注</label>
               <div class="am-u-sm-8 am-u-md-9">
-                <input type="text" class="am-form-field" name="reship.memo" value="">
+                <input type="text" class="am-form-field" name="reship.memo">
               </div>
             </div>
           </div>
@@ -714,7 +595,7 @@ $().ready(function() {
                   <td>${list.productQuantity}</td>
                   <td>${list.deliveryQuantity}</td>
                   <td>
-                    <input type="number" class="am-input-sm" name="deliveryItemList[${listLP.index}].deliveryQuantity" min="1" max="${list.deliveryQuantity}}" value="${list.deliveryQuantity}" style="width: 50px;" required/>
+                    <input type="number" class="am-input-sm" name="deliveryItemList[${listLP.index}].deliveryQuantity" min="1" max="${list.deliveryQuantity}}" value="${list.deliveryQuantity}" style="width: 50px;" required />
                   </td>
                 </tr> 
                 <%}%>               
@@ -735,5 +616,124 @@ $().ready(function() {
   </div>
 </div>
 <!-- content end -->
+<script>
+$().ready(function() {
+    
+  var $paymentTabButton = $("#paymentTabButton");
+  var $shippingTabButton = $("#shippingTabButton");
+  var $refundTabButton = $("#refundTabButton");
+  var $reshipTabButton = $("#reshipTabButton");
+    
+  var $paymentProcessButton = $("#paymentProcess");
+  var $shippingProcessButton = $("#shippingProcess");
+  var $completedProcessButton = $("#completedProcess");
+  var $refundProcessButton = $("#refundProcess");
+  var $reshipProcessButton = $("#reshipProcess");
+  var $invalidProcessButton = $("#invalidProcess");
+  
+  //地区选择菜单
+  $(".areaSelect").lSelect({
+    url: "${base}/area/ajaxChildrenArea"// Json数据获取url
+  });
+  
+  var tabs = $("div.am-tabs");
+  //禁用的点击不响应
+  tabs.find('.am-disabled').livequery("click", function() {
+      return false;
+  });
+  //订单支付
+  $paymentProcessButton.click( function() {
+    tabs.tabs('open', 2);
+  });
+  // 订单发货
+  $shippingProcessButton.click( function() {
+    tabs.tabs('open', 3);
+  });
+  
+  //订单完成
+  $completedProcessButton.click( function() {
+    var $this = $(this);
+    Modal.confirm("订单完成后将不允许对此订单进行任何操作，确认执行？",{
+      relatedTarget: this,
+      onConfirm: function(options) {
+        $.ajax({
+          url: "${base}/order/completed",
+          data: {"orders.id": "${orders.id}"},
+          dataType: "json",
+          async: false,
+          beforeSend: function() {
+            $this.attr("disabled", true);
+          },
+          success: function(data) {
+            Modal.alert(data.message);
+            if (data.status == "success") {
+              $paymentTabButton.attr("class", "am-disabled");
+              $shippingTabButton.attr("class", "am-disabled");
+              $refundTabButton.attr("class", "am-disabled");
+              $reshipTabButton.attr("class", "am-disabled");
+                
+              $paymentProcessButton.attr("disabled", true);
+              $shippingProcessButton.attr("disabled", true);
+              $completedProcessButton.attr("disabled", true);
+              $refundProcessButton.attr("disabled", true);
+              $reshipProcessButton.attr("disabled", true);
+              $invalidProcessButton.attr("disabled", true);
+            } else {
+              $this.attr("disabled", false);
+            }
+          }
+        });
+      }
+    });
+  });
+  
+  //退款
+  $refundProcessButton.click( function() {
+    tabs.tabs('open', 4);
+  });
+  //退货
+  $reshipProcessButton.click( function() {
+    tabs.tabs('open', 5);
+  });
+  
+  //作废
+  $invalidProcessButton.click( function() {
+    var $this = $(this);
+    Modal.confirm("订单作废后将不允许对此订单进行任何操作，确认执行？",{
+      relatedTarget: this,
+      onConfirm: function(options) {
+        $.ajax({
+          url: "${base}/order/invalid",
+          data: {"orders.id": "${orders.id}"},
+          dataType: "json",
+          async: false,
+          beforeSend: function() {
+            $this.attr("disabled", true);
+          },
+          success: function(data) {
+            //$.message(data.status, data.message);
+            Modal.alert(data.message);
+            if (data.status == "success") {
+              $paymentTabButton.attr("class", "am-disabled");
+              $shippingTabButton.attr("class", "am-disabled");
+              $refundTabButton.attr("class", "am-disabled");
+              $reshipTabButton.attr("class", "am-disabled");
+                  
+              $paymentProcessButton.attr("disabled", true);
+              $shippingProcessButton.attr("disabled", true);
+              $completedProcessButton.attr("disabled", true);
+              $refundProcessButton.attr("disabled", true);
+              $reshipProcessButton.attr("disabled", true);
+              $invalidProcessButton.attr("disabled", true);
+            } else {
+              $this.attr("disabled", false);
+            }
+          }
+        });
+      }
+    });
+  });
+});
+</script>
 </body>
 </html>

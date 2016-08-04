@@ -22,7 +22,7 @@
     
     <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-0" />
     
-    <form id="inputForm" action="<%if (isAdd){%>${base}/admin/save<%}else{%>${base}/admin/update<%}%>" method="post">
+    <form class="validator-form" action="<%if (isAdd){%>${base}/admin/save<%}else{%>${base}/admin/update<%}%>" method="post">
     <input type="hidden" name="admin.id" value="${admin.id!}" />
     <div class="am-tabs am-margin" data-am-tabs="{noSwipe: 1}">
       <ul class="am-tabs-nav am-nav am-nav-tabs">
@@ -36,7 +36,8 @@
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">用户名</label>
             <div class="am-u-sm-8 am-u-md-9">
               <%if (isAdd){%>
-              <input type="text" class="am-form-field" name="admin.username" value="${admin.username!}" required>
+              <input type="text" class="am-form-field js-pattern-username" name="admin.username" value="${admin.username!}" placeholder="中文、英文、数字和下划线" minlength="2" maxlength="20" required />
+              <div class="am-text-warning am-margin-top-xs am-text-xs">${usernameMessages!}</div>
               <%}else{%>
               ${admin.username!}
               <input type="hidden" name="admin.username" value="${admin.username!}" />
@@ -46,19 +47,22 @@
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">密 码</label>
             <div class="am-u-sm-8 am-u-md-9">
-              <input type="password" id="doc-vld-pwd-1" class="am-form-field" name="admin.password" placeholder="最少6位"<%if(isAdd){%> minlength="6" required<%}%>/>
+              <input type="password" id="doc-vld-pwd-1" class="am-form-field" name="admin.password" placeholder="最少4位" maxlength="20"<%if(isAdd){%> minlength="4" required<%}%>/>
+              <div class="am-text-warning am-margin-top-xs am-text-xs">${passwordMessages!}</div>
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">重复密码</label>
             <div class="am-u-sm-8 am-u-md-9">
               <input type="password" id="doc-vld-pwd-2" class="am-form-field" name="rePassword" placeholder="请与上面输入的一致" data-equal-to="#doc-vld-pwd-1"<%if(isAdd){%> required<%}%>/>
+              <div class="am-text-warning am-margin-top-xs am-text-xs">${rePassword!}</div>
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-4 am-u-md-3 am-text-right am-form-label">E-mail</label>
             <div class="am-u-sm-8 am-u-md-9">
-              <input type="text" class="am-form-field" name="admin.email" value="${admin.email!}" required>
+              <input type="email" class="am-form-field" name="admin.email" value="${admin.email!}" required />
+              <div class="am-text-warning am-margin-top-xs am-text-xs">${emailMessages!}</div>
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
@@ -86,6 +90,7 @@
               <label class="am-radio-inline">
                 <input type="radio" name="admin.isAccountEnabled" value="false"<%if (admin.isAccountEnabled! == false){%> checked<%}%>> 否
               </label>
+              <div class="am-text-warning am-margin-top-xs am-text-xs">${isAccountEnabledMessages!}</div>
             </div>
           </div>
         </div>

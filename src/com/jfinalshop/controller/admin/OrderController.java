@@ -247,11 +247,16 @@ public class OrderController extends BaseAdminController<Orders>{
 		payment = getModel(Payment.class);
 		String orderId = getPara("orders.id","");
 		String paymentType = getPara("paymentType","");	
+		String payer = getPara("payment.payer","");	
 		
 		payment.set("paymentType", PaymentType.valueOf(paymentType).ordinal()); // 支付类型
 		
 		if (StrKit.isBlank(orderId)) {
 			addActionError("订单ID不能为空！");
+			return;
+		}
+		if (StrKit.isBlank(payer)) {
+			addActionError("付款人不能为空！");
 			return;
 		}
 		orders = Orders.dao.findById(orderId);
@@ -767,6 +772,12 @@ public class OrderController extends BaseAdminController<Orders>{
 					orderItem.update();
 					if (orderItem.getInt("deliveryQuantity") > deliveryItem.getInt("deliveryQuantity")) {
 						shippingStatus = ShippingStatus.partReshiped;
+					}
+					// 库存处理,退货库存数量增加
+					if (product.getInt("store") != null) {
+						product.set("freezeStore",product.getInt("freezeStore") + deliveryItem.getInt("deliveryQuantity"));
+						product.set("store",product.getInt("store") + deliveryItem.getInt("deliveryQuantity"));
+						product.update();
 					}
 				}
 			}
