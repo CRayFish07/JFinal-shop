@@ -7,7 +7,10 @@ public class PasswordValidator extends Validator {
 
 	@Override
 	protected void validate(Controller c) {
-		validateRequiredString("member.password", "errorMessages", "新密码长度必须在【4】到【20】之间!");
+		String password = c.getPara("member.password","");
+		if(password!=null && password.length() > 0){
+			validateRequiredString("member.password", "errorMessages", "新密码长度必须在【4】到【20】之间!");
+		}
 	}
 
 	@Override

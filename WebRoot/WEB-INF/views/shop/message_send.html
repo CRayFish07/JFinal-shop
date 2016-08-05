@@ -2,20 +2,6 @@
 <html class="no-js fixed-layout">
 <head>
 <% include("/common/shop_head.html"){}%>
-<script type="text/javascript">
-$().ready( function() {
-	
-	$(".messageType").click( function(event) {
-		$toMemberInput = $(".toMember div input");
-		if ($(this).val() == "member") {
-			$toMemberInput.attr("required", true);
-		} else {
-			$toMemberInput.attr("required", false);
-		}
-	});
-	
-});
-</script>
 </head>
 <body>
 <%include("/shop/header.html"){}%>
@@ -31,7 +17,7 @@ $().ready( function() {
         <li><span class="am-icon-comment am-icon-fw"> </span>我的消息</li>
         <li class="am-active">发送消息</li>
       </ol>
-      <form id="inputForm" action="${base}/shop/message/save" method="post">
+      <form id="inputForm" action="${base}/shop/message/save" method="post" data-am-validator>
       <input type="hidden" name="message.id" value="${message.id!}" />
       <div class="am-panel am-panel-default am-margin-horizontal-sm am-padding-top">
         <div class="am-panel-bd am-g am-padding-0 am-form am-form-horizontal">
@@ -49,19 +35,19 @@ $().ready( function() {
           <div class="am-form-group am-form-group-sm toMember">
             <label class="am-u-sm-3 am-text-right am-form-label">对方账号</label>
             <div class="am-u-sm-8 am-u-end">
-              <input type="text" class="am-form-field" name="toMemberUsername" value="" placeholder="发送给管理员可以不填写">
+              <input type="text" class="am-form-field" name="toMemberUsername" value="" placeholder="发送给管理员可以不填写" />
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-3 am-text-right am-form-label">标题</label>
             <div class="am-u-sm-8 am-u-end">
-              <input type="text" class="am-form-field" name="message.title" value="${message.title!}" placeholder="请填写标题!"  required>
+              <input type="text" class="am-form-field" name="message.title" value="${message.title!}" placeholder="请填写标题!"  required />
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-3 am-text-right am-form-label">内容</label>
             <div class="am-u-sm-8 am-u-end">
-              <textarea rows="6" class="am-form-field" name="message.content">${message.content!}</textarea>
+              <textarea rows="6" class="am-form-field" name="message.content" required>${message.content!}</textarea>
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">
@@ -89,5 +75,25 @@ $().ready( function() {
   </div>
   <!-- content end -->
 </div>
+<script type="text/javascript">
+$().ready( function() {
+    if($(".messageType:checked").val() == "admin"){
+      $(".toMember").hide();
+    }
+    $(".messageType").click( function(event) {
+        $toMemberInput = $(".toMember div input");
+        if ($(this).val() == "member") {
+            $toMemberInput.attr("required", true);
+            $(".toMember").show();
+        } else {
+            $toMemberInput.attr("required", false);
+            $(".toMember").hide();
+        }
+        $toMemberInput.focus();
+        $(this).focus();
+    });
+    
+});
+</script>
 </body>
 </html>

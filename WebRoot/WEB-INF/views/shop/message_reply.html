@@ -17,12 +17,12 @@
         <li><span class="am-icon-comment am-icon-fw"> </span>我的消息</li>
         <li class="am-active">回复消息</li>
       </ol>
-      <form id="inputForm" action="${base}/shop/message/save" method="post">
+      <form id="inputForm" action="${base}/shop/message/save" method="post" data-am-validator>
       <input type="hidden" name="toMemberUsername" value="${message.fromMember.username!}" />
       <div class="am-panel am-panel-default am-margin-horizontal-sm am-padding-top">
         <div class="am-panel-bd am-g am-padding-0 am-form am-form-horizontal">
           <div class="am-form-group am-form-group-sm">
-            <label class="am-u-sm-3 am-text-right am-form-label">收件人</label>
+            <label class="am-u-sm-3 am-text-right">收件人</label>
             <div class="am-u-sm-8 am-u-end">
               ${message.fromMember.username!"管理员"}
             </div>
@@ -36,7 +36,7 @@
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-3 am-text-right am-form-label">内容</label>
             <div class="am-u-sm-8 am-u-end">
-              <textarea rows="6" class="am-form-field" name="message.content"></textarea>
+              <textarea rows="6" class="am-form-field" name="message.content" required></textarea>
             </div>
           </div>
           <div class="am-form-group am-form-group-sm">

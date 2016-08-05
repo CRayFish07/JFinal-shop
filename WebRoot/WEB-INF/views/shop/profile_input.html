@@ -2,16 +2,6 @@
 <html class="no-js fixed-layout">
 <head>
 <% include("/common/shop_head.html",{noFormJS:true, lSelectJS: true}){}%>
-<script type="text/javascript">
-$().ready( function() {
-
-	// 地区选择菜单
-	$(".areaSelect").lSelect({
-		url: "${base}/area/ajaxChildrenArea"// Json数据获取url
-	});
-
-});
-</script>
 </head>
 <body>
 <%include("/shop/header.html"){}%>
@@ -27,13 +17,13 @@ $().ready( function() {
         <li><span class="am-icon-info-circle am-icon-fw"> </span>个人资料</li>
         <li class="am-active">个人信息</li>
       </ol>
-      <form id="inputForm" class="validate" action="${base}/profile/update" method="post">
+      <form id="inputForm" class="validate" action="${base}/profile/update" method="post" data-am-validator>
       <div class="am-panel am-panel-default am-margin-horizontal-sm am-padding-top">
         <div class="am-panel-bd am-g am-padding-0 am-form am-form-horizontal">
           <div class="am-form-group am-form-group-sm">
             <label class="am-u-sm-3 am-text-right am-form-label">E-mail</label>
             <div class="am-u-sm-8 am-u-end">
-              <input type="text" class="am-form-field" name="member.email" value="${member.email!}" placeholder="请输入E-mail地址!"  required>
+              <input type="email" class="am-form-field" name="member.email" value="${member.email!}" placeholder="请输入E-mail地址!"  required>
             </div>
           </div>
 		  <%for(list in enabledMemberAttributeList){%>
@@ -45,7 +35,7 @@ $().ready( function() {
               <%}else if (list.attributeType == "number"){%>
               <input type="number" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
               <%}else if (list.attributeType == "alphaint"){%>
-              <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+              <input type="text" class="am-form-field js-pattern-alphaint" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
               <%}else if (list.attributeType == "email"){%>
               <input type="email" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
               <%}else if (list.attributeType == "select"){%>
@@ -75,16 +65,16 @@ $().ready( function() {
                 <i class="am-icon-calendar"></i>
                 <input type="date" class="am-form-field" name="${list.id}" value="${product.productAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
               </div>
-              <%}else if (list.attributeType == "area"){%>  <!-- TODO:SUN.AO  地区选择控件还需要调整 -->
+              <%}else if (list.attributeType == "area"){%> 
               <input type="hidden" name="${list.id}" class="areaSelect" value="${member.memberAttributeMap[list.id]!}" <%if (list.isRequired){%> required<%}%>>
               <%}else if (list.attributeType == "address"){%>
               <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
               <%}else if (list.attributeType == "zipCode"){%>
-              <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+              <input type="text" class="am-form-field js-pattern-zipCode" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
               <%}else if (list.attributeType == "mobile"){%>
-              <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+              <input type="text" class="am-form-field js-pattern-mobile" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
               <%}else if (list.attributeType == "phone"){%>
-              <input type="text" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
+              <input type="text" class="am-form-field js-pattern-phone" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
               <%}else if (list.attributeType == "qq"){%>
               <input type="number" class="am-form-field" name="${list.id}" value="${member.memberAttributeMap[list.id]!}"<%if (list.isRequired){%> required<%}%>>
               <%}else if (list.attributeType == "msn"){%>
@@ -111,5 +101,12 @@ $().ready( function() {
   </div>
   <!-- content end -->
 </div>
+<script type="text/javascript">
+$().ready( function() {
+    $(".areaSelect").lSelect({
+        url: "${base}/area/ajaxChildrenArea"// Json数据获取url
+    });
+});
+</script>
 </body>
 </html>

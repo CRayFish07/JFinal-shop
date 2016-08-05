@@ -96,7 +96,7 @@ $().ready( function() {
   <!-- content start -->
   <div class="shop-content">
     <div class="shop-content-body">
-	  <form id="orderInfoForm" action="${base}/shop/order/save" method="post">
+	  <form id="orderInfoForm" action="${base}/shop/order/save" method="post" data-am-validator>
       <div class="am-panel-group am-margin am-text-xs" id="myCollapse">
         <div class="am-panel am-panel-default">
           <div class="am-panel-hd">
@@ -147,19 +147,19 @@ $().ready( function() {
                 <div class="am-form-group am-form-group-sm">
                   <label class="am-u-sm-3 am-form-label">电话</label>
                   <div class="am-u-sm-8 am-u-end">
-                    <input type="text" class="am-form-field" name="receiver.phone" value="" placeholder="电话、手机必须填写其中一项！">
+                    <input type="text" class="am-form-field js-pattern-phone" name="receiver.phone" value="" placeholder="电话、手机必须填写其中一项！">
                   </div>
                 </div>
                 <div class="am-form-group am-form-group-sm">
                   <label class="am-u-sm-3 am-form-label">手机</label>
                   <div class="am-u-sm-8 am-u-end">
-                    <input type="text" class="am-form-field" name="receiver.mobile" value="" placeholder="" required>
+                    <input type="text" class="am-form-field js-pattern-mobile" name="receiver.mobile" value="" placeholder="" required>
                   </div>
                 </div>
                 <div class="am-form-group am-form-group-sm">
                   <label class="am-u-sm-3 am-form-label">邮编</label>
                   <div class="am-u-sm-8 am-u-end">
-                    <input type="number" class="am-form-field" name="receiver.zipCode" value="" placeholder="请填写邮编！" required>
+                    <input type="number" class="am-form-field js-pattern-zipCode" name="receiver.zipCode" value="" placeholder="请填写邮编！" required>
                   </div>
                 </div>
                 <div class="am-form-group am-form-group-sm">
