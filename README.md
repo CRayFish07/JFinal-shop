@@ -42,7 +42,7 @@ git clone https://github.com/sun-ao/JFinal-shop.git
 **a.** 项目名称与下载下来的源码的文件夹一致（最好就保持`JFinal-shop`）  
 **b.** class文件我习惯放置到`WEB-INF/classes/`文件夹下(*非必须修改*)  
 **c.** `Context root`设置为shop，那么我们部署到tomcat后访问的连接为shop,比如：`http://127.0.0.1:8080/shop`  
- (*根据自己喜好定义，定义为ROOT应该就可以直接IP+端口访问*)   
+(*根据自己喜好定义，定义为ROOT应该就可以直接IP+端口访问*)  
 **d.** `Context directory`一定要设置为Web**Root** (因为我源码中是此命名目录)   
 **e.** 如果项目创建完毕后出现很多html tag错误
 ![tag-error](https://github.com/sun-ao/Resource-space/raw/master/Repository/JFinal-shop/tag-error.png)
