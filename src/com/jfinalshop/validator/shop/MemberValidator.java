@@ -1,6 +1,9 @@
 package com.jfinalshop.validator.shop;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.jfinal.core.Controller;
 import com.jfinal.validate.Validator;
 
@@ -36,7 +39,7 @@ public class MemberValidator extends Validator {
     	
     	} else if (actionKey.equals("/shop/member/passwordUpdate")) { // 密码更新
     		validateRequiredString("member.id", "errorMessages", "ID不允许为空!");
-        	validateRequiredString("passwordRecoverKey", "errorMessages", "passwordRecoverKey不允许为空!");
+        	validateRequiredString("member.passwordRecoverKey", "errorMessages", "passwordRecoverKey不允许为空!");
         	validateRequiredString("member.password", "errorMessages", "密码不允许为空!");
         	validateString("member.password", 4, 20, "errorMessages", "密码长度必须在【4】到【20】之间!");
     	}
@@ -49,6 +52,11 @@ public class MemberValidator extends Validator {
     		c.renderText("注册信息错误!");
     	} else if (actionKey.equals("/shop/member/ajaxLogin")) { // Ajax会员登录验证	
     		c.renderText("Ajax会员登录验证失败");
+    	} else if (actionKey.equals("/shop/member/sendPasswordRecoverMail")) { // 发送密码找回邮件验证    	
+    		Map<String, String> jsonMap = new HashMap<String, String>();
+    		jsonMap.put("status", "error");
+    		jsonMap.put("message", "邮箱地址错误！");
+    		c.renderJson(jsonMap);
     	} else {
     		c.render("/shop/error.html");
     	}

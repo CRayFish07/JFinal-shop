@@ -98,4 +98,20 @@ mysql -uroot -p jfinalshop < jfinalshop.sql
 ## 一点说明
 首次尝试修改开源项目，很多不完善，很多太杂乱，期待慢慢进步，贵在坚持。  
 
+1. 部署到服务器之后中文乱码的问题，首要体现就是Tomcat的日志中中文乱码，直接导致的bug是在发送邮件时中文均是`???`  
+**`解决办法：`**就在Tomcat的启动脚本Catalina.sh中JAVA_OPTS变量中添加`"-Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8"`  
+
+```Bash
+(......)
+# Uncomment the following line to make the umask available when using the
+# org.apache.catalina.security.SecurityListener
+#JAVA_OPTS="$JAVA_OPTS -Dorg.apache.catalina.security.SecurityListener.UMASK=`umask`"
+## 添加配置开始
+JAVA_OPTS="-Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8"</mark>
+## 添加配置结束
+
+# ----- Execute The Requested Command -----------------------------------------
+(......)
+```
+
 2016 &copy; [sun.ao](http://sun-ao.github.io/)
