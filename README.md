@@ -8,6 +8,8 @@
 
 [`UEditor 1.4.3.3`](http://ueditor.baidu.com/)
 
+[`JFinal 2.2`](http://www.jfinal.com/)
+
 *注明：*原项目已经运用了很多知识，这里列举的知识在二次开发过程中有用到的（也许以后再学习元项目相关技术知识时会补充）
 
 ## 开发环境、工具
@@ -99,7 +101,7 @@ mysql -uroot -p jfinalshop < jfinalshop.sql
 首次尝试修改开源项目，很多不完善，很多太杂乱，期待慢慢进步，贵在坚持。  
 
 1. 部署到服务器之后中文乱码的问题，首要体现就是Tomcat的日志中中文乱码，直接导致的bug是在发送邮件时中文均是`???`  
-**`解决办法：`**就在Tomcat的启动脚本Catalina.sh中JAVA_OPTS变量中添加`"-Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8"`  
+**`解决办法：`**就在Tomcat的启动脚本catalina.sh(*bin目录下*)中JAVA_OPTS变量中添加`"-Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8"`  
 
 ```Bash
 (......)
