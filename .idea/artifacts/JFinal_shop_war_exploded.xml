@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="JFinal-shop-maven:war exploded">
+  <artifact type="exploded-war" name="JFinal-shop:war exploded">
     <output-path>$PROJECT_DIR$/web</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">

@@ -22,10 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="JFinal-shop" />
         <module name="JFinal-shop-maven" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="JFinal-shop" target="1.5" />
       <module name="JFinal-shop-maven" target="1.5" />
     </bytecodeTargetLevel>
   </component>
