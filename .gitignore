@@ -1,6 +1,4 @@
-/build/
 .DS_Store
-.classpath
-.project
-.settings/
-/WebRoot/upload/
+/target/
+/out/
+/web/upload/
